@@ -13,7 +13,7 @@ const Header = () => {
           <div className="row align-items-center">
             <div className="col-3">
               <h1>
-                <Link className="logo">
+                <Link to="" className="logo">
                   LejlekuX<span className="logo2">Press</span>
                 </Link>
               </h1>
@@ -35,7 +35,7 @@ const Header = () => {
             <div className="col-5">
               <div className="header-upper-links d-flex align-items-center justify-contect-between gap-45">
                 <div>
-                  <Link className="d-flex align-items-center gap-10 text-white">
+                  <Link hrefLang="about" className="d-flex align-items-center gap-10 text-white">
                     <img src="images/wishlist.svg" alt="wishlist" />
                     <p class="mb-0">
                       Favorite <br /> Wishlists
@@ -52,7 +52,7 @@ const Header = () => {
                   </Link>
                 </div>
                 <div>
-                  <Link className="d-flex align-items-center gap-10 text-white">
+                  <Link to="login" className="d-flex align-items-center gap-10 text-white">
                     <img src="images/user.svg" alt="user" />
                     <p className="mb-0">
                       Login <br /> My Account

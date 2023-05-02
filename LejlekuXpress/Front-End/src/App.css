@@ -240,3 +240,59 @@ footer {
 /* categories section end */
 
 /* Perfundimi i Home Page */
+
+
+
+/* Auth Page */
+.login-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.auth-card{
+  padding: 20px;
+  background-color: #fff;
+  width: 500px;
+  margin: 30px;
+  border-radius: 20px;
+ 
+}
+
+.auth-card h3{
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.auth-card a{
+  font-size: 13px;
+  color: var(--color-777777);
+
+}
+
+.auth-card .form-control{
+  height: 50px;
+  background-color: var(--color-f5f5f7);
+  color: var(--color-777777);
+  font-size: 14px;
+  border-radius: 10px;
+  border-color: transparent;
+}
+
+.auth-card a{
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-131921);
+}
+
+.auth-card .signup{
+  background-color: var(--color-febd69);
+  color: var(--color-131921);
+}
+
+.auth-card .signup:hover{
+  background-color: var(--color-131921);
+  color: white;
+}
+
+
+/* Auth Page ends */
