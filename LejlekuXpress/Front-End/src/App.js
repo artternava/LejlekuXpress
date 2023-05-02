@@ -8,6 +8,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import Signup from './pages/Signup';
+import OurStore from './pages/OurStore';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />}/>
             <Route path='about' element={<About />}/>
+            <Route path='store' element={<OurStore />}/>
             <Route path='contact' element={<Contact />}/>
             <Route path='login' element={<Login />}/>
             <Route path='forgot-password' element={<ForgotPassword />}/>

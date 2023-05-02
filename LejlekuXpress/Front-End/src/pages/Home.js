@@ -1,10 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
+import {Helmet} from "react-helmet";
 
 const Home = () => {
   return (
     <>
+      <Helmet>
+         <meta charSet="utf-8" />
+         <title>Home</title>
+         <link rel="canonical" href="http://mysite.com/example" />
+      </Helmet>
       {/* pjesa e pare e HomePage */}
       <section className="home-wrapper-1 py-5">
         <div className="container-xxl">
