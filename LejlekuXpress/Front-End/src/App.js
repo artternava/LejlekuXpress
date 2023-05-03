@@ -10,6 +10,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import Signup from './pages/Signup';
 import OurStore from './pages/OurStore';
 import Wishlist from './pages/Wishlist';
+import SingleProduct from './pages/SingleProduct';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />}/>
             <Route path='about' element={<About />}/>
-            <Route path='store' element={<OurStore />}/>
+            <Route path='product' element={<OurStore />}/>
+            <Route path='product/:id' element={<SingleProduct/>} />
             <Route path='contact' element={<Contact />}/>
             <Route path='login' element={<Login />}/>
             <Route path='forgot-password' element={<ForgotPassword />}/>

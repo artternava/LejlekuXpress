@@ -11,16 +11,18 @@
   --color-febd69: #febd69;
   --color-f5f5f7: #f5f5f7;
   --color-ededed: #ededed;
+  --color-1c1c1b: #1c1c1b;
+  --color-777777: #777777;
 }
 
-.section-heading{
+.section-heading {
   font-size: 26px;
   line-height: 32px;
   font-weight: 500;
   margin-bottom: 30px;
 }
 
-.card-wrapper{
+.card-wrapper {
   background-color: white;
   box-shadow: 0 0 10px #0000001a;
   padding: 15px;
@@ -40,7 +42,7 @@ a {
   border-color: inherit;
 }
 
-.gap-5{
+.gap-5 {
   gap: 5px;
 }
 
@@ -248,41 +250,35 @@ footer {
   border-right: 1px solid var(--color-ededed);
 }
 
-
-
 /* categories section end */
 
 /* Perfundimi i Home Page */
 
-
-
 /* Auth Page */
-.login-wrapper{
+.login-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.auth-card{
+.auth-card {
   padding: 20px;
   background-color: #fff;
   width: 500px;
   margin: 30px;
   border-radius: 20px;
- 
 }
 
-.auth-card h3{
+.auth-card h3 {
   font-size: 19px;
   font-weight: 500;
 }
 
-.auth-card a{
+.auth-card a {
   font-size: 13px;
   color: var(--color-777777);
-
 }
 
-.auth-card .form-control{
+.auth-card .form-control {
   height: 50px;
   background-color: var(--color-f5f5f7);
   color: var(--color-777777);
@@ -291,30 +287,27 @@ footer {
   border-color: transparent;
 }
 
-.auth-card a{
+.auth-card a {
   font-size: 14px;
   font-weight: 400;
   color: var(--color-131921);
 }
 
-.auth-card .signup{
+.auth-card .signup {
   background-color: var(--color-febd69);
   color: var(--color-131921);
 }
 
-.auth-card .signup:hover{
+.auth-card .signup:hover {
   background-color: var(--color-131921);
   color: white;
 }
 
-
 /* Auth Page ends */
-
-
 
 /* Fillimi i OurStore */
 
-.filter-card{
+.filter-card {
   background-color: white;
   border-radius: 10px;
   padding: 10px 20px;
@@ -322,7 +315,7 @@ footer {
   border: 1px solid black;
 }
 
-.filter-title{
+.filter-title {
   font-size: 16px;
   line-height: 20px;
   font-weight: 600;
@@ -330,36 +323,37 @@ footer {
   margin-bottom: 20px;
 }
 
-.filter-card ul, .filter-card .form-check-label{
+.filter-card ul,
+.filter-card .form-check-label {
   list-style-type: none;
   font-size: 13px;
   line-height: 30px;
   color: #232f3e;
   cursor: pointer;
 }
-.filter-card  .form-check-input:focus{
+.filter-card .form-check-input:focus {
   box-shadow: none;
   border-color: inherit;
 }
-.filter-card  .form-check-input:checked{
+.filter-card .form-check-input:checked {
   background-color: #4f4c63;
 }
 
-.sub-title{
+.sub-title {
   font-size: 14px;
   font-weight: 600;
   color: var(--color-1c1c1b);
   margin-top: 15px;
 }
 
-.colors li{
+.colors li {
   width: 20px;
   height: 20px;
   background-color: red;
   border-radius: 50%;
 }
 
-.colors{
+.colors {
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
@@ -399,9 +393,7 @@ width: 100%;
   top: 13%;
 } */
 
-
 /* Perfundimi i OurStore */
-
 
 /* Fillimi i Wishlist */
 .wishlist-card .cross {
@@ -413,35 +405,93 @@ width: 100%;
 }
 .wishlist-card-image img {
   border: 1px solid black;
-  
 }
 
-.py-3 h5.title{
+.py-3 h5.title {
   font-size: 15px;
   line-height: 22px;
   font-weight: 500;
-  color:var(--color-1c1c1b);
-  
+  color: var(--color-1c1c1b);
 }
 
-.py-3 h6.price{
+.py-3 h6.price {
   font-size: 15px;
   line-height: 22px;
   font-weight: 400;
 }
 
-
 /* Perfundimi i wishlist */
 
 /* Special Product */
 
-.special-product-card{
-  padding: 20px 10px ;
+.special-product-card {
+  padding: 20px 10px;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0 0 10px #0000001a;
 }
 
-
-
 /* Special Product end */
+
+/* Main Product Page */
+
+.description-wrapper h4,
+.reviews-wrapper h3 {
+  font-size: 26px;
+  color: var(--color-1c1c1b);
+  margin-bottom: 10px;
+}
+
+.description-wrapper p {
+  font-size: 14px;
+  color: var(--color-777777);
+}
+.review-inner-wrapper {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+}
+.review-head {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 20px;
+}
+
+.review-head h4 {
+  font-size: 18px;
+  color: var(--color-1c1c1b);
+}
+.review-head p,
+.review-head a {
+  font-size: 14px;
+  color: var(--color-777777);
+}
+
+.review-form {
+  border-bottom: 1px soldi rgba(0, 0, 0, 0.1);
+}
+
+.review:not(:last -child) {
+  border-bottom: 1px soldi rgba(0, 0, 0, 0.1);
+}
+.review p {
+  font-size: 14px;
+  color: var(--color-777777);
+}
+
+.main-product-image {
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.main-product-image div {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.main-product-image image {
+  width: 100% !important;
+  height: 500px !important;
+  object-fit: cover;
+}
+
+/* Main Product end */
