@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import Signup from './pages/Signup';
 import OurStore from './pages/OurStore';
+import Wishlist from './pages/Wishlist';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path='login' element={<Login />}/>
             <Route path='forgot-password' element={<ForgotPassword />}/>
             <Route path='signup' element={<Signup />}/>
+            <Route path='wishlist' element={<Wishlist />}/>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -296,3 +296,126 @@ footer {
 
 
 /* Auth Page ends */
+
+
+
+/* Fillimi i OurStore */
+
+.filter-card{
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: 1px solid black;
+}
+
+.filter-title{
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--color-1c1c1b);
+  margin-bottom: 20px;
+}
+
+.filter-card ul, .filter-card .form-check-label{
+  list-style-type: none;
+  font-size: 13px;
+  line-height: 30px;
+  color: #232f3e;
+  cursor: pointer;
+}
+.filter-card  .form-check-input:focus{
+  box-shadow: none;
+  border-color: inherit;
+}
+.filter-card  .form-check-input:checked{
+  background-color: #4f4c63;
+}
+
+.sub-title{
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-1c1c1b);
+  margin-top: 15px;
+}
+
+.colors li{
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.colors{
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* .gr-12{
+width: 100%;
+}
+
+.gr-6{
+  width: 49%;
+}
+.gr-4{
+  width: 32%;
+}
+.gr-3{
+  width: 24%;
+}
+.gr-12 .product-card{
+  display: flex;
+  gap: 20px;
+}
+.gr-4 .product-image{
+  width: 100%;
+}
+
+.gr-4 .product-image img{
+  width: 100%;
+}
+
+.gr-12 .product-card .product-image{
+  width: 270px;
+}
+
+.gr-12 .action-bar{
+  top: 13%;
+} */
+
+
+/* Perfundimi i OurStore */
+
+
+/* Fillimi i Wishlist */
+.wishlist-card .cross {
+  top: 15px;
+  right: 15px;
+  width: 25px;
+  padding: 3px;
+  cursor: pointer;
+}
+.wishlist-card-image img {
+  border: 1px solid black;
+  
+}
+
+.py-3 h5.title{
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+  color:var(--color-1c1c1b);
+  
+}
+
+.py-3 h6.price{
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+
+/* Perfundimi i wishlist */
