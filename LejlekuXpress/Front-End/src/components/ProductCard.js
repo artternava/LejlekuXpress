@@ -12,7 +12,7 @@ const ProductCard = () => {
         </div>
         <div className='product-image'>
             <img src='images/watch.jpg' className='img-fluid' alt='product img'></img>
-            <img src='images/watch-1.avif'className='img-fluid'  alt='product img'></img>
+            <img src='images/hoverimage.jpg'className='img-fluid'  alt='product img'></img>
         </div>
         <div className='product-details'>
             <h6 className='brand'>Havels</h6>
