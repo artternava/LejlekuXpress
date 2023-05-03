@@ -13,6 +13,13 @@
   --color-ededed: #ededed;
 }
 
+.section-heading{
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
 .card-wrapper{
   background-color: white;
   box-shadow: 0 0 10px #0000001a;
@@ -31,6 +38,10 @@ a {
 .form-control:focus {
   box-shadow: none;
   border-color: inherit;
+}
+
+.gap-5{
+  gap: 5px;
 }
 
 .gap-10 {
@@ -237,6 +248,8 @@ footer {
   border-right: 1px solid var(--color-ededed);
 }
 
+
+
 /* categories section end */
 
 /* Perfundimi i Home Page */
@@ -419,3 +432,16 @@ width: 100%;
 
 
 /* Perfundimi i wishlist */
+
+/* Special Product */
+
+.special-product-card{
+  padding: 20px 10px ;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 0 10px #0000001a;
+}
+
+
+
+/* Special Product end */
