@@ -43,7 +43,7 @@ const Header = () => {
                   </Link> 
                 </div>
                 <div>
-                  <Link className="d-flex align-items-center gap-10 text-white">
+                  <Link to="Cart" className="d-flex align-items-center gap-10 text-white">
                     <img src="../images/cart.svg" alt="cart" />
                     <div className="d-flex flex-column gap-10">
                       <span className="badge bg-white text-dark"></span>

@@ -7,8 +7,8 @@ import ProductCard from "../components/ProductCard"
 const OurStore = () => {
   return (
     <>
-    {/* <Meta title="Our Store"></Meta>
-    <BreadCrumb title = "Our Store"></BreadCrumb> */}
+    <Meta title="Our Store"></Meta>
+    {/* <BreadCrumb title = "Our Store"></BreadCrumb> */}
     <div className='store-wrapper home-wrapper-2 py5'>
       <div className='container-xxl'>
         <div className='row'>

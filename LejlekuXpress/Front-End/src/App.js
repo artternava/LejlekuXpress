@@ -12,6 +12,7 @@ import OurStore from './pages/OurStore';
 import Wishlist from './pages/Wishlist';
 import SingleProduct from './pages/SingleProduct';
 import UserDashboard from './pages/UserDashboard';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path='signup' element={<Signup />}/>
             <Route path='wishlist' element={<Wishlist />}/>
             <Route path='userdashboard' element={<UserDashboard />}/>
+            <Route path='cart' element={<Cart />}/>
           </Route>
         </Routes>
       </BrowserRouter>
