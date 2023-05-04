@@ -29,7 +29,7 @@ const Contact = () => {
     <h3 className="contact-title mb-4">Contact us:</h3>
     <form action="" className="d-flex flex-column gap-15 mb-4">
       
-    </form>
+    
   
       <div>
         <input type="text" className="form-control mb-4" placeholder="Name" />
@@ -53,6 +53,7 @@ const Contact = () => {
       <div>
         <button className="button border-0">Submit</button>
       </div>
+      </form>
   </div>
   <div>
     <h3 className="contact title mb-4">Get in touch with us</h3>

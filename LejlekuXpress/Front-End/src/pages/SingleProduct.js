@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import ReactStars from "react-stars";
 import ReactImageZoom from "react-image-zoom";
-import {AiOutlineHeart} from 'react-icons/ai';
+import { AiOutlineHeart } from 'react-icons/ai';
 
 const SingleProduct = () => {
   const props = {
@@ -14,7 +14,7 @@ const SingleProduct = () => {
   const [orderedProduct, setorderProduct] = useState(true);
   return (
     <>
-      
+
       <div className="main-product-wrapper py-5 home-wrapper-2">
         <div className="container-xxl">
           <div className="row">
@@ -40,11 +40,11 @@ const SingleProduct = () => {
                   <p className="price">$ 100</p>
                   <div className="d-flex align-items-center gap-10">
                     <ReactStars
-                        count={5}
-                        size={24}
-                        value={4}
-                        edit={false}
-                        activeColor="#ffd700"
+                      count={5}
+                      size={24}
+                      value={4}
+                      edit={false}
+                      activeColor="#ffd700"
                     />
                     <p className="mb-0 t-review">(2 reviews)</p>
                   </div>
@@ -83,7 +83,7 @@ const SingleProduct = () => {
                   <div className="d-flex gap-15 flex-row mt-2 mb-3 align-items-center">
                     <h3 className="product-heading">Quantity :</h3>
                     <div>
-                      <input  className="form-control" type="number" name="" min={1} max={10} style={{"width":"70px"}}/>
+                      <input className="form-control" type="number" name="" min={1} max={10} style={{ "width": "70px" }} />
                     </div>
                     <div className="d-flex align-items-center gap-30 ms-5">
                       <button className="button border-0" type="submit">
@@ -125,7 +125,7 @@ const SingleProduct = () => {
         </div>
       </section>
 
-      <section  className="reviews-wrapper home-wrapper-2 ">
+      <section className="reviews-wrapper home-wrapper-2 ">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12">
@@ -133,7 +133,7 @@ const SingleProduct = () => {
               <div className="review-inner-wrapper mb-5">
                 <div className="review-head d-flex justify-content-between align-items-end">
                   <div>
-                    <h4  className="mb-2">Customer Reviews</h4>
+                    <h4 className="mb-2">Customer Reviews</h4>
                     <div className="d-flex align-items-center gap-10">
                       <ReactStars
                         count={5}
@@ -149,19 +149,35 @@ const SingleProduct = () => {
                     <div>
                       <a
                         className="text-dark text-decoration-underline"
-                        href=""
+                        href="#review-form"
                       >
                         Write a review
                       </a>
                     </div>
                   )}
+
                 </div>
 
-                {/* Pjesa e formes te reviews */}
 
-                {/* <div className="review-form">
-                        <form action=""></form>
-                    </div> */}
+
+                <div className="review-form">
+                  <form action="" className="d-flex flex-column gap-15 mb-4" id="review-form">
+
+                    <div>
+                      <textarea
+                        name=""
+                        id=""
+                        className="w-100 form-control mb-4"
+                        cols="30"
+                        rows="4"
+                        placeholder="Comments"
+                      ></textarea>
+                    </div>
+                    <div>
+                      <button className="button border-0">Submit</button>
+                    </div>
+                  </form>
+                </div>
                 <div className="reviews mt-4 ">
                   <div className="review">
                     <div className="d-flex gap-10 align-items-center ">
