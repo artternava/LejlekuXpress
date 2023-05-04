@@ -36,7 +36,7 @@ const Header = () => {
               <div className="header-upper-links d-flex align-items-center justify-contect-between gap-45">
                 <div>
                   <Link to="Wishlist" className="d-flex align-items-center gap-10 text-white">
-                    <img src="images/wishlist.svg" alt="wishlist" />
+                    <img src="../images/wishlist.svg" alt="wishlist" />
                     <p class="mb-0">
                       Favorite <br /> Wishlists
                     </p>
@@ -44,7 +44,7 @@ const Header = () => {
                 </div>
                 <div>
                   <Link className="d-flex align-items-center gap-10 text-white">
-                    <img src="images/cart.svg" alt="cart" />
+                    <img src="../images/cart.svg" alt="cart" />
                     <div className="d-flex flex-column gap-10">
                       <span className="badge bg-white text-dark"></span>
                       <p className="mb-0">$ 0.00</p>
@@ -53,7 +53,7 @@ const Header = () => {
                 </div>
                 <div>
                   <Link to="login" className="d-flex align-items-center gap-10 text-white">
-                    <img src="images/user.svg" alt="user" />
+                    <img src="../images/user.svg" alt="user" />
                     <p className="mb-0">
                       Login <br /> My Account
                     </p>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const ProductCard = () => {
   return (
     <div className='col-3'>
-    <Link className='product-card position-relative'>
+    <Link to=":id" className='product-card position-relative'>
         <div className='wishlist-icon position-absolute'>
             <Link>
             <img src='images/wish.svg' alt='wishlist'></img>
