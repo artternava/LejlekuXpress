@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 const Signup = () => {
   return (
     <>
-    <Meta title={"Login"} />
-    <BreadCrumb title="Login" />
+    <Meta title={"Signup"} />
+    <BreadCrumb title="Signup" />
     <div className="login-wrapper py-5 home-wrapper-2">
       <div className="row">
         <div className="col-12">
@@ -27,6 +27,9 @@ const Signup = () => {
             </div>
             <div className="mb-3">
               <input type="password" name="password" placeholder="Password" className="form-control" />
+            </div>
+            <div className="mb-3">
+              <input type="password" name="password" placeholder="Confirm Password" className="form-control" />
             </div>
             <div>
               <div className="mt-3 d-flex justify-content-center flex-column gap-15 align-items-center">
