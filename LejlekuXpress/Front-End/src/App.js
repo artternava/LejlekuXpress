@@ -14,6 +14,7 @@ import SingleProduct from './pages/SingleProduct';
 import UserDashboard from './pages/UserDashboard';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path='userdashboard' element={<UserDashboard />}/>
             <Route path='cart' element={<Cart />}/>
             <Route path='checkout' element={<Checkout />}/>
+            <Route path='admin' element={<AdminDashboard />}/>
           </Route>
         </Routes>
       </BrowserRouter>
