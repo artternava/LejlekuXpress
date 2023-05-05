@@ -34,35 +34,19 @@ const Checkout = () => {
                         <div className='w-100'>
                             <select name='' className='form-control form-select' id=''>
                                 <option value="" selected disabled>
-                                    Select Country
+                                    Select Address
                                 </option>
                             </select>
                         </div>
-                        <div className='flex-grow-1'>
-                            <input type='text' placeholder='First Name' className='form-control'></input>
-                        </div>
-                        <div className='flex-grow-1'>
-                            <input type='text' placeholder='Last Name' className='form-control'></input>
-                        </div>
-                        <div className='w-100'>
-                            <input type='text' placeholder='Address' className='form-control'></input>
-                        </div>
-                        <div className='w-100'>
-                            <input type='text' placeholder='Apartment' className='form-control'></input>
-                        </div>
-                        <div className='flex-grow-1'>
-                            <input type='text' placeholder='City' className='form-control'></input>
-                        </div>
+                        
                         <div className='flex-grow-1'>
                             <select name='' className='form-control form-select' id=''>
                             <option value="" selected disabled>
-                                    Select State
+                                    Select Payment
                                 </option>
                             </select>
                         </div>
-                        <div className='flex-grow-1'>
-                            <input type='text' placeholder='ZipCode' className='form-control'></input>
-                        </div>
+                        
                         <div className='w-100'>
                         <div className='d-flex justify-content-between align-item-center'>
                             <Link to='/cart' className='text-dark'>
@@ -111,16 +95,16 @@ const Checkout = () => {
                 <div className='border-bottom py-4'>
                 <div className='d-flex justify-content-between align-items-center'>
                     <p className='total'>Subtotal</p>
-                    <p className='total-price'>$ 10000</p>
+                    <p className='total-price'>$ 200</p>
                 </div>
                 <div className='d-flex justify-content-between align-items-center'>
                     <p className='mb-0'>Shipping</p>
-                    <p className='mb-0'>$ 10000</p>
+                    <p className='mb-0'>$ 200</p>
                 </div>
                 </div>
                 <div className='d-flex justify-content-between align-items-center border-bottom py-4'>
                     <h4 className='total'>Total</h4>
-                    <h5 className='total-price'>$ 10000</h5>
+                    <h5 className='total-price'>$ 200</h5>
                 </div>
             </div>
             </div>
