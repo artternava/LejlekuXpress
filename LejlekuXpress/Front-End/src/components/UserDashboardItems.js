@@ -71,7 +71,7 @@ function PersonalInfo() {
                 </div>
               </div>
               <div className="mt-5 text-center">
-                <button className="button border-0" type="button">Save Profile</button>
+                <button className="btn btn-primary me-2" type="button">Save Profile</button>
               </div>
             </div>
           </div>

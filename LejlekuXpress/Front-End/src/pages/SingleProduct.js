@@ -126,11 +126,11 @@ const SingleProduct = () => {
                       />
                     </div>
                     <div className="d-flex align-items-center gap-30 ms-5">
-                      <button className="button border-0" type="submit">
+                      <button className="btn btn-outline-success me-2" type="submit">
                         Add to Cart
                       </button>
 
-                      <button className="button signup">Buy It Now</button>
+                      <button className="btn btn-success me-2">Buy It Now</button>
                     </div>
                   </div>
                   <div className="d-flex align-items-center gap-30">
@@ -216,7 +216,7 @@ const SingleProduct = () => {
                       ></textarea>
                     </div>
                     <div>
-                      <button className="button border-0">Submit</button>
+                      <button className="btn btn-primary me-2">Submit</button>
                     </div>
                   </form>
                 </div>

@@ -33,7 +33,7 @@ const Signup = () => {
             </div>
             <div>
               <div className="mt-3 d-flex justify-content-center flex-column gap-15 align-items-center">
-                    <button className="button border-0" type="submit">Signup</button>
+              <button className="btn btn-primary me-2" type="button">Sign Up</button>
                     <Link to="/login">Already have an account? Login</Link>
               </div>
             </div>
