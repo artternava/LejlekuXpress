@@ -53,7 +53,7 @@ const Checkout = () => {
                                 <BiArrowBack className='me-2'/>
                                 Return to Cart
                                 </Link>
-                            <Link to='/#'className='button'>Continue Shipping</Link>
+                            <Link to='/#'className='btn btn-success me-2'>Continue Shipping</Link>
                             </div>
                         </div>
                     </form>
