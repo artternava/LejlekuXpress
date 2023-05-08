@@ -19,7 +19,7 @@ namespace LejlekuXpress.Models
         [Required]
         public string Email { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         public byte[]? PasswordHash { get; set; }
 
@@ -32,8 +32,8 @@ namespace LejlekuXpress.Models
         public int RoleId { get; set; }
         public Roles Role { get; set; }
 
-        public string RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpiryTime { get; set; }
 
     }
 }

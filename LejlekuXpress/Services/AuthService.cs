@@ -22,23 +22,32 @@ namespace LejlekuXpress.Services
         }
         public async Task<User> Register(UserRegistrationDTO request)
         {
-            CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
-
-            User user = new User
+            try
             {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                PasswordHash = hash,
-                PasswordSalt = salt,
-                RoleId = request.Role
-            };
+                CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
 
-            _dbContext.User.Add(user);
-            await _dbContext.SaveChangesAsync();
+                User user = new User
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Email = request.Email,
+                    PasswordHash = hash,
+                    PasswordSalt = salt,
+                    RoleId = request.Role
+                };
 
-            return user;
+                _dbContext.User.Add(user);
+                await _dbContext.SaveChangesAsync();
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to save the user record.");
+            }
         }
+
 
         public async Task<string> Login(UserLoginDTO request)
         {
