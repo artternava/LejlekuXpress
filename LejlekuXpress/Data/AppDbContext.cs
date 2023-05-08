@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LejlekuXpress.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LejlekuXpress.Data
 {
@@ -9,6 +10,7 @@ namespace LejlekuXpress.Data
             
         }
 
+        public DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

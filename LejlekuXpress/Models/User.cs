@@ -31,5 +31,9 @@ namespace LejlekuXpress.Models
         [Required]
         public int RoleId { get; set; }
         public Roles Role { get; set; }
+
+        public string RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
+
     }
 }
