@@ -1,4 +1,5 @@
 ﻿using LejlekuXpress.Data;
+using LejlekuXpress.Data.DTO;
 using LejlekuXpress.Data.ServiceInterfaces;
 using LejlekuXpress.Models;
 using Microsoft.EntityFrameworkCore;
@@ -9,34 +10,34 @@ namespace LejlekuXpress.Services
     {
         private readonly AppDbContext _dbContext;
 
-        public CountryService(AppDbContext context)
+        public CountryService(AppDbContext dbContext)
         {
-            _dbContext = context;
+            _dbContext = dbContext;
         }
 
-        public async Task<Country> AddCountry (Country country)
+        public async Task<Country> AddCountry(CountryDTO request)
         {
             try
             {
-                Country addCountry = new Country
+                Country country = new Country
                 {
-                    Iso = country.Iso,
-                    Name = country.Name,
-                    NiceName = country.NiceName,
-                    Iso3 = country.Iso3,
-                    NumCode = country.NumCode,
-                    PhoneCode = country.PhoneCode,
+                    Iso = request.Iso,
+                    Name = request.Name,
+                    NiceName = request.NiceName,
+                    Iso3 = request.Iso3,
+                    NumCode = request.NumCode,
+                    PhoneCode = request.PhoneCode
                 };
 
-                _dbContext.Country.Add (addCountry);
+                _dbContext.Country.Add(country);
                 await _dbContext.SaveChangesAsync();
 
-                return addCountry;
+                return country;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw new Exception("An error occurred while attempting to save the user record.");
+                throw new Exception("An error occurred while attempting to save the country record.");
             }
         }
 
@@ -71,23 +72,23 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record.");
             }
         }
-        public async Task<Country> UpdateCountry(int id, Country country)
+        public async Task<Country> UpdateCountry(int id, CountryDTO request)
         {
             try
             {
-                var existingCountry = _dbContext.Country.Find(id);
-                if (existingCountry != null)
+                var country = _dbContext.Country.Find(id);
+                if (country != null)
                 {
-                    existingCountry.Iso = country.Iso;
-                    existingCountry.Name = country.Name;
-                    existingCountry.NiceName = country.NiceName;
-                    existingCountry.Iso3 = country.Iso3;
-                    existingCountry.NumCode = country.NumCode;
-                    existingCountry.PhoneCode = country.PhoneCode;
+                    country.Iso = request.Iso;
+                    country.Name = request.Name;
+                    country.NiceName = request.NiceName;
+                    country.Iso3 = request.Iso3;
+                    country.NumCode = request.NumCode;
+                    country.PhoneCode = request.PhoneCode;
 
                     _dbContext.SaveChanges();
                 }
-                return existingCountry;
+                return country;
             }
             catch (Exception ex)
             {

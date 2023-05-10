@@ -1,4 +1,5 @@
-﻿using LejlekuXpress.Data.ServiceInterfaces;
+﻿using LejlekuXpress.Data.DTO;
+using LejlekuXpress.Data.ServiceInterfaces;
 using LejlekuXpress.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +16,12 @@ namespace LejlekuXpress.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddCountry(Country country)
+        public async Task<IActionResult> AddCountry(CountryDTO request)
         {
             try
             {
-                _service.AddCountry(country);
-                return Ok(country);
+                _service.AddCountry(request);
+                return Ok(request);
             }
             catch (Exception ex)
             {
@@ -59,13 +60,27 @@ namespace LejlekuXpress.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update(int id, Country country)
+        public async Task<IActionResult> Update(int id, CountryDTO request)
         {
             try
             {
-                var result = _service.UpdateCountry(id, country);
+                var result = _service.UpdateCountry(id, request);
                 if (result == null)
                     return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var result = await _service.GetAll();
                 return Ok(result);
             }
             catch (Exception ex)
