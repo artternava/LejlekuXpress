@@ -12,6 +12,10 @@ namespace LejlekuXpress.Data
 
         public DbSet<User> User { get; set; }
 
+        public DbSet<Roles> Roles { get; set; }
+
+        public DbSet<Country> Country { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new ConfigurationBuilder()
