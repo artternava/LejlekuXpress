@@ -16,6 +16,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import TermsAndConditions from './pages/TermsAndConditions';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
             <Route path='cart' element={<Cart />}/>
             <Route path='checkout' element={<Checkout />}/>
             <Route path='admin' element={<AdminDashboard />}/>
-            <Route path='tac' element={<TermsAndConditions />}/>
+            <Route path='TermsAndConditions' element={<TermsAndConditions />}/>
+            <Route path='PrivacyPolicy' element={<PrivacyPolicy />}/>
           </Route>
         </Routes>
       </BrowserRouter>
