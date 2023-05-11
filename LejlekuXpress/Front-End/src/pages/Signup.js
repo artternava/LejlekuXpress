@@ -53,7 +53,16 @@ const Signup = () => {
       return;
     }
     
-    
+    axios.post('http://localhost:39450/api/Auth/register', userRegistration)
+  .then((response) => {
+    console.log('Registration successful', response.data);
+    window.alert('Registration successful');
+    window.location.href = '/login';
+  })
+  .catch((error) => {
+    console.error('Registration failed', error);
+    window.alert('Registration failed');
+  });
   };
 
 
