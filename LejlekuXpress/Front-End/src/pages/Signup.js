@@ -136,7 +136,15 @@ const Signup = () => {
               <input type="password" name="ConfirmPassword" placeholder="Confirm Password" className={`form-control ${formErrors.ConfirmPassword ? 'is-invalid' : ''}`} value={userRegistration.ConfirmPassword} onChange={handleInputChange} />
               {formErrors.ConfirmPassword && <div className="invalid-feedback">{formErrors.ConfirmPassword}</div>}
             </div>
-            
+            <div className="mb-3">
+              <div className="form-check">
+              <input type="checkbox" name="terms" className={`form-check-input ${formErrors.Terms ? 'is-invalid' : (userRegistration.terms ? 'is-valid' : '')}`} onChange={handleInputChange}onClick={() => setFormErrors({...formErrors, Terms: ''})} />
+                <label className="form-check-label">
+                  <span className="text-secondary" style={{ fontSize: '14px' }}>I agree to the</span> <Link to="/TermsAndConditions" className="text-primary" target="_blank" rel="noopener noreferrer">terms and conditions</Link>.
+                </label>
+                {formErrors.Terms && <div className="invalid-feedback">{formErrors.Terms}</div>}
+              </div>
+            </div>
             <button type="submit" className="btn btn-primary btn-lg mt-4" style={{ width: '100%', outline: 'none' }}>Sign Up</button>
           </form>
           <div className="text-center mt-4">
