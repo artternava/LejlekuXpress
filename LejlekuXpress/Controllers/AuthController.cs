@@ -36,38 +36,17 @@ namespace LejlekuXpress.Controllers
             try
             {
                 var token = await _service.Login(request);
-                if (token == null) 
+                if (token == null)
                 {
                     return Unauthorized();
                 }
-                return Ok(new { token });
+
+                return Ok(new { token, isLoggedIn = true });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
-        {
-            try
-            {
-                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                if (string.IsNullOrEmpty(userId))
-                {
-                    return BadRequest("Invalid user ID.");
-                }
-
-                await _service.Logout(userId);
-
-                return Ok("Logout successful.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
     }
 }

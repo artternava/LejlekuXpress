@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { useCookies } from 'react-cookie';
 import {BrowserRouter, Routes,Route} from "react-router-dom";
 import Layout from './components/Layout';
 import Home from './pages/Home';

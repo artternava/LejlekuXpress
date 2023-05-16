@@ -64,25 +64,15 @@ namespace LejlekuXpress.Services
             return token;
         }
 
-        public async Task Logout(string userId)
-        {
-            var user = await _dbContext.User.FindAsync(userId);
-            if (user == null) throw new ArgumentException("User does not exist");
-
-            // Update user's RefreshToken
-            user.RefreshToken = null;
-            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddMinutes(-1); 
-            await _dbContext.SaveChangesAsync();
-        }
-
-
         private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.RoleId.ToString())
+                new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:JwtSecretKey").Value));
 

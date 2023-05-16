@@ -8,7 +8,5 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<User> Register(UserRegistrationDTO request);
 
         Task<string> Login(UserLoginDTO request);
-
-        Task Logout(string userId);
     }
 }
