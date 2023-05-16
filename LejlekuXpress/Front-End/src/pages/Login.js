@@ -42,7 +42,7 @@ const Login = () => {
         console.log('Login successful', response.data);
         window.alert('Login successful');
         const token = response.data.token;
-
+        document.cookie = `access_token=${token}; path=/;`;
   
         window.location.href = '/';
       })
