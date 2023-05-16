@@ -126,24 +126,24 @@ const Signup = () => {
             <div className="row mb-3">
               <div className="col">
                 <input type="text" name="FirstName" placeholder="First Name" className={`form-control ${formErrors.FirstName ? 'is-invalid' : ''}`} value={userRegistration.FirstName} onChange={handleInputChange} />
-                {formErrors.FirstName && <div className="invalid-feedback">{formErrors.FirstName}</div>}
+                {formErrors.FirstName && <div className="invalid-feedback">First Name is required</div>}
               </div>
               <div className="col">
                 <input type="text" name="LastName" placeholder="Last Name" className={`form-control ${formErrors.LastName ? 'is-invalid' : ''}`} value={userRegistration.LastName} onChange={handleInputChange} />
-                {formErrors.LastName && <div className="invalid-feedback">{formErrors.LastName}</div>}
+                {formErrors.LastName && <div className="invalid-feedback">Last Name is required</div>}
               </div>
             </div>
             <div className="mb-3">
               <input type="email" name="Email" placeholder="Email" className={`form-control ${formErrors.Email ? 'is-invalid' : ''}`} value={userRegistration.Email} onChange={handleInputChange} />
-              {formErrors.Email && <div className="invalid-feedback">{formErrors.Email}</div>}
-            </div>
+              {formErrors.Email && <div className="invalid-feedback">Email is required</div>}            </div>
             <div className="mb-3">
               <input type="password" name="Password" placeholder="Password" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} value={userRegistration.Password} onChange={handleInputChange} />
               {formErrors.Password && <div className="invalid-feedback">{formErrors.Password}</div>}
+              {formErrors.Password && <div className="invalid-feedback">Password is required</div>}
             </div>
             <div className="mb-3">
               <input type="password" name="ConfirmPassword" placeholder="Confirm Password" className={`form-control ${formErrors.ConfirmPassword ? 'is-invalid' : ''}`} value={userRegistration.ConfirmPassword} onChange={handleInputChange} />
-              {formErrors.ConfirmPassword && <div className="invalid-feedback">{formErrors.ConfirmPassword}</div>}
+              {formErrors.ConfirmPassword && <div className="invalid-feedback">Confirm Password is required</div>}
             </div>
             <div className="mb-3">
               <div className="form-check">
@@ -151,7 +151,7 @@ const Signup = () => {
                 <label className="form-check-label">
                   <span className="text-secondary" style={{ fontSize: '14px' }}>I agree to the</span> <Link to="/TermsAndConditions" className="text-primary" target="_blank" rel="noopener noreferrer">terms and conditions</Link>.
                 </label>
-                {formErrors.Terms && <div className="invalid-feedback">{formErrors.Terms}</div>}
+                {formErrors.Terms && <div className="invalid-feedback">You must agree to the Terms And Conditions!</div>}
               </div>
             </div>
             <button type="submit" className="btn btn-primary btn-lg mt-4" style={{ width: '100%', outline: 'none' }}>Sign Up</button>
