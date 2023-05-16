@@ -1,38 +1,89 @@
-import React from 'react'
-import Meta from "../components/Meta";
-import BreadCrumb from "../components/BreadCrumb";
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
+  const [userLogin, setUserLogin] = useState({
+    Email: '',
+    Password: ''
+  });
+
+  const [formErrors, setFormErrors] = useState({
+    Email: false,
+    Password: false
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserLogin((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+    setFormErrors((prevState) => ({
+      ...prevState,
+      [name]: false
+    }));
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const { Email, Password } = userLogin;
+    const errors = {
+      Email: Email.length === 0,
+      Password: Password.length === 0
+    };
+    setFormErrors(errors);
+    if (Object.values(errors).some((value) => value)) {
+      return;
+    }
+
+    axios.post('http://localhost:39450/api/Auth/login', userLogin)
+      .then((response) => {
+        console.log('Login successful', response.data);
+        window.alert('Login successful');
+        const token = response.data.token;
+
+  
+        window.location.href = '/';
+      })
+      .catch((error) => {
+        console.error('Login failed', error);
+        window.alert('Login failed');
+      });
+  };
+
+
   return (
     <>
-    <Meta title={"Login"} />
-    <BreadCrumb title="Login" />
-        <div className="login-wrapper py-5 home-wrapper-2">
-            <div className="row">
-                <div className="col-12">
-                    <div className="auth-card">
-                        <h3 className="text-center mb-3">Login</h3>
-                        <form action="" className="d-flex flex-column gap-15"></form>
-                        <div>
-                            <input type="email" name="email" placeholder="Email" className="form-control" />
-                        </div>
-                        <div className="mt-1">
-                            <input type="password" name="password" placeholder="Password" className="form-control" />
-                        </div>
-                        <div>
-                            <Link to="/forgot-password">Forgot Password?</Link>
-                            <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
-                            <button className="btn btn-primary me-2" type="button">Login</button>
-                            <Link to="/signup" className="btn btn-outline-primary me-2" type="button">Sign Up</Link>                            
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div className="login-wrapper py-5 home-wrapper-2" style={{ height: '80vh' }}>
+        <div className="auth-card">
+          <h3 className="text-center mb-3" style={{ color: '#3d3d3d' }}>Login</h3>
+          <form onSubmit={handleFormSubmit}>
+            <div className="form-group">
+              <label htmlFor="Email">Email address</label>
+              <input type="email" className={`form-control ${formErrors.Email ? 'is-invalid' : ''}`} id="Email" name="Email" value={userLogin.Email} onChange={handleInputChange} />
+              {formErrors.Email && <div className="invalid-feedback">Email is required</div>}
             </div>
+            <div className="form-group">
+              <label htmlFor="Password">Password</label>
+              <input type="password" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} id="Password" name="Password" value={userLogin.Password} onChange={handleInputChange} />
+              {formErrors.Password && <div className="invalid-feedback">Password is required</div>}
+            </div>
+            <div className="form-group form-check">
+              <input type="checkbox" className="form-check-input" id="RememberMe" name="RememberMe" />
+              <label className="form-check-label" htmlFor="RememberMe">Remember me</label>
+            </div>
+            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Login</button>
+          </form>
+          <div className="text-center mt-3">
+            <span className="text-secondary" style={{ fontSize: '15px' }}>Don't have an account? </span>
+            <Link to="/signup" className="text-primary">Sign up</Link>
+          </div>
         </div>
+      </div>
     </>
   );
+  
 };
 
-export default Login
+export default Login;
