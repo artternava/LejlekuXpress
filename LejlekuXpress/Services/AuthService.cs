@@ -1,4 +1,5 @@
-﻿using LejlekuXpress.Data;
+﻿using Azure.Core;
+using LejlekuXpress.Data;
 using LejlekuXpress.Data.DTO;
 using LejlekuXpress.Data.ServiceInterfaces;
 using LejlekuXpress.Models;
@@ -20,6 +21,8 @@ namespace LejlekuXpress.Services
             _dbContext = context;   
             _configuration = configuration;
         }
+
+        #region Register
         public async Task<User> Register(UserRegistrationDTO request)
         {
             try
@@ -47,8 +50,9 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record.");
             }
         }
+        #endregion
 
-
+        #region Login
         public async Task<string> Login(UserLoginDTO request)
         {
             User user = await _dbContext.User.FirstOrDefaultAsync(u => u.Email == request.Email);
@@ -63,7 +67,37 @@ namespace LejlekuXpress.Services
 
             return token;
         }
+        #endregion
 
+        #region ChangePassword
+        public async Task<User> ChangePassword(int id, string oldPassword, string newPassword)
+        {
+            try
+            {
+                CreatePasswordHash(newPassword, out byte[] hash, out byte[] salt); 
+
+                var user = _dbContext.User.Find(id);
+                if (user != null)
+                {
+                    if (!VerifyingPasswordHash(oldPassword, user.PasswordHash, user.PasswordSalt))
+                        return null;
+
+                    user.PasswordHash = hash;
+                    user.PasswordSalt = salt;
+
+                    _dbContext.SaveChanges();
+                }
+                return user;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to save the user record."); ;
+            }
+        }
+        #endregion
+
+        #region CreateToken
         private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
@@ -87,7 +121,9 @@ namespace LejlekuXpress.Services
 
             return jwt;
         }
+        #endregion
 
+        #region CreatePasswordHash
         private void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
         {
             using (var hmac = new HMACSHA512())
@@ -96,7 +132,9 @@ namespace LejlekuXpress.Services
                 hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
+        #endregion
 
+        #region VerifyingPasswordHash
         private bool VerifyingPasswordHash(string password, byte[] hash, byte[] salt)
         {
             using (var hmac = new HMACSHA512(salt))
@@ -105,5 +143,6 @@ namespace LejlekuXpress.Services
                 return computeHash.SequenceEqual(hash);
             }
         }
+        #endregion
     }
 }
