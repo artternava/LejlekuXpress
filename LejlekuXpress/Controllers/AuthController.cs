@@ -48,5 +48,20 @@ namespace LejlekuXpress.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("changepassword")]
+        public async Task<IActionResult> ChangePassword(int id, string oldPassword, string newPassword)
+        {
+            try
+            {
+                var result = _service.ChangePassword(id, oldPassword, newPassword);
+                if (result == null)
+                    return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
