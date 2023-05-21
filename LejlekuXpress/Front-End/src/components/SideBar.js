@@ -37,6 +37,10 @@ function Sidebar({ handleTabClick }) {
             <i class="bi bi-view-list"></i>
             <span className="ms-2">My Listings</span>
             </li>
+            <li className="sidebar-item" onClick={() => handleTabClick("billinginfo")}>
+            <i class="bi bi-cash"></i>
+            <span className="ms-2">Set up Billing</span>
+            </li>
           </ul>
         </div>
       </div>
