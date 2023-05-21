@@ -121,6 +121,10 @@ a {
   background-color: transparent;
 }
 
+button.btn:hover i,
+button.btn:hover span{
+  color: #000; 
+}
 /* Perfundimi i Headerit */
 
 /* Fillimi i Footerit */

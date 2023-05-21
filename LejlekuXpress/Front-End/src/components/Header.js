@@ -73,17 +73,19 @@ const Header = () => {
                   <div>
                     {isLoggedIn ? (
                       <>
-                        <Link
-                          to="userdashboard"
-                          className="d-flex align-items-center gap-10 text-white"
-                        >
+                      <div className="d-flex align-items-center gap-10 text-white">
+                        <Link to="userdashboard" className="d-flex align-items-center gap-10 text-white">
                           <img src="../images/user.svg" alt="user" />
                           <p className="mb-0">
-                            Profile <br /> My Account
+                            My <br />Profile 
                           </p>
                         </Link>
-                        <button className="btn btn-link text-white" onClick={handleLogout}>Logout</button>
-                      </>
+                        <button className="btn btn-outline-light text-white text-decoration-none" onClick={handleLogout}>
+                          <i className="bi bi-lock bi-lg"></i>
+                          <span>Logout</span>
+                        </button>
+                      </div>
+                    </>                    
                     ) : (
                       <Link
                         to="login"
