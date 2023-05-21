@@ -49,12 +49,15 @@ namespace LejlekuXpress.Services
 
         #region Get
 
-        public async Task<ShippingAddress> GetShippingAddress (int userId)
+        public async Task<List<ShippingAddress>> GetShippingAddress (int userId)
         {
             try
             {
-                var result = _context.ShippingAddress.Find(userId);
-                return result;
+                var shippingAddresses = _context.ShippingAddress
+                    .Where(address => address.UserId == userId)
+                    .ToList();
+
+                return shippingAddresses;
             }
             catch (Exception ex)
             {
