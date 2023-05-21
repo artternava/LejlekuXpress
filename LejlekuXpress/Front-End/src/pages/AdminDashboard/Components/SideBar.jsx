@@ -19,10 +19,6 @@ function Sidebar({ handleTabClick }) {
               <i className="bi bi-house-fill"></i>
               <span className="ms-2">Home</span>
             </li>
-            {/* <li className={`sidebarListItem ${ activeTab === "adminSales" ? "active" : ""}`} onClick={() => handleButtonClick("adminSales")}>
-              <i className="bi bi-graph-up-arrow"></i>
-              <span className="ms-2">Sales</span>
-            </li> */}
           </ul>
         </div>
         <div className="sidebarMenu">
