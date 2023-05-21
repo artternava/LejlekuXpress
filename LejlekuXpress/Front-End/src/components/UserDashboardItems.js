@@ -19,7 +19,16 @@ import {
       firstName: '',
       lastName: '',
       email: '',
-      phoneNumber: '', 
+      phoneNumber: '',
+      countryCode: '',
+    });
+    const [countryData, setCountryData] = useState([]);
+    const [formErrors, setFormErrors] = useState({
+      firstName: false,
+      lastName: false,
+      email: false,
+      phoneNumber: false,
+      countryCode: false,
     });
   
     useEffect(() => {
@@ -33,30 +42,72 @@ import {
         const response = await axios.get(`http://localhost:39450/api/User/get?id=${userId}`);
         if (response.status === 200) {
           const userData = response.data;
+          const phoneNumberParts = userData.phoneNumber.split('-');
+          const countryCode = phoneNumberParts[0].substring(1); // Remove the '+' character
+          const phoneNumber = phoneNumberParts[1];
+  
           setUser({
             firstName: userData.firstName,
             lastName: userData.lastName,
             email: userData.email,
-            phoneNumber: userData.phoneNumber,
+            phoneNumber: phoneNumber,
+            countryCode: countryCode,
           });
         } else {
           console.error('Failed to fetch user details');
         }
+  
+        // Retrieve country data from another API endpoint
+        const countryResponse = await axios.get('http://localhost:39450/api/Country/getall');
+        if (countryResponse.status === 200) {
+          const countryData = countryResponse.data;
+          setCountryData(countryData);
+        } else {
+          console.error('Failed to fetch country data');
+        }
       } catch (error) {
-        console.error('An error occurred while fetching user details', error);
+        console.error('An error occurred while fetching user details or country data', error);
       }
     }
   
     async function updateUserDetails() {
       try {
+        const { firstName, lastName, email, phoneNumber, countryCode } = user;
+  
+        if (firstName.trim() === '' || lastName.trim() === '' || email.trim() === '') {
+          setFormErrors({
+            firstName: firstName ==='',
+            lastName: lastName === '',
+            email: email === '',
+          });
+          console.error('Please fill in all required fields');
+          return; 
+        }
+        if (phoneNumber.trim() !== '' && countryCode.trim() === ''){
+          setFormErrors({
+            countryCode: countryCode === '',
+          })
+          return;
+        };
+
+        if (countryCode.trim() !== '' && phoneNumber.trim() === ''){
+          setFormErrors({
+            phoneNumber: phoneNumber === '',
+          })
+          return;
+        };
+
+        const formattedPhoneNumber = countryCode && phoneNumber ? `+${countryCode}-${phoneNumber}` : '';
+  
         const response = await axios.put(`http://localhost:39450/api/User/update?id=${userId}`, {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          phoneNumber: user.phoneNumber,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phoneNumber: formattedPhoneNumber,
           profilePicture: null,
         });
         if (response.status === 200) {
+          window.alert('Profile saved successfully');
           console.log('User details updated successfully');
         } else {
           console.error('Failed to update user details');
@@ -67,7 +118,9 @@ import {
     }
   
     function handleInputChange(event) {
-      setUser({ ...user, [event.target.name]: event.target.value });
+      const { name, value } = event.target;
+      setUser({ ...user, [name]: value });
+      setFormErrors({ ...formErrors, [name]: false });
     }
   
     return (
@@ -100,12 +153,13 @@ import {
                       <input
                         type="text"
                         id="firstName"
-                        className="form-control"
+                        className={`form-control ${formErrors.firstName ? 'is-invalid' : ''}`}
                         placeholder="first name"
                         name="firstName"
                         value={user.firstName}
                         onChange={handleInputChange}
                       />
+                      {formErrors.firstName && <div className="invalid-feedback">First name is required.</div>}
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -116,12 +170,13 @@ import {
                       <input
                         type="text"
                         id="lastName"
-                        className="form-control"
+                        className={`form-control ${formErrors.lastName ? 'is-invalid' : ''}`}
                         placeholder="last name"
                         name="lastName"
                         value={user.lastName}
                         onChange={handleInputChange}
                       />
+                      {formErrors.lastName && <div className="invalid-feedback">Last name is required.</div>}
                     </div>
                   </div>
                 </div>
@@ -133,20 +188,23 @@ import {
                       </label>
                       <div className="input-group">
                         <select
-                          className="form-control"
+                          className={`form-control ${formErrors.countryCode ? 'is-invalid' : ''}`}
                           id="countryCode"
                           name="countryCode"
                           value={user.countryCode}
                           onChange={handleInputChange}
                         >
                           <option value="">Select Country</option>
-                          <option value="1">USA (+1)</option>
-                          <option value="44">UK (+44)</option>
-                          <option value="33">France (+33)</option>
+                          {countryData.map((country) => (
+                            <option key={country.code} value={country.phoneCode}>
+                              {country.niceName} (+{country.phoneCode})
+                            </option>
+                          ))}
                         </select>
+                        
                         <input
                           type="text"
-                          className="form-control"
+                          className={`form-control ${formErrors.phoneNumber ? 'is-invalid' : ''}`}
                           id="phoneNumber"
                           placeholder="Phone Number"
                           name="phoneNumber"
@@ -154,6 +212,8 @@ import {
                           onChange={handleInputChange}
                         />
                       </div>
+                      {formErrors.countryCode && <div className="invalid-feedback">Country code is required.</div>}
+                      {formErrors.phoneNumber && <div className="invalid-feedback">Phone number is required.</div>}
                     </div>
                   </div>
                 </div>
@@ -166,12 +226,13 @@ import {
                       <input
                         type="text"
                         id="email"
-                        className="form-control"
+                        className={`form-control ${formErrors.email ? 'is-invalid' : ''}`}
                         placeholder="Email"
                         name="email"
                         value={user.email}
                         onChange={handleInputChange}
                       />
+                      {formErrors.email && <div className="invalid-feedback">Email is required.</div>}
                     </div>
                   </div>
                 </div>
@@ -185,8 +246,8 @@ import {
           </div>
         </div>
       </div>
-    );
-  };
+    );    
+  }
 
     function ShippingInfo() {
 
@@ -737,72 +798,6 @@ import {
         </div>
         </div>
         );    
-        
-function PersonalInfo() {
-    return (
-    <div className="container-userdashboard-tabs">
-      <div className="container rounded bg-white mt-5 mb-5">
-        <div className="row">
-          <div className="col-md-4 border-right">
-            <div className="d-flex flex-column align-items-center text-center p-3 py-5">
-              <img className="rounded-circle mt-5" src="https://i.pinimg.com/564x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg" alt="user profile" width="150px"/>
-              <span className="font-weight-bold">First name</span>
-              <span className="text-black-50">firstname@provider.com</span>
-            </div>
-          </div>
-          <div className="col-md-8 border-right">
-            <div className="p-3 py-5">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h4 className="text-right">Profile Settings</h4>
-              </div>
-              <div className="row mt-2">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="firstName" className="labels">First Name</label>
-                    <input type="text" id="firstName" className="form-control" placeholder="first name" />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="lastName" className="labels">Last Name</label>
-                    <input type="text" id="lastName" className="form-control"  placeholder="last name" />
-                  </div>
-                </div>
-              </div>
-              <div className="row mt-3">
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label htmlFor="phoneNumber" className="labels">Phone Number</label>
-                    <div className="input-group">
-                      <select className="form-control" id="countryCode">
-                        <option value="">Select Country</option>
-                        <option value="1">USA (+1)</option>
-                        <option value="44">UK (+44)</option>
-                        <option value="33">France (+33)</option>
-                      </select>
-                      <input type="text" className="form-control" id="phoneNumber" placeholder="Phone Number" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mt-3">
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label htmlFor="email" className="labels">Email</label>
-                    <input type="text" id="email" className="form-control" placeholder="Email"  />
-                  </div>
-                </div>
-              </div>
-              <div className="mt-5 text-center">
-                <button className="btn btn-primary me-2" type="button">Save Profile</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};     
   }
   function ChangePassword() {
     const { token, userId } = useAuthToken();
