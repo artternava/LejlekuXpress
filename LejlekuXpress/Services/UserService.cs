@@ -58,7 +58,7 @@ namespace LejlekuXpress.Services
                     user.Email = request.Email;
                     user.PhoneNumber = request.PhoneNumber;
                     user.ProfilePicture = request.ProfilePicture;
-                    user.RoleId = request.RoleId;
+                    //user.RoleId = request.RoleId;
 
                     _dbContext.SaveChanges();
                 }
