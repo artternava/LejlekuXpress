@@ -866,6 +866,7 @@ const handleChangePassword = (event) => {
     .post(`http://localhost:39450/api/Auth/changepassword?id=${userId}`, requestBody)
     .then((response) => {
       console.log('Password changed successfully', response.data);
+      window.location.href = '/userdashboard';
     })
     .catch((error) => {
       if (error.response && error.response.status === 404) {
