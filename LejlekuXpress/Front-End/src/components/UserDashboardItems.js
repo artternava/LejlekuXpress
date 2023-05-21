@@ -12,22 +12,22 @@ import {
   import axios from 'axios';
   import useAuthToken from './useAuthToken.js';
 
-
+  
   function PersonalInfo() {
     const { userId } = useAuthToken();
     const [user, setUser] = useState({
       firstName: '',
       lastName: '',
       email: '',
-      phoneNumber: '',
+      phoneNumber: '', 
     });
-
+  
     useEffect(() => {
       if (userId) {
         fetchUserDetails();
       }
     }, [userId]);
-
+  
     async function fetchUserDetails() {
       try {
         const response = await axios.get(`http://localhost:39450/api/User/get?id=${userId}`);
@@ -46,13 +46,30 @@ import {
         console.error('An error occurred while fetching user details', error);
       }
     }
-
-    
-
+  
+    async function updateUserDetails() {
+      try {
+        const response = await axios.put(`http://localhost:39450/api/User/update?id=${userId}`, {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          profilePicture: null,
+        });
+        if (response.status === 200) {
+          console.log('User details updated successfully');
+        } else {
+          console.error('Failed to update user details');
+        }
+      } catch (error) {
+        console.error('An error occurred while updating user details', error);
+      }
+    }
+  
     function handleInputChange(event) {
       setUser({ ...user, [event.target.name]: event.target.value });
     }
-
+  
     return (
       <div className="container-userdashboard-tabs">
         <div className="container rounded bg-white mt-5 mb-5">
@@ -159,7 +176,7 @@ import {
                   </div>
                 </div>
                 <div className="mt-5 text-center">
-                  <button className="btn btn-primary me-2" type="button">
+                  <button className="btn btn-primary me-2" type="button" onClick={updateUserDetails}>
                     Save Profile
                   </button>
                 </div>
@@ -176,33 +193,33 @@ import {
         const [isAddAddressVisible, setIsAddAddressVisible] = useState(false);
 
         const toggleAddressForm = () => {
-        setIsAddAddressVisible(!isAddAddressVisible);
+        setIsAddAddressVisible(!isAddAddressVisible);    
         };
         const addresses = [  {
-          firstName: "John",
-          lastName: "Doe",
-          phoneNum: "+1-212-418-1234",
-          address: "Central Park",
-          city: "New York City",
-          state: "New York",
-          country: "USA",
+          firstName: "John",    
+          lastName: "Doe",  
+          phoneNum: "+1-212-418-1234",  
+          address: "Central Park",    
+          city: "New York City",    
+          state: "New York",    
+          country: "USA",    
           zipCode: "10019"
         },
         {
-          firstName: "Filan",
-          lastName: "Fisteku",
-          phoneNum: "+383-44-182-508",
-          address: "Rruga Vllezerit Gervalla",
-          city: "Prishtine",
-          state: "",
-          country: "Kosovo",
+          firstName: "Filan",    
+          lastName: "Fisteku",  
+          phoneNum: "+383-44-182-508",  
+          address: "Rruga Vllezerit Gervalla",    
+          city: "Prishtine",    
+          state: "",    
+          country: "Kosovo",    
           zipCode: "10000"
         }];
         return (
             <div id="shippingInfo">
-            <div id="addressList" style={{ display: isAddAddressVisible ? 'none' : 'block' }}>
+            <div id="addressList" style={{ display: isAddAddressVisible ? 'none' : 'block' }}>              
             <div className="container-userdashboard-tabs">
-            <div className="d-flex justify-content-between align-items-center"
+            <div className="d-flex justify-content-between align-items-center" 
             style={{padding: "10px", width: "90%", backgroundColor: "#fff", margin: "auto", borderRadius: "10px", }}>
                 <h1 style={{fontSize: "35px", fontWeight: "400", padding: "5px"}}>Addresses</h1>
               <button className="btn btn-primary me-2" type="button" onClick={toggleAddressForm} >Add Address</button>
@@ -341,13 +358,13 @@ import {
         };
 
         const payments = [  {
-          last4: "8080",
+          last4: "8080",    
         }];
         return (
             <div id="shippingInfo">
             <div id="addressList" style={{ display: isAddAddressVisible ? 'none' : 'block' }}>
             <div className="container-userdashboard-tabs">
-            <div className="d-flex justify-content-between align-items-center"
+            <div className="d-flex justify-content-between align-items-center" 
             style={{padding: "10px", width: "90%", backgroundColor: "#fff", margin: "auto", borderRadius: "10px", }}>
                 <h1 style={{fontSize: "35px", fontWeight: "400", padding: "5px"}}>Payment Methods</h1>
               <button className="btn btn-primary me-2" type="button" onClick={toggleAddressForm} >Add Payment</button>
@@ -417,7 +434,7 @@ import {
                                     </div>
                                 </div>
                                 <div className="row mt-3">
-
+                                    
                                     <div className="col-md-6">
                                     <div className="form-group">
                                         <label htmlFor="CVV" className="labels">CVV</label>
@@ -438,35 +455,35 @@ import {
         );
     }
     const orders = [  {
-          invoiceNumber: "#Y34XDHR",
-          expectedArrival: "01/12/19",
-          trackingNumber: "234094567242423422898",
-          imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",
-          productName: "Iphone 14",
-          capacity: "64gb",
-          color: "Blue",
-          price: "$1000"  },
-          {
-            invoiceNumber: "#Z56VBFE",
-            expectedArrival: "05/06/19",
-            trackingNumber: "234094567242423422899",
-            imageSrc: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1660803972361",
-            productName: "Airpods pro 2",
-            capacity: "-",
-            color: "White",
-            price: "$200"  },
-            {
-              invoiceNumber: "#A12RTGS",
-              expectedArrival: "07/08/19",
-              trackingNumber: "234094567242423422900",
-              imageSrc: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp-spacegray-select-202206?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664497359481",
-              productName: "MacBook Pro",
-              capacity: "1tb",
-              color: "Space Gray",
+          invoiceNumber: "#Y34XDHR",    
+          expectedArrival: "01/12/19",    
+          trackingNumber: "234094567242423422898",    
+          imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+          productName: "Iphone 14",    
+          capacity: "64gb",    
+          color: "Blue",    
+          price: "$1000"  },  
+          {    
+            invoiceNumber: "#Z56VBFE",    
+            expectedArrival: "05/06/19",    
+            trackingNumber: "234094567242423422899",    
+            imageSrc: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1660803972361",    
+            productName: "Airpods pro 2",    
+            capacity: "-",    
+            color: "White",    
+            price: "$200"  },  
+            {    
+              invoiceNumber: "#A12RTGS",    
+              expectedArrival: "07/08/19",    
+              trackingNumber: "234094567242423422900",    
+              imageSrc: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp-spacegray-select-202206?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664497359481",    
+              productName: "MacBook Pro",    
+              capacity: "1tb",    
+              color: "Space Gray",    
               price: "$3750"  }];
 
       function MyOrders() {
-
+        
         return (
           <>
             {orders.map((order) => (
@@ -518,7 +535,7 @@ import {
                             <li className="step0 active text-center" id="step3"></li>
                             <li className="step0 text-muted text-end" id="step4"></li>
                           </ul>
-
+      
                           <div className="d-flex justify-content-between">
                             <div className="d-lg-flex align-items-center">
                               <i class="bi bi-file-text fs-1 icon-spacing"></i>
@@ -557,43 +574,43 @@ import {
                 </section>
               ))}
             </>
-          );
+          );          
     }
 
     function MyListings() {
       const [isAddListingVisible, setIsListingVisible] = useState(false);
 
         const toggleListingForm = () => {
-          setIsListingVisible(!isAddListingVisible);
+          setIsListingVisible(!isAddListingVisible);    
         };
         const listings = [  {
-          id: "12",
-          dateCreated: "02/05/2023   13:41",
-          image: "https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/3.webp",
-          title: "Apple IMac",
-          description: "M2, 27-Inch Retina Display, 32GB Memory, 1TB Storage",
-          orders: "79",
-          qty: "21",
+          id: "12",    
+          dateCreated: "02/05/2023   13:41",  
+          image: "https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/3.webp",  
+          title: "Apple IMac",    
+          description: "M2, 27-Inch Retina Display, 32GB Memory, 1TB Storage",    
+          orders: "79",    
+          qty: "21",    
           price: "7,197.00",
           status: "Approved"
         },
         {
-          id: "34",
-          dateCreated: "04/05/2023   19:30",
-          image: "https://media.istockphoto.com/id/496730484/photo/apple-watch-sport-42mm-silver-aluminum-case-with-white-band.jpg?s=612x612&w=0&k=20&c=RY2MGp4S-OVqAZm1ZCUDhM6KSmfAJ02RU51l4mJa2EA=",
-          title: "Apple Watch",
-          description: "M2, 27-Inch Retina Display, 32GB Memory, 1TB Storage",
-          orders: "58",
-          qty: "42",
+          id: "34",    
+          dateCreated: "04/05/2023   19:30",  
+          image: "https://media.istockphoto.com/id/496730484/photo/apple-watch-sport-42mm-silver-aluminum-case-with-white-band.jpg?s=612x612&w=0&k=20&c=RY2MGp4S-OVqAZm1ZCUDhM6KSmfAJ02RU51l4mJa2EA=",  
+          title: "Apple Watch",    
+          description: "M2, 27-Inch Retina Display, 32GB Memory, 1TB Storage",    
+          orders: "58",    
+          qty: "42",    
           price: "427.00",
           status: "Pending"
         }];
 
         return (
             <div id="shippingInfo">
-            <div id="addressList" style={{ display: isAddListingVisible ? 'none' : 'block' }}>
+            <div id="addressList" style={{ display: isAddListingVisible ? 'none' : 'block' }}>              
             <div className="container-userdashboard-tabs">
-            <div className="d-flex justify-content-between align-items-center"
+            <div className="d-flex justify-content-between align-items-center" 
             style={{padding: "10px", width: "90%", backgroundColor: "#fff", margin: "auto", borderRadius: "10px", }}>
                 <h1 style={{fontSize: "35px", fontWeight: "400", padding: "5px"}}>Listings</h1>
               <button className="btn btn-primary me-2" type="button" onClick={toggleListingForm} >Add Listing</button>
@@ -663,7 +680,7 @@ import {
                           <div className="d-flex justify-content-between align-items-center mb-3">
                             <h4 className="text-right">Listing Details</h4>
                           </div>
-
+                          
                           <div className="row mt-2">
                             <div className="col-md-6">
                               <div className="form-group">
@@ -678,7 +695,7 @@ import {
                               </div>
                             </div>
                           </div>
-
+                          
                           <div className="row mt-3">
                             <div className="col-md-6">
                               <div className="form-group">
@@ -719,8 +736,8 @@ import {
             </div>
         </div>
         </div>
-        );
-
+        );    
+        
 function PersonalInfo() {
     return (
     <div className="container-userdashboard-tabs">
@@ -785,7 +802,7 @@ function PersonalInfo() {
       </div>
     </div>
   );
-};
+};     
   }
   function ChangePassword() {
     const { token, userId } = useAuthToken();
@@ -795,17 +812,17 @@ function PersonalInfo() {
       NewPassword: '',
       ConfirmPassword: '',
     });
-
+  
     const [formErrors, setFormErrors] = useState({
       OldPassword: false,
       NewPassword: false,
       ConfirmPassword: false,
     });
-
+  
     const handleShowPasswordChange = () => {
       setShowPassword(!showPassword);
     };
-
+  
     const handleInputChange = (event) => {
       const { name, value } = event.target;
       setChangePassword((prevState) => ({
@@ -817,8 +834,8 @@ function PersonalInfo() {
         [name]: false,
       }));
     };
-
-
+  
+    
 const handleChangePassword = (event) => {
   event.preventDefault();
   const { OldPassword, NewPassword, ConfirmPassword } = changePassword;
@@ -862,7 +879,7 @@ const handleChangePassword = (event) => {
       }
     });
 };
-
+  
     return (
       <div className="container-userdashboard-tabs">
         <div className="container rounded bg-white mt-5 mb-5">
@@ -942,7 +959,7 @@ const handleChangePassword = (event) => {
         </div>
       </div>
     );
-
+    
   };
 
 export { PersonalInfo, ShippingInfo, PaymentDetails, MyOrders, MyListings, ChangePassword };
