@@ -48,12 +48,13 @@ namespace LejlekuXpress.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost("changepassword")]
-        public async Task<IActionResult> ChangePassword(int id, string oldPassword, string newPassword)
+        public async Task<IActionResult> ChangePassword(int id, ChangePasswordDTO request)
         {
             try
             {
-                var result = _service.ChangePassword(id, oldPassword, newPassword);
+                var result = await _service.ChangePassword(id, request);
                 if (result == null)
                     return NotFound();
                 return Ok(result);

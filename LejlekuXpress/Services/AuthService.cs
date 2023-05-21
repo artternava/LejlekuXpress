@@ -70,22 +70,22 @@ namespace LejlekuXpress.Services
         #endregion
 
         #region ChangePassword
-        public async Task<User> ChangePassword(int id, string oldPassword, string newPassword)
+        public async Task<User> ChangePassword(int id, ChangePasswordDTO request)
         {
             try
             {
-                CreatePasswordHash(newPassword, out byte[] hash, out byte[] salt); 
+                CreatePasswordHash(request.NewPassword, out byte[] hash, out byte[] salt); 
 
                 var user = _dbContext.User.Find(id);
                 if (user != null)
                 {
-                    if (!VerifyingPasswordHash(oldPassword, user.PasswordHash, user.PasswordSalt))
+                    if (!VerifyingPasswordHash(request.OldPassword, user.PasswordHash, user.PasswordSalt))
                         return null;
 
                     user.PasswordHash = hash;
                     user.PasswordSalt = salt;
 
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
                 }
                 return user;
             }

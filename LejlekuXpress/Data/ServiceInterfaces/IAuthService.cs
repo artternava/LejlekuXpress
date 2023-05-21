@@ -9,6 +9,6 @@ namespace LejlekuXpress.Data.ServiceInterfaces
 
         Task<string> Login(UserLoginDTO request);
 
-        Task<User> ChangePassword(int id, string oldPassword, string newPassword);
+        Task<User> ChangePassword(int id, ChangePasswordDTO request);
     }
 }
