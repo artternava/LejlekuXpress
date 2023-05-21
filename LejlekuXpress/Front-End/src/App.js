@@ -17,14 +17,14 @@ import Checkout from './pages/Checkout';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import TermsAndConditions from './pages/TermsAndConditions';
 import PrivacyPolicy from './pages/PrivacyPolicy';
-//import useAuthToken from './components/useAuthToken.js';
+import useAuthToken from './components/useAuthToken.js';
 
 
 function App() {
-  // const token = useAuthToken();
-  // useEffect(() => {
-  //   console.log(token);
-  // }, [token]);
+  const token = useAuthToken();
+  useEffect(() => {
+    console.log(token);
+  }, [token]);
 
   return (
     <>

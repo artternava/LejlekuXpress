@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { BsSearch } from "react-icons/bs";
 import useAuthToken from './useAuthToken.js';
 
 const Header = () => {
-    const token = useAuthToken();
-    const [isLoggedIn, setIsLoggedIn] = useState(!!token); 
-  
-    
-  
-    const handleLogout = () => {
-      Cookies.remove('access_token');
-      setIsLoggedIn(false);
-      window.location.href = '/';
-    };
+  const { token } = useAuthToken();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(!!token);
+  }, [token]);
+
+  const handleLogout = () => {
+    Cookies.remove('access_token');
+    setIsLoggedIn(false);
+    window.location.href = '/';
+  };
   
     return (
       <>

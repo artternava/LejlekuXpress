@@ -21,6 +21,10 @@ function Sidebar({ handleTabClick }) {
             <i class="bi bi-credit-card-fill"></i>
             Payment Methods
           </li>
+          <li className="sidebar-item" onClick={() => handleTabClick("changepassword")}>
+            <i class="bi bi-lock-fill"></i>
+            Change Password
+          </li>
           <li className="sidebar-item" onClick={() => handleTabClick("listings")}>
           <i class="bi bi-view-list"></i>
             My Listings

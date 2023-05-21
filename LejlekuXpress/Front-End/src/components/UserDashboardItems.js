@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     MDBCard,
     MDBCardBody,
@@ -14,6 +14,8 @@ import {
   MDBProgressBar,
   MDBCardTitle
   } from "mdb-react-ui-kit";
+  import axios from 'axios';
+  import useAuthToken from './useAuthToken.js';
 
 function PersonalInfo() {
     return (
@@ -629,8 +631,231 @@ function PersonalInfo() {
             </div>
         </div>
         </div>
-        );        
+        );    
+        
+function PersonalInfo() {
+    return (
+    <div className="container-userdashboard-tabs">
+      <div className="container rounded bg-white mt-5 mb-5">
+        <div className="row">
+          <div className="col-md-4 border-right">
+            <div className="d-flex flex-column align-items-center text-center p-3 py-5">
+              <img className="rounded-circle mt-5" src="https://i.pinimg.com/564x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg" alt="user profile" width="150px"/>
+              <span className="font-weight-bold">First name</span>
+              <span className="text-black-50">firstname@provider.com</span>
+            </div>
+          </div>
+          <div className="col-md-8 border-right">
+            <div className="p-3 py-5">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <h4 className="text-right">Profile Settings</h4>
+              </div>
+              <div className="row mt-2">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="firstName" className="labels">First Name</label>
+                    <input type="text" id="firstName" className="form-control" placeholder="first name" />
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="lastName" className="labels">Last Name</label>
+                    <input type="text" id="lastName" className="form-control"  placeholder="last name" />
+                  </div>
+                </div>
+              </div>
+              <div className="row mt-3">
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="phoneNumber" className="labels">Phone Number</label>
+                    <div className="input-group">
+                      <select className="form-control" id="countryCode">
+                        <option value="">Select Country</option>
+                        <option value="1">USA (+1)</option>
+                        <option value="44">UK (+44)</option>
+                        <option value="33">France (+33)</option>
+                      </select>
+                      <input type="text" className="form-control" id="phoneNumber" placeholder="Phone Number" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row mt-3">
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label htmlFor="email" className="labels">Email</label>
+                    <input type="text" id="email" className="form-control" placeholder="Email"  />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-5 text-center">
+                <button className="btn btn-primary me-2" type="button">Save Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};     
+  }
+  function ChangePassword() {
+    const { token, userId } = useAuthToken();
+    const [showPassword, setShowPassword] = useState(false);
+    const [changePassword, setChangePassword] = useState({
+      OldPassword: '',
+      NewPassword: '',
+      ConfirmPassword: '',
+    });
+  
+    const [formErrors, setFormErrors] = useState({
+      OldPassword: false,
+      NewPassword: false,
+      ConfirmPassword: false,
+    });
+  
+    const handleShowPasswordChange = () => {
+      setShowPassword(!showPassword);
+    };
+  
+    const handleInputChange = (event) => {
+      const { name, value } = event.target;
+      setChangePassword((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      setFormErrors((prevState) => ({
+        ...prevState,
+        [name]: false,
+      }));
+    };
+  
+    
+const handleChangePassword = (event) => {
+  event.preventDefault();
+  const { OldPassword, NewPassword, ConfirmPassword } = changePassword;
+
+  if (OldPassword === '' || NewPassword === '' || ConfirmPassword === '') {
+    setFormErrors({
+      OldPassword: OldPassword === '',
+      NewPassword: NewPassword === '',
+      ConfirmPassword: ConfirmPassword === '',
+    });
+    return;
   }
 
-export { PersonalInfo, ShippingInfo, PaymentDetails, MyOrders, MyListings };
+  if (NewPassword !== ConfirmPassword) {
+    setFormErrors((prevState) => ({
+      ...prevState,
+      ConfirmPassword: true,
+    }));
+    return;
+  }
+
+  const requestBody = {
+    oldPassword: OldPassword,
+    newPassword: NewPassword,
+  };
+
+  axios
+    .post(`http://localhost:39450/api/Auth/changepassword?id=${userId}`, requestBody)
+    .then((response) => {
+      console.log('Password changed successfully', response.data);
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 404) {
+        setFormErrors((prevState) => ({
+          ...prevState,
+          OldPassword: true,
+        }));
+        console.error('Old password is incorrect');
+      } else {
+        console.error('Password change failed', error);
+      }
+    });
+};
+  
+    return (
+      <div className="container-userdashboard-tabs">
+        <div className="container rounded bg-white mt-5 mb-5">
+          <div className="row">
+            <div className="col-md-12 border-right">
+              <div className="p-3 py-5">
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label htmlFor="oldPassword" className="labels"> Old Password </label>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="OldPassword"
+                        placeholder="Old Password"
+                        className={`form-control ${formErrors.OldPassword ? 'is-invalid' : ''}`}
+                        value={changePassword.OldPassword}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.OldPassword && changePassword.OldPassword === '' && (<div className="invalid-feedback">Old password is required</div>)}
+                      {formErrors.OldPassword && changePassword.OldPassword !== '' && (<div className="invalid-feedback">Old password is incorrect</div>)}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label htmlFor="newPassword" className="labels"> New Password </label>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="NewPassword"
+                        placeholder="New Password"
+                        className={`form-control ${formErrors.NewPassword ? 'is-invalid' : ''}`}
+                        value={changePassword.NewPassword}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.NewPassword && <div className="invalid-feedback">New Password is required</div>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label htmlFor="confirmPassword" className="labels"> Confirm New Password </label>
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="ConfirmPassword"
+                        placeholder="Confirm New Password"
+                        className={`form-control ${formErrors.ConfirmPassword ? 'is-invalid' : ''}`}
+                        value={changePassword.ConfirmPassword}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.ConfirmPassword && changePassword.ConfirmPassword === '' && (<div className="invalid-feedback">Please Confirm your New Password</div>)}
+                      {formErrors.ConfirmPassword && changePassword.ConfirmPassword !== '' && (<div className="invalid-feedback">Passwords do NOT match</div>)}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="showPassword"
+                        checked={showPassword}
+                        onChange={handleShowPasswordChange}
+                      />
+                      <label className="form-check-label" htmlFor="showPassword"> Show Password </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5 text-center">
+                  <button className="btn btn-primary me-2" type="button" onClick={handleChangePassword}> Change Password </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+    
+  };
+
+export { PersonalInfo, ShippingInfo, PaymentDetails, MyOrders, MyListings, ChangePassword };
 
