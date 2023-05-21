@@ -961,6 +961,8 @@ const handleChangePassword = (event) => {
 
 //#endregion
 
+//#region BillingInformation
+
 function BillingInformation() {
   const { userId } = useAuthToken();
   const [countries, setCountries] = useState([]);
@@ -1077,6 +1079,8 @@ function BillingInformation() {
         <div className="row">
           <div className="p-4">
             <div id="paymentDetails">
+            <h4>Billing Information</h4>
+              <p>Your billing information is essential for processing payments and ensuring accurate transactions. Please provide your billing details to facilitate seamless transactions and avoid any delays or complications.</p> 
               <h4>Payment Details</h4>
               <div className="form-group row mb-3">
                 <div className="col">
@@ -1237,5 +1241,193 @@ function BillingInformation() {
   );
 }
 
-export { PersonalInfo, ShippingInfo, PaymentDetails, MyOrders, MyListings, ChangePassword, BillingInformation };
+//#endregion
+
+//#region TaxInformation
+
+
+function TaxInformation() {
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [taxInfo, setTaxInfo] = useState({
+    country: '',
+    state: '',
+    city: '',
+    zipCode: '',
+    address1: '',
+    address2: '',
+    socialSecurityNumber: '',
+  });
+  const [formErrors, setFormErrors] = useState({
+    country: false,
+    state: false,
+    city: false,
+    zipCode: false,
+    address1: false,
+    socialSecurityNumber: false,
+  });
+
+  useEffect(() => {
+    fetchCountries();
+  }, []);
+
+  const fetchCountries = async () => {
+    try {
+      const response = await axios.get('http://localhost:39450/api/Country/getall');
+      setCountries(response.data);
+    } catch (error) {
+      console.error('Error fetching countries:', error);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setTaxInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    setFormErrors((prevState) => ({
+      ...prevState,
+      [name]: false,
+    }));
+  };
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  };
+
+  const handleSave = () => {
+    const { country, state, city, zipCode, address1, socialSecurityNumber } = taxInfo;
+
+    if (
+      country.trim() === '' ||
+      state.trim() === '' ||
+      city.trim() === '' ||
+      zipCode.trim() === '' ||
+      address1.trim() === '' ||
+      socialSecurityNumber.trim() === ''
+    ) {
+      setFormErrors({
+        country: country.trim() === '',
+        state: state.trim() === '',
+        city: city.trim() === '',
+        zipCode: zipCode.trim() === '',
+        address1: address1.trim() === '',
+        socialSecurityNumber: socialSecurityNumber.trim() === '',
+      });
+      return;
+    }
+
+    // Save the tax information
+    // Add your logic here to handle the save operation
+  };
+
+  return (
+    <div className="container-userdashboard-tabs">
+      <div className="container rounded bg-white mt-5 mb-5">
+        <div className="row">
+          <div className="p-4">
+            <div id="taxInformation">
+              <h4>Tax Information</h4>
+              <p>This information is required in order to confirm if you are a U.S. or non-U.S. taxpayer and whether or not LejlekuXPress is required to withhold taxes from your earnings. Add your tax information now to avoid delays in getting paid.</p>
+              <div className="form-group row mb-3">
+                <div className="col">
+                  <label htmlFor="taxCountry">Country</label>
+                  <select
+                    className={`form-control ${formErrors.country ? 'is-invalid' : ''}`}
+                    id="taxCountry"
+                    value={selectedCountry}
+                    onChange={handleCountryChange}
+                  >
+                    <option value="">Select Country</option>
+                    {countries.map((country) => (
+                      <option key={country.Id} value={country.Id}>{country.niceName}</option>
+                    ))}
+                  </select>
+                  {formErrors.country && <div className="invalid-feedback">Country is required.</div>}
+                </div>
+              </div>
+              <div className="form-group row mb-3">
+                <div className="col">
+                  <label htmlFor="taxState">State</label>
+                  <input
+                    type="text"
+                    id="taxState"
+                    className={`form-control ${formErrors.state ? 'is-invalid' : ''}`}
+                    placeholder="State"
+                    onChange={handleInputChange}
+                  />
+                  {formErrors.state && <div className="invalid-feedback">State is required.</div>}
+                </div>
+                <div className="col">
+                  <label htmlFor="taxCity">City</label>
+                  <input
+                    type="text"
+                    id="taxCity"
+                    className={`form-control ${formErrors.city ? 'is-invalid' : ''}`}
+                    placeholder="City"
+                    onChange={handleInputChange}
+                  />
+                  {formErrors.city && <div className="invalid-feedback">City is required.</div>}
+                </div>
+              </div>
+              <div className="form-group row mb-3">
+                <div className="col">
+                  <label htmlFor="taxZipCode">Zip Code</label>
+                  <input
+                    type="text"
+                    id="taxZipCode"
+                    className={`form-control ${formErrors.zipCode ? 'is-invalid' : ''}`}
+                    placeholder="Zip Code"
+                    onChange={handleInputChange}
+                  />
+                  {formErrors.zipCode && <div className="invalid-feedback">Zip Code is required.</div>}
+                </div>
+                <div className="col">
+                  <label htmlFor="taxAddress1">Address 1</label>
+                  <input
+                    type="text"
+                    id="taxAddress1"
+                    className={`form-control ${formErrors.address1 ? 'is-invalid' : ''}`}
+                    placeholder="Address 1"
+                    onChange={handleInputChange}
+                  />
+                  {formErrors.address1 && <div className="invalid-feedback">Address 1 is required.</div>}
+                </div>
+                <div className="col">
+                  <label htmlFor="taxAddress2">Address 2</label>
+                  <input
+                    type="text"
+                    id="taxAddress2"
+                    className="form-control"
+                    placeholder="Address 2"
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+              <div className="form-group mb-3">
+                <label htmlFor="taxSSN">Social Security Number (Tax Payer Number)</label>
+                <input
+                  type="text"
+                  id="taxSSN"
+                  className={`form-control ${formErrors.socialSecurityNumber ? 'is-invalid' : ''}`}
+                  placeholder="Social Security Number"
+                  onChange={handleInputChange}
+                />
+                {formErrors.socialSecurityNumber && <div className="invalid-feedback">Social Security Number is required.</div>}
+              </div>
+              <div className="d-flex justify-content-center">
+                <button className="btn btn-primary btn-sm" onClick={handleSave}>Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+//#endregion
+
+export { PersonalInfo, ShippingInfo, PaymentDetails, MyOrders, MyListings, ChangePassword, BillingInformation, TaxInformation };
 
