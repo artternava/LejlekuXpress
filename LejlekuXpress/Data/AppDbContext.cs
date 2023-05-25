@@ -20,21 +20,12 @@ namespace LejlekuXpress.Data
 
         public DbSet<ShippingAddress> ShippingAddress { get; set; }
 
+
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        //    var builder = new ConfigurationBuilder()
-        //        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-        //    var configuration = builder.Build();
-        //    var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-        //    optionsBuilder.UseSqlServer(connectionString);
+        //    optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"))
+        //        .LogTo(Console.WriteLine, LogLevel.Information);
         //}
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"))
-                .LogTo(Console.WriteLine, LogLevel.Information);
-        }
 
 
     }

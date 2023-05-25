@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using LejlekuXpress.Data;
+﻿using LejlekuXpress.Data;
 using LejlekuXpress.Data.DTO;
 using LejlekuXpress.Data.ServiceInterfaces;
 using LejlekuXpress.Models;

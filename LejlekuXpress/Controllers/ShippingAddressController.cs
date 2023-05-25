@@ -16,12 +16,12 @@ namespace LejlekuXpress.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddCountry(ShippingAddressDTO request)
+        public async Task<IActionResult> AddShippingAddress(ShippingAddressDTO request)
         {
             try
             {
-                _service.AddShippingAddress(request);
-                return Ok(request);
+                var shippingAddress = await _service.AddShippingAddress(request);
+                return Ok(shippingAddress);
             }
             catch (Exception ex)
             {

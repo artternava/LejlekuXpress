@@ -20,8 +20,8 @@ namespace LejlekuXpress.Controllers
         {
             try
             {
-                _service.AddCountry(request);
-                return Ok(request);
+                var country = await _service.AddCountry(request);
+                return Ok(country);
             }
             catch (Exception ex)
             {
