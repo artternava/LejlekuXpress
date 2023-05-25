@@ -19,6 +19,7 @@ namespace LejlekuXpress.Data
         public DbSet<Country> Country { get; set; }
 
         public DbSet<ShippingAddress> ShippingAddress { get; set; }
+        public DbSet<Payment> Payment { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
