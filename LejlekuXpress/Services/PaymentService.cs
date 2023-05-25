@@ -5,7 +5,7 @@ using LejlekuXpress.Data.ServiceInterfaces;
 
 namespace LejlekuXpress.Services
 {
-    public class PaymentService : IPaymentSevice
+    public class PaymentService : IPaymentService
     {
         private readonly AppDbContext _context;
 
