@@ -7,7 +7,7 @@ namespace LejlekuXpress.Data.ServiceInterfaces
     {
         Task<ShippingAddress> AddShippingAddress(ShippingAddressDTO request);
 
-        Task<List<ShippingAddress>> GetShippingAddress(int userId)
+        Task<List<ShippingAddress>> GetShippingAddress(int userId);
 
         Task DeleteShippingAddress(int id);
 
