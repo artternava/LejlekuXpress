@@ -9,6 +9,10 @@ namespace LejlekuXpress.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
+        public int UserId { get; set; }
+        public User User { get; set; }
+
         //CARD
         [Required]
         public string CardFirstName { get; set; }
@@ -49,7 +53,5 @@ namespace LejlekuXpress.Models
         public string Address1 { get; set; }
 
         public string? Address2 { get; set; }
-
-
     }
 }
