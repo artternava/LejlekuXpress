@@ -40,8 +40,7 @@ namespace LejlekuXpress.Models
         public int CountryId { get; set; }
         public Country Country { get; set; }
 
-        [Required]
-        public string State { get; set; }
+        public string? State { get; set; }
 
         [Required]
         public string City { get; set; }
