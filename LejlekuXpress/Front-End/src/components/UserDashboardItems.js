@@ -248,8 +248,7 @@ import {
     );    
   }
 //#endregion
-
-
+  //#region ShippingInfo
 function ShippingInfo() {
   const { userId } = useAuthToken();
   const [isAddAddressVisible, setIsAddAddressVisible] = useState(false);
@@ -598,20 +597,117 @@ function ShippingInfo() {
     </div>
   );
 }
-
+//#endregion
+  //#region PaymentDetails
     function PaymentDetails() {
-        const [isAddAddressVisible, setIsAddAddressVisible] = useState(false);
+      const { userId } = useAuthToken();
+        const [isPaymentVisible, setIisPaymentVisible] = useState(false);
+        const [payment, setPayment] = useState([]);
+        const [newPayment, setNewPayment] = useState({
+          UserId: '',
+          FirstName: '',
+          LastName: '',
+          CardNumber: '',
+          ExpirationDate: '',
+          CVV: '',
+        });
+        const [formErrors, setFormErrors] = useState({
+          FirstName: false,
+          LastName: false,
+          CardNumber: false,
+          ExpirationDate: false,
+          CVV: false,
+        });
 
-        const toggleAddressForm = () => {
-        setIsAddAddressVisible(!isAddAddressVisible);
+        const handleInputChange = (event) => {
+          const { name, value } = event.target;
+          setNewPayment((prevState) => ({
+            ...prevState,
+            [name]: value,
+          }));
+          setFormErrors((prevState) => ({
+            ...prevState,
+            [name]: false,
+          }));
         };
 
-        const payments = [  {
-          last4: "8080",    
-        }];
+        const toggleAddressForm = () => {
+          setIisPaymentVisible(!isPaymentVisible);
+        };
+        
+        useEffect(() => {
+          fetchPayment();
+        }, [userId]);
+
+
+        const fetchPayment = async () => {
+          try {
+            const countryResponse = await axios.get(`http://localhost:39450/api/Payment/get?UserId=${userId}`);
+            if (countryResponse.status === 200) {
+              const addressData = countryResponse.data;
+              setPayment(addressData);
+              console.log(addressData);
+            }
+          } catch (error) {
+            console.error('Error fetching addresses:', error);
+          }
+        };
+        const getLastFourDigits = (cardNumber) => {
+          if (cardNumber && cardNumber.length >= 4) {
+            return cardNumber.slice(-4);
+          }
+          return cardNumber;
+        };
+        const handleFormSubmit = (event) => {
+          event.preventDefault();
+          const { FirstName, LastName, CardNumber, ExpirationDate, CVV, } = newPayment;
+          const errors = {
+            FirstName: FirstName.length === 0,
+            LastName: LastName.length === 0,
+            CardNumber: CardNumber.length !== 16,
+            ExpirationDate: ExpirationDate.length !== 5,
+            CVV: CVV.length !== 0,
+          };
+          setFormErrors(errors);
+          if (Object.values(errors).some((value) => value)) {
+            return;
+          }
+      
+          const addressWithUserId = {
+            ...newPayment,
+            UserId: userId, 
+          };
+      
+          axios
+            .post('http://localhost:39450/api/Payment/add', addressWithUserId)
+            .then((response) => {
+              console.log('Registration successful', response.data);
+              window.alert('Registration successful');
+              window.location.href = '/userdashboard';
+            })
+            .catch((error) => {
+              console.error('Registration failed', error);
+              window.alert('Registration failed');
+            });
+        };
+
+        const deletePayment = async (id) => {
+          try {
+            const confirmDelete = window.confirm('Are you sure you want to delete this payment method?');
+            if (confirmDelete) {
+              await axios.delete(`http://localhost:39450/api/Payment/delete?id=${id}`);
+              fetchPayment();
+              window.location.href = '/userdashboard';
+            }
+          } catch (error) {
+            console.error('Error deleting address:', error);
+          }
+        };
+
+
         return (
             <div id="shippingInfo">
-            <div id="addressList" style={{ display: isAddAddressVisible ? 'none' : 'block' }}>
+            <div id="addressList" style={{ display: isPaymentVisible ? 'none' : 'block' }}>
             <div className="container-userdashboard-tabs">
             <div className="d-flex justify-content-between align-items-center" 
             style={{padding: "10px", width: "90%", backgroundColor: "#fff", margin: "auto", borderRadius: "10px", }}>
@@ -622,16 +718,14 @@ function ShippingInfo() {
                 <div className="row" style={{backgroundColor: '#bdbdbd'}}>
                 <div className="col-md-12">
                     <div className="grid-container">
-                    {payments.map((payment, index) => (
+                    {payment.map((payment, index) => (
             <div className="grid-item p-3 py-5" id="edit-address">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h4 className="text-right">{payment.last4}*</h4>
+              <h4 className="text-right">Card: **** **** **** {getLastFourDigits(payment.cardNumber)}</h4>
             </div>
             <div className="row mt-2">
               <div className="col-md-12">
-              <button className="btn btn-primary me-2" type="button" onClick={toggleAddressForm}>Edit</button>
-                    <button className="btn btn-danger me-2" type="button">Delete</button>
-                    <button className="btn btn-success" type="button">Make Default</button>
+              <button className="btn btn-danger me-2" type="button" onClick={() => deletePayment(payment.id)}>Delete</button>
                 </div>
             </div>
           </div>
@@ -644,7 +738,7 @@ function ShippingInfo() {
             </div>
             <div
                 id="add-edit-address"
-                style={{ display: isAddAddressVisible ? 'block' : 'none' }}
+                style={{ display: isPaymentVisible ? 'block' : 'none' }}
                 className="container-userdashboard-tabs">
             <div className="container-userdashboard-tabs">
                 <div className="container rounded bg-white mt-5 mb-5">
@@ -658,13 +752,31 @@ function ShippingInfo() {
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label htmlFor="firstName" className="labels">Card Holder First Name</label>
-                                            <input type="text" id="firstName" className="form-control" placeholder="First Name"  />
+                                            <input 
+                                              type="text" 
+                                              id="firstName" 
+                                              className="form-control" 
+                                              placeholder="First Name"
+                                              name="FirstName"
+                                              value={payment.FirstName}
+                                              onChange={handleInputChange}  
+                                              />
+                                              {formErrors.FirstName && <p className="text-danger">First Name is required</p>}
                                         </div>
                                     </div>
                                     <div className="col-md-6">
                                         <div className="form-group">
                                             <label htmlFor="lastName" className="labels">Card Holder Last Name</label>
-                                            <input type="text" id="lastName" className="form-control" placeholder="Last Name" />
+                                            <input 
+                                              type="text" 
+                                              id="lastName" 
+                                              className="form-control"
+                                              placeholder="Last Name" 
+                                              name="LastName"
+                                              value={payment.LastName}
+                                              onChange={handleInputChange} 
+                                             />
+                                            {formErrors.LastName && <p className="text-danger">Last Name is required</p>}
                                         </div>
                                     </div>
                                 </div>
@@ -672,13 +784,37 @@ function ShippingInfo() {
                                 <div className="col-md-6">
                                     <div className="form-group">
                                     <label htmlFor="CardNumber" className="labels">Card Number</label>
-                                    <input type="text" id="CardNumber" className="form-control w-100" value="" placeholder="Card Number" />
+                                    <input 
+                                      type="text" 
+                                      id="CardNumber" 
+                                      className="form-control w-100" 
+                                      placeholder="Card Number"
+                                      name="CardNumber"
+                                      value={payment.CardNumber}
+                                      onChange={handleInputChange} 
+                                      maxLength={16}
+                                      pattern="\d{16}"
+                                      required
+                                     />
+                                    {formErrors.CardNumber && <p className="text-danger">Card Number is required</p>}
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label htmlFor="expDate" className="labels">Expiration Date</label>
-                                        <input type="text" id="expDate" className="form-control" placeholder="MM/YY" />
+                                        <input 
+                                        type="text" 
+                                        id="expDate" 
+                                        className="form-control" 
+                                        placeholder="MM/YY" 
+                                        name="ExpirationDate"
+                                        value={payment.ExpirationDate}
+                                        onChange={handleInputChange} 
+                                        maxLength={5}
+                                        pattern="\d\d/\d\d"
+                                        required
+                                      />
+                                      {formErrors.ExpirationDate && <p className="text-danger">Expiration Date is required</p>}
                                     </div>
                                     </div>
                                 </div>
@@ -687,12 +823,26 @@ function ShippingInfo() {
                                     <div className="col-md-6">
                                     <div className="form-group">
                                         <label htmlFor="CVV" className="labels">CVV</label>
-                                        <input type="text" id="CVV" className="form-control" placeholder="CVV" />
+                                        <input 
+                                        type="text" 
+                                        id="CVV" 
+                                        className="form-control" 
+                                        placeholder="CVV"
+                                        name="CVV"
+                                        value={payment.CVV}
+                                        onChange={handleInputChange} 
+                                        maxLength={3}
+                                        pattern="\d{3}"
+                                        required
+                                      />
+                                      {formErrors.CVV && <p className="text-danger">CVV is required</p>}
+                                    
                                     </div>
                                     </div>
                                 </div>
                                 <div className="mt-5 text-center">
-                                    <button className="btn btn-primary" type="button" onClick={toggleAddressForm}>Save Payment</button>
+                                    <button className="btn btn-primary me-2" type="submit" onClick={handleFormSubmit}>Save Payment</button>
+                                    <button className="btn btn-danger" type="button" onClick={toggleAddressForm}>Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -703,6 +853,12 @@ function ShippingInfo() {
         </div>
         );
     }
+
+//#endregion
+
+
+
+
     const orders = [  {
           invoiceNumber: "#Y34XDHR",    
           expectedArrival: "01/12/19",    
