@@ -855,9 +855,7 @@ function ShippingInfo() {
     }
 
 //#endregion
-
-
-
+  //#region Orders
 
     const orders = [  {
           invoiceNumber: "#Y34XDHR",    
@@ -981,8 +979,9 @@ function ShippingInfo() {
             </>
           );          
     }
-
-    function MyListings() {
+//#endregion
+  //#region MyListings    
+function MyListings() {
       const [isAddListingVisible, setIsListingVisible] = useState(false);
 
         const toggleListingForm = () => {
@@ -1143,7 +1142,8 @@ function ShippingInfo() {
         </div>
         );    
   }
- // #region ChangePassword
+  //#endregion
+  // #region ChangePassword
   function ChangePassword() {
     const { userId } = useAuthToken();
     const [showPassword, setShowPassword] = useState(false);
