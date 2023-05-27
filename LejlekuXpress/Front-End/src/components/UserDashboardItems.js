@@ -251,166 +251,353 @@ import {
 
 
 function ShippingInfo() {
+  const { userId } = useAuthToken();
+  const [isAddAddressVisible, setIsAddAddressVisible] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [addresses, setAddresses] = useState([]);
+  const [newAddress, setNewAddress] = useState({
+    FirstName: '',
+    LastName: '',
+    CountryId: '',
+    State: '',
+    City: '',
+    ZipCode: '',
+    Address1: '',
+    Address2: '',
+    UserId: '',
+  });
+  const [formErrors, setFormErrors] = useState({
+    FirstName: false,
+    LastName: false,
+    CountryId: false,
+    State: false,
+    City: false,
+    ZipCode: false,
+    Address1: false,
+    Address2: false,
+  });
 
-        const [isAddAddressVisible, setIsAddAddressVisible] = useState(false);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setNewAddress((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+    setFormErrors((prevState) => ({
+      ...prevState,
+      [name]: false,
+    }));
+  };
 
-        const toggleAddressForm = () => {
-        setIsAddAddressVisible(!isAddAddressVisible);    
-        };
-        const addresses = [  {
-          firstName: "John",    
-          lastName: "Doe",  
-          phoneNum: "+1-212-418-1234",  
-          address: "Central Park",    
-          city: "New York City",    
-          state: "New York",    
-          country: "USA",    
-          zipCode: "10019"
-        },
-        {
-          firstName: "Filan",    
-          lastName: "Fisteku",  
-          phoneNum: "+383-44-182-508",  
-          address: "Rruga Vllezerit Gervalla",    
-          city: "Prishtine",    
-          state: "",    
-          country: "Kosovo",    
-          zipCode: "10000"
-        }];
-        return (
-            <div id="shippingInfo">
-            <div id="addressList" style={{ display: isAddAddressVisible ? 'none' : 'block' }}>              
-            <div className="container-userdashboard-tabs">
-            <div className="d-flex justify-content-between align-items-center" 
-            style={{padding: "10px", width: "90%", backgroundColor: "#fff", margin: "auto", borderRadius: "10px", }}>
-                <h1 style={{fontSize: "35px", fontWeight: "400", padding: "5px"}}>Addresses</h1>
-              <button className="btn btn-primary me-2" type="button" onClick={toggleAddressForm} >Add Address</button>
-              </div>
-            <div className="container rounded bg-white mt-5 mb-5">
-                <div className="row" style={{backgroundColor: '#bdbdbd'}}>
-                <div className="col-md-12">
-                    <div className="grid-container">
-                    {addresses.map((address, index) => (
-            <div className="grid-item p-3 py-5" id="edit-address">
-            <div className="d-flex justify-content-between align-items-center mb-3 my-3 flex-wrap">
-                <div className="d-flex align-items-center">
-                <i class="bi bi-person-fill me-2"></i>
-                <h6 className="text-right w-100">{address.firstName} {address.lastName} - {address.phoneNum}</h6>
-                </div>
-                <div className="d-flex align-items-start">
-                <i class="bi bi-geo-alt-fill me-2"></i>
-                <div>
-                    <p>{address.address}</p>
-                    <p>{address.city}, {address.state}, {address.country}</p>
-                    <p>{address.zipCode}</p>
-                </div>
-                </div>
-                <div className="w-100">
-                <div className="row mt-2">
-                    <div className="col-md-12">
-                    <button className="btn btn-primary me-2" type="button" onClick={toggleAddressForm}>Edit</button>
-                    <button className="btn btn-danger me-2" type="button">Delete</button>
-                    <button className="btn btn-success" type="button">Make Default</button>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-                    ))}
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-            </div>
-            <div
-                id="add-edit-address"
-                style={{ display: isAddAddressVisible ? 'block' : 'none' }}
-                className="container-userdashboard-tabs"
-            >
-            <div className="container-userdashboard-tabs">
-                <div className="container rounded bg-white mt-5 mb-5">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="p-3 py-5">
-                                <div className="d-flex justify-content-between align-items-center mb-3">
-                                    <h4 className="text-right">Address</h4>
-                                </div>
-                                <div className="row mt-2">
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label htmlFor="firstName" className="labels">First Name</label>
-                                            <input type="text" id="firstName" className="form-control" placeholder="First Name"  />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label htmlFor="lastName" className="labels">Last Name</label>
-                                            <input type="text" id="lastName" className="form-control"  placeholder="Last Name" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row mt-3">
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label htmlFor="country" className="labels">Country</label>
-                                            <select className="form-control" id="country">
-                                                <option value="">Select Country</option>
-                                                <option value="USA">USA</option>
-                                                <option value="UK">UK</option>
-                                                <option value="France">France</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="form-group">
-                                            <label htmlFor="state" className="labels">State</label>
-                                            <input type="text" id="state" className="form-control"  placeholder="State" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row mt-3">
-                                    <div className="col-md-6">
-                                    <div className="form-group">
-                                        <label htmlFor="city" className="labels">City</label>
-                                        <input type="text" id="city" className="form-control" placeholder="City"  />
-                                    </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                    <div className="form-group">
-                                        <label htmlFor="zipcode" className="labels">Zip Code</label>
-                                        <input type="text" id="zipcode" className="form-control"  placeholder="Zip Code" />
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="row mt-3">
-                                    <div className="col-md-12">
-                                        <div className="form-group">
-                                            <label htmlFor="address1" className="labels">Address 1</label>
-                                            <input type="text" id="address1" className="form-control" placeholder="Address 1"  />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row mt-3">
-                                    <div className="col-md-12">
-                                        <div className="form-group">
-                                            <label htmlFor="address2" className="labels">Address 2</label>
-                                            <input type="text" id="address2" className="form-control" placeholder="Address 2"  />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mt-5 text-center">
-                                    <button className="btn btn-primary" type="button" onClick={toggleAddressForm}>Save Address</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        );
+  const toggleAddressForm = () => {
+    setIsAddAddressVisible(!isAddAddressVisible);
+  }
+  useEffect(() => {
+    fetchCountries();
+    fetchAddresses();
+  }, [userId]);
+
+  const getCountryName = (countryId) => {
+    const country = countries.find((country) => country.id === countryId);
+    return country ? country.niceName : '';
+  };
+  
+  const fetchCountries = async () => {
+    try {
+      const countryResponse = await axios.get('http://localhost:39450/api/Country/getall');
+        if (countryResponse.status === 200) {
+          const countryData = countryResponse.data;
+          setCountries(countryData);
+        } else {
+          console.error('Failed to fetch country data');
+        }
+    } catch (error) {
+      console.error('Error fetching countries:', error);
     }
+  };
+  
+  
+  const fetchAddresses = async () => {
+    try {
+      const countryResponse = await axios.get(`http://localhost:39450/api/ShippingAddress/get?UserId=${userId}`);
+      if (countryResponse.status === 200) {
+        const addressData = countryResponse.data;
+        setAddresses(addressData);
+        console.log(addressData);
+      }
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+    }
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const { FirstName, LastName, CountryId, State, City, ZipCode, Address1, Address2, } = newAddress;
+    const errors = {
+      FirstName: FirstName.length === 0,
+      LastName: LastName.length === 0,
+      CountryId: CountryId.length === 0,
+      City: City.length === 0,
+      ZipCode: ZipCode.length === 0,
+      Address1: Address1.length === 0,
+    };
+    setFormErrors(errors);
+    if (Object.values(errors).some((value) => value)) {
+      return;
+    }
+
+    const addressWithUserId = {
+      ...newAddress,
+      UserId: userId, 
+    };
+
+    axios
+      .post('http://localhost:39450/api/ShippingAddress/add', addressWithUserId)
+      .then((response) => {
+        console.log('Registration successful', response.data);
+        window.alert('Registration successful');
+        window.location.href = '/userdashboard';
+      })
+      .catch((error) => {
+        console.error('Registration failed', error);
+        window.alert('Registration failed');
+      });
+  };
+
+  const deleteAddress = async (id) => {
+    try {
+      const confirmDelete = window.confirm('Are you sure you want to delete this address?');
+      if (confirmDelete) {
+        await axios.delete(`http://localhost:39450/api/ShippingAddress/delete?id=${id}`);
+        fetchAddresses();
+        window.location.href = '/userdashboard';
+      }
+    } catch (error) {
+      console.error('Error deleting address:', error);
+    }
+  };
+
+  return (
+    <div id="shippingInfo">
+      <div id="addressList" style={{ display: isAddAddressVisible ? 'none' : 'block' }}>
+        <div className="container-userdashboard-tabs">
+          <div
+            className="d-flex justify-content-between align-items-center"
+            style={{
+              padding: '10px',
+              width: '90%',
+              backgroundColor: '#fff',
+              margin: 'auto',
+              borderRadius: '10px',
+            }}
+          >
+            <h1 style={{ fontSize: '35px', fontWeight: '400', padding: '5px' }}>Addresses</h1>
+            <button className="btn btn-primary me-2" type="button" onClick={toggleAddressForm}>
+              Add Address
+            </button>
+          </div>
+          <div className="container rounded bg-white mt-5 mb-5">
+            <div className="row" style={{ backgroundColor: '#bdbdbd' }}>
+              <div className="col-md-12">
+                <div className="grid-container">
+                  {addresses.map((address) => (
+                    <div className="grid-item p-3 py-5" id="edit-address">
+                      <div className="d-flex justify-content-between align-items-center mb-3 my-3 flex-wrap">
+                        <div>
+                        <div className="d-flex align-items-center">
+                          <i className="bi bi-person-fill me-2"></i>
+                          <h6 className="text-right w-100">{address.firstName} {address.lastName}</h6>
+                        </div>
+                        <div className="d-flex align-items-start">
+                          <i className="bi bi-geo-alt-fill me-2"></i>
+                          <div>
+                            <p>{address.address1}</p>
+                            <p>{address.city}, {address.state}, {getCountryName(address.countryId)}</p>
+                            <p>{address.zipCode}</p>
+                          </div>
+                        </div>
+                        </div>
+                        <div className="w-100">
+                          <div className="row mt-2">
+                            <div className="col-md-12">
+                              <button className="btn btn-danger me-2" type="button" onClick={() => deleteAddress(address.id)}>
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="add-edit-address"
+        style={{ display: isAddAddressVisible ? 'block' : 'none' }}
+        className="container-userdashboard-tabs"
+      >
+        <div className="container rounded bg-white mt-5 mb-5">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="p-3 py-5">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h4 className="text-right">Address</h4>
+                </div>
+                <div className="row mt-2">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="firstName" className="labels">First Name</label>
+                      <input
+                        type="text"
+                        id="firstName"
+                        className="form-control"
+                        placeholder="First Name"
+                        name="FirstName"
+                        value={addresses.FirstName}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.FirstName && <p className="text-danger">First Name is required</p>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="lastName" className="labels">Last Name</label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        className="form-control"
+                        placeholder="Last Name"
+                        name="LastName"
+                        value={addresses.LastName}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.LastName && <p className="text-danger">Last Name is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="country" className="labels">Country</label>
+                      <select
+                          className={`form-control ${formErrors.countryCode ? 'is-invalid' : ''}`}
+                          id="CountryId"
+                          name="CountryId"
+                          value={newAddress.CountryId}
+                          onChange={handleInputChange}
+                        >
+                          <option value="">Select Country</option>
+                          {countries.map((country) => (
+                            <option key={country.id} value={country.id}>
+                              {country.niceName}
+                            </option>
+                          ))}
+                        </select>
+                      {formErrors.CountryId && <p className="text-danger">Country is required</p>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="state" className="labels">State</label>
+                      <input
+                        type="text"
+                        id="state"
+                        className="form-control"
+                        placeholder="State"
+                        name="State"
+                        value={addresses.State}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.State && <p className="text-danger">State is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="city" className="labels">City</label>
+                      <input
+                        type="text"
+                        id="city"
+                        className="form-control"
+                        placeholder="City"
+                        name="City"
+                        value={addresses.City}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.City && <p className="text-danger">City is required</p>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="zipcode" className="labels">Zip Code</label>
+                      <input
+                        type="text"
+                        id="zipcode"
+                        className="form-control"
+                        placeholder="Zip Code"
+                        name="ZipCode"
+                        value={addresses.ZipCode}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.ZipCode && <p className="text-danger">Zip Code is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label htmlFor="address1" className="labels">Address 1</label>
+                      <input
+                        type="text"
+                        id="address1"
+                        className="form-control"
+                        placeholder="Address 1"
+                        name="Address1"
+                        value={addresses.Address1}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.Address1 && <p className="text-danger">Address 1 is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label htmlFor="address2" className="labels">Address 2</label>
+                      <input
+                        type="text"
+                        id="address2"
+                        className="form-control"
+                        placeholder="Address 2"
+                        name="Address2"
+                        value={addresses.Address2}
+                        onChange={handleInputChange}
+                      />
+                      {formErrors.Address2 && <p className="text-danger">Address 2 is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5 text-center">
+                  <button className="btn btn-primary profile-button me-2" type="submit" onClick={handleFormSubmit}>
+                    Save Address
+                  </button>
+                  <button className="btn btn-danger profile-button" onClick={toggleAddressForm}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
     function PaymentDetails() {
         const [isAddAddressVisible, setIsAddAddressVisible] = useState(false);

@@ -1,6 +1,5 @@
 ﻿using LejlekuXpress.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace LejlekuXpress.Data
 {
@@ -19,15 +18,7 @@ namespace LejlekuXpress.Data
         public DbSet<Country> Country { get; set; }
 
         public DbSet<ShippingAddress> ShippingAddress { get; set; }
+
         public DbSet<Payment> Payment { get; set; }
-
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"))
-        //        .LogTo(Console.WriteLine, LogLevel.Information);
-        //}
-
-
     }
 }
