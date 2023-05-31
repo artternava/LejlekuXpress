@@ -22,5 +22,7 @@ namespace LejlekuXpress.Data
         public DbSet<Payment> Payment { get; set; }
 
         public DbSet<BillingInformation> BillingInformation { get; set; }
+
+        public DbSet<Product> Product { get; set; }
     }
 }
