@@ -22,5 +22,19 @@ namespace LejlekuXpress.Data
         public DbSet<Payment> Payment { get; set; }
 
         public DbSet<BillingInformation> BillingInformation { get; set; }
+
+        public DbSet<Product> Product { get; set; }
+        public DbSet<ProductOption> ProductOption { get; set; }
+        public DbSet<ProductSpecification> ProductSpecification { get; set; }
+        public DbSet<ProductImage> ProductImage { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
