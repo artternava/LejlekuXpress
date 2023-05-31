@@ -1,99 +1,164 @@
 import React from 'react'
-import Meta from '../components/Meta'
-import {AiFillDelete} from 'react-icons/ai'
-import{Link} from 'react-router-dom'
-const Cart = () => {
-  return (
-    <>
-    <Meta title={"Cart"}></Meta>
-    <section className='cart-wrapper home-wrapper-2 py-5'>
-        <div className='container-xxl'>
-            <div className='row'>
-                <div className='col-12'>
-                    <div className='cart-header py-3 d-flex justify-content-between align-content-center'>
-                        <h4 className='cart-col-1'>Product</h4>
-                        <h4 className='cart-col-2'>Price</h4>
-                        <h4 className='cart-col-3'>Quantity</h4>
-                        <h4 className='cart-col-4'>Total</h4>
-                    </div>
-                    <div className='cart-data py-3 mb-2 d-flex justify-content-between align-items-center'>
-                        <div className='cart-col-1 gap-15 d-flex align-items-center'>
-                            <div className='w-25'>
-                                <img src='images/tab1.jpg' className='img-fluid' alt=''></img>
+const items = [  {   
+    name: "Iphone 14",
+    quantity: 1,
+    imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+    specification: ["Option 1", "Option 2", "Option 3"],
+    color:"Blue",
+    description: "lorem ipsum",
+    price: "1000", },  
+    {   
+      name: "Iphone 3g",
+      quantity: 1,
+      imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+      specification: ["Option 1", "Option 2", "Option 3"],
+      color:"Red",
+      description: "lorem ipsum",
+      price: "100", },  
+      {   
+        name: "Nokia",
+        quantity: 1,
+        imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+        specification: ["Option 1", "Option 2", "Option 3"],
+        color:"Green",
+        description: "lorem ipsum",
+        price: "800", }];
+  
+        function Cart() {
+            return (
+              <>
+                <div class="d-flex mt-5">
+                  <div class="container py-2">
+                    <div class="row justify-content-between">
+                      <div class="col-md-9">
+                        {items.map((item) => (
+                          <div class="card mb-4">
+                            <div class="card-header py-3">
+                              <h5 class="mb-0">{item.name}</h5>
                             </div>
-                            <div className='w-75'>
-                                <p>GDffdhg</p>
-                                <p>Size: hgf</p>
-                                <p>Color: gfd</p>
+                            <div class="card-body">
+                              {/* <!-- Single item --> */}
+                              <div class="row">
+                                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                  {/* <!-- Image --> */}
+                                  <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                                    <img src={item.imageSrc} class="w-100" alt="Blue Jeans Jacket" />
+                                    <a href="#!">
+                                      <div class="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}></div>
+                                    </a>
+                                  </div>
+                                  {/* <!-- Image --> */}
+                                </div>
+          
+                                <div class="col-lg-5 col-md-6 mb-lg-0 mt-5">
+                                  {/* <!-- Data --> */}
+                                  <p><strong>{item.name}</strong></p>
+                                  <p>Color: {item.color}</p>
+                                  <p>Description: {item.description}</p>
+                                  <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip" title="Remove item">
+                                    <i class="bi bi-trash-fill"></i>
+                                  </button>
+                                  <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip" title="Move to the wish list">
+                                    <i class="bi bi-heart-fill"></i>
+                                  </button>
+                                  {/* <!-- Data --> */}
+                                </div>
+          
+                                <div class="col-lg-4 col-md-6 mb-lg-0 d-flex align-items-center justify-content-center vh-10">
+                                  {/* <!-- Quantity --> */}
+                                  <div class="d-flex mb-4" style={{ maxWidth: "300px" }}>
+                                    <div className="mt-5" style={{ maxWidth: "150px" }}>
+                                    <button class="btn btn-primary px-3 me-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                      <i class="bi bi-dash"></i>
+                                    </button>
+                                    </div>
+                                    <div class="form-outline text-md-center">
+                                      <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control text-center mt-5" />
+                                      <label class="" for="form1">Quantity</label>
+                                      <p className="mt-3">
+                                        <strong>${item.price}</strong>
+                                      </p>
+                                    </div>
+                                    <div className="mt-5" style={{ maxWidth: "150px" }}>
+                                    <button class="btn btn-primary px-3  ms-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                      <i class="bi bi-plus"></i>
+                                    </button>
+                                    </div>
+                                  </div>
+                                  {/* <!-- Quantity --> */}
+                                </div>
+                              </div>
+                              {/* <!-- Single item --> */}
                             </div>
-                        </div>
-                        <div className='cart-col-2'>
-                            <h5 className='price'>$ 100</h5>
-                        </div>
-                        <div className='cart-col-3 d-flex align-items-center gap-15'>
-                            <div>
-                            <input className='form-control' type='number' name='' min={1} max={10} id=''></input>                              
-                            </div>
-                            <div>
-                                <AiFillDelete className='text-danger'/>
-                            </div>
-                        </div>
-                        <div className='cart-col-4'>
-                        <h5 className='price'>$ 100</h5>
-                        </div>
-                    </div>
-                    <div className='cart-data py-3 mb-2 d-flex justify-content-between align-items-center'>
-                        <div className='cart-col-1 gap-15 d-flex align-items-center'>
-                            <div className='w-25'>
-                                <img src='images/tab1.jpg' className='img-fluid' alt=''></img>
-                            </div>
-                            <div className='w-75'>
-                                <p>GDffdhg</p>
-                                <p>Size: hgf</p>
-                                <p>Color: gfd</p>
-                            </div>
-                        </div>
-                        <div className='cart-col-2'>
-                            <h5 className='price'>$ 100</h5>
-                        </div>
-                        <div className='cart-col-3 d-flex align-items-center gap-15'>
-                            <div>
-                            <input className='form-control' type='number' name='' min={1} max={10} id=''></input>                              
-                            </div>
-                            <div>
-                                <AiFillDelete className='text-danger'/>
-                            </div>
-                        </div>
-                        <div className='cart-col-4'>
-                        <h5 className='price'>$ 100</h5>
-                        </div>
-                    </div>
+                          </div>
+                        ))}
+                      </div>
+        <div class="col-md-3">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">Summary</h5>
+          </div>
+          <div class="card-body ">
+            <ul class="list-group list-group-flush">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                Products
+                <span>$53.98</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                Shipping
+                <span>Gratis</span>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                <div>
+                  <strong>Total amount</strong>
+                  <strong>
+                    <p class="mb-0">(including VAT)</p>
+                  </strong>
                 </div>
-                <div className='col-12 py-12 mt-4'>
-                   <div className='d-flex justify-content-between align-items-baseline'>
-                   <Link to="/Product" className='btn btn-primary me-2'>
-                        Continue Shopping
-                    </Link>
-                    <div className='d-flex flex-column align-items-end'>
-                        <h4>SubTotal: $ 100</h4>
-                        <p>Taxes and shipping calculated at checkout</p>
-                        <Link to="/checkout" className='btn btn-success me-2'>Checkout</Link>
-                    </div>
-                   </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    
-    
-    
-    
-    
-    
-    
-    </>
-  )
-}
+                <span><strong>$53.98</strong></span>
+              </li>
+            </ul>
 
-export default Cart
+            <button type="button" class="btn btn-primary btn btn-block">
+              Go to checkout
+            </button>
+          </div>
+        </div>
+      </div>
+           
+      </div>
+      
+      <div class="card col-lg-9 col-md-6 mb-lg-4">
+          <div class="card-body">
+            <p><strong>Expected shipping delivery</strong></p>
+            <p class="mb-0">12.10.2020 - 14.10.2020</p>
+          </div>
+        </div>
+        <div class=" card col-lg-9 col-md-6 mb-lg-4">
+          <div class="card-body">
+            <p><strong>We accept</strong></p>
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+              alt="Visa" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+              alt="American Express" />
+            <img class="me-2" width="45px"
+              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+              alt="Mastercard" />
+            
+          </div>
+        </div>      
+       
+    </div>
+  </div>
+  
+
+              </>
+            );
+          }
+          
+  
+  export default Cart

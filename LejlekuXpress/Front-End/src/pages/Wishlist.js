@@ -102,10 +102,4 @@ const items = [  {
     }
 
 
-
-
-
-
-
-
 export default Wishlist
