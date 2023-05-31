@@ -5,15 +5,14 @@ namespace LejlekuXpress.Data.DTO
 {
     public class ProductDTO
     {
-        public int UserId { get; set; }
+        public int OwnerId { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
-        public string Option1 { get; set; }
-        public string? Option2 { get; set; }
-        public string? Option3 { get; set; }
-        public string? Option4 { get; set; }
-        public string? Option5 { get; set; }
-        public byte[] Images { get; set; }
+        public string OptionType { get; set; }
+        public List<ProductOption> Options { get; set; }
+        public List<ProductImage> Images { get; set; }
+        public List<ProductSpecification> Specifications { get; set; }
         public string Description { get; set; }
+        public decimal Price { get; set; }
     }
 }
