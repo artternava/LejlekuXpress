@@ -4,8 +4,6 @@ import { Home } from "./Pages/Home";
 import { Users } from "./Pages/Users";
 import { Products } from "./Pages/Products";
 import { Transactions } from "./Pages/Transactions";
-import { Mail } from "./Pages/Mail";
-import { Feedback } from "./Pages/Feedback";
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("adminHome");
@@ -29,12 +27,6 @@ function AdminDashboard() {
       break;
     case "adminTransactions":
       activeTabComponent = <Transactions />;
-      break;
-    case "adminMail":
-      activeTabComponent = <Mail />;
-      break;
-    case "adminFeedback":
-      activeTabComponent = <Feedback />;
       break;
     default:
       activeTabComponent = <Home />;

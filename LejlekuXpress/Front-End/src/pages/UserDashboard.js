@@ -7,8 +7,6 @@ import {
   MyOrders,
   MyListings,
   ChangePassword,
-  BillingInformation,
-  TaxInformation
 } from "../components/UserDashboardItems";
 
 function UserDashboard() {
@@ -38,12 +36,6 @@ function UserDashboard() {
       break;
       case "listings":
       activeTabComponent = <MyListings />;
-      break;
-      case "billinginfo":
-      activeTabComponent = <BillingInformation />;
-      break;
-      case "taxinfo":
-      activeTabComponent = <TaxInformation />;
       break;
     default:
       activeTabComponent = <PersonalInfo />;
