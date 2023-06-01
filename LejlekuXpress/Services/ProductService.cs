@@ -97,7 +97,7 @@ namespace LejlekuXpress.Services
                     product.Image = request.Image;
                     product.Specifications = request.Specifications;
                     product.Description = request.Description;
-                    product.Price = request.Price;
+                    product.Price = (decimal)request.Price;
 
                     _context.SaveChanges();
                 }
@@ -142,6 +142,28 @@ namespace LejlekuXpress.Services
             {
                 Console.WriteLine(ex.Message);
                 throw new Exception("An error occurred while attempting to save the shipping address record.");
+            }
+        }
+        #endregion
+
+        #region UpdateProductStatus
+        public async Task<Product> UpdateProductIsApproved(int id, bool isApproved)
+        {
+            try
+            {
+                var product = _context.Product.Find(id);
+                if (product != null)
+                {
+                    product.IsApproved = isApproved;
+
+                    _context.SaveChanges();
+                }
+                return product;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to update the product record."); ;
             }
         }
         #endregion
