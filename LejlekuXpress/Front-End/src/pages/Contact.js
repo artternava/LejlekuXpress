@@ -4,11 +4,61 @@ import BreadCrumb from "../components/BreadCrumb";
 import Meta from "../components/Meta";
 import { AiOutlineHome, AiOutlineMail } from "react-icons/ai";
 import { BiPhoneCall, BiInfoCircle } from "react-icons/bi";
+import {
+  MDBCard,
+  MDBCardTitle,
+  MDBCardText,
+  MDBCardBody,
+  MDBCol,
+  MDBRow,
+  MDBCardHeader
+} from 'mdb-react-ui-kit';
 const Contact = () => {
   return (
     <>
-      <Meta title={"Contact Us"} />
-      <BreadCrumb title="Contact Us" />      
+      <Meta title={"Help Center"} />
+      <BreadCrumb title="Help Center" /> 
+      <div className="contact-inner-wrapper d-flex justify-content-between ">
+  <div>
+    <h3 className="contact-title mb-5">How can we help you?</h3>
+    <form action="" className="d-flex flex-column gap-15 mb-4">
+      <div>
+        <input type="text" className="form-control mb-4" placeholder="Search" />
+      </div>
+      <div>
+        <textarea 
+        name="" 
+        id="" 
+        className="w-100 form-control mb-4"
+        cols="30" 
+        rows="4"
+        placeholder="Comments"
+        ></textarea>
+      </div>
+      <div>
+      <MDBCol md="7">
+          <MDBCard background='primary' className='text-white mb-3'>
+            <MDBCardHeader>Payment Help</MDBCardHeader>
+          </MDBCard>
+        </MDBCol>
+        <MDBCol md="7">
+          <MDBCard background='primary' className='text-white mb-3'>
+            <MDBCardHeader>Safety and Privacy</MDBCardHeader>
+          </MDBCard>
+        </MDBCol>
+        <MDBCol md="7">
+          <MDBCard background='primary' className='text-white mb-3'>
+            <MDBCardHeader>Account Help</MDBCardHeader>
+          </MDBCard>
+        </MDBCol>
+        <MDBCol md="7">
+          <MDBCard background='primary' className='text-white mb-3'>
+            <MDBCardHeader>Quick Help</MDBCardHeader>
+          </MDBCard>
+        </MDBCol>
+      </div>
+      </form>
+  </div>     
       <div className="contact-wrapper py-5 home-wrapper-2">
         <div className="container-xxl">
           <div className="row">
@@ -24,37 +74,7 @@ const Contact = () => {
               ></iframe>
               </div>
               <div className="col-12 mt-5">
-<div className="contact-inner-wrapper d-flex justify-content-between ">
-  <div>
-    <h3 className="contact-title mb-4">Contact us:</h3>
-    <form action="" className="d-flex flex-column gap-15 mb-4">
-      
-    
-  
-      <div>
-        <input type="text" className="form-control mb-4" placeholder="Name" />
-      </div>
-      <div>
-        <input type="email" className="form-control mb-4" placeholder="Email" />
-      </div>
-      <div>
-        <input type="tel" className="form-control mb-4" placeholder="Mobile Number" />
-      </div>
-      <div>
-        <textarea 
-        name="" 
-        id="" 
-        className="w-100 form-control mb-4"
-        cols="30" 
-        rows="4"
-        placeholder="Comments"
-        ></textarea>
-      </div>
-      <div>
-        <button className="btn btn-primary me-2">Submit</button>
-      </div>
-      </form>
-  </div>
+
   <div>
     <h3 className="contact title mb-4">Get in touch with us</h3>
     <div>
