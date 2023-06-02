@@ -88,19 +88,19 @@ const Signup = () => {
     <>
       <div className="login-wrapper py-5 home-wrapper-2" style={{ height: '80vh' }}>
         {showRoleCard ? (
-      <div className="role-card">
+      <div className="role-card border border-4">
       <div className="roles-card d-flex flex-column">
         <div>
           <h3 className="text-center mb-4" style={{ fontSize: '26px', color: '#3d3d3d' }}>Sign Up as a Seller or a Client</h3>
         </div>
         <div className="row justify-content-between">
-        <div className={`col-sm-5 p-3 ${firstDivChecked ? 'custom-bg-color' : 'custom-bg-color-default'}`} style={{borderRadius: '10px', cursor: 'pointer',}} onClick={handleFirstDivClick}>
+        <div className={`border border-4 col-sm-5 p-3 ${firstDivChecked ? 'custom-bg-color' : 'custom-bg-color-default'}`} style={{borderRadius: '10px', cursor: 'pointer',}} onClick={handleFirstDivClick} >
             <div className="form-check">
               <input type="checkbox" className="form-check-input rounded-circle" style={{ width: '24px', height: '24px'}} checked={firstDivChecked} onChange={() => {}}/>
             </div>
             <p style={{ marginTop: '24px' }}>I Want to be a Seller</p>
           </div>
-          <div className={`col-sm-5 p-3 ${secondDivChecked ? 'custom-bg-color' : 'custom-bg-color-default'}`} style={{ borderRadius: '10px', cursor: 'pointer', }} onClick={handleSecondDivClick}>
+          <div className={`border border-4 col-sm-5 p-3 ${secondDivChecked ? 'custom-bg-color' : 'custom-bg-color-default'}`} style={{ borderRadius: '10px', cursor: 'pointer', }} onClick={handleSecondDivClick}>
             <div className="form-check">
             <input type="checkbox" className="form-check-input rounded-circle" style={{ width: '24px', height: '24px' }} checked={secondDivChecked} onChange={() => {}}/>
             </div>
@@ -120,7 +120,7 @@ const Signup = () => {
       </div>
       </div>
         ) : (
-          <div className="auth-card">
+          <div className="auth-card border border-2 p-">
           <h3 className="text-center mb-3" style={{ color: '#3d3d3d' }}>Sign Up</h3>
           <form onSubmit={handleFormSubmit} className="d-flex flex-column gap-15">
             <div className="row mb-3">

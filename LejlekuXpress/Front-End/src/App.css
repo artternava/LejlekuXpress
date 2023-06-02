@@ -278,7 +278,7 @@ footer {
 
 .roles-card {
   padding: 40px;
-  background-color: #fff;
+  background-color:white;
   margin: 30px;
   border-radius: 20px;
 }
@@ -445,7 +445,7 @@ width: 100%;
 /* Perfundimi i OurStore */
 
 /* Fillimi i Wishlist */
-.card, .card-body{
+.card, .card-body {
   background-color: rgba(245, 245, 247, 0.874);
 }
 
