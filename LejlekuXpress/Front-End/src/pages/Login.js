@@ -55,8 +55,9 @@ const Login = () => {
 
   return (
     <>
+    
       <div className="login-wrapper py-5 home-wrapper-2" style={{ height: '80vh' }}>
-        <div className="auth-card">
+        <div className="auth-card border border-3">
           <h3 className="text-center mb-3" style={{ color: '#3d3d3d' }}>Login</h3>
           <form onSubmit={handleFormSubmit}>
             <div className="form-group">
@@ -81,6 +82,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      
     </>
   );
   

@@ -260,6 +260,7 @@ footer {
 
 /* Auth Page */
 .login-wrapper {
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
