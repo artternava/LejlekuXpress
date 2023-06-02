@@ -75,10 +75,10 @@ const Header = () => {
             <i className="d-flex bi bi-person fs-3"></i>
               <p className="mb-0">My Profile</p>
             </Link>
-                   
+            <button className="btn btn-outline-light text-black text-decoration-none" onClick={handleLogout}>      
               <i className="bi bi-lock bi-lg"></i>
               <span>Logout</span>
-           
+              </button>
           </div>
         </>
       ) : (
