@@ -93,12 +93,12 @@ const items = [  {
                           </div>
                         ))}
                       </div>
-        <div class="col-md-3">
+        <div class="col-md-3 t">
         <div class="card mb-4">
           <div class="card-header py-3">
-            <h5 class="mb-0">Summary</h5>
+            <h5 class="mb-0 t">Summary</h5>
           </div>
-          <div class="card-body ">
+          <div class="card-body">
             <ul class="list-group list-group-flush">
               <li
                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
@@ -130,7 +130,7 @@ const items = [  {
            
       </div>
       
-      <div class="card col-lg-9 col-md-6 mb-lg-4">
+      <div class="card col-lg-9 col-md-6 mb-lg-4 ">
           <div class="card-body">
             <p><strong>Expected shipping delivery</strong></p>
             <p class="mb-0">12.10.2020 - 14.10.2020</p>
