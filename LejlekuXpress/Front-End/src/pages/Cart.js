@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 const items = [  {   
     name: "Iphone 14",
     quantity: 1,
@@ -121,9 +122,9 @@ const items = [  {
               </li>
             </ul>
 
-            <button type="button" class="btn btn-primary btn btn-block">
-              Go to checkout
-            </button>
+            <Link to="/checkout" className="btn btn-primary btn-block">
+      Go to checkout
+    </Link>
           </div>
         </div>
       </div>
