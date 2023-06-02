@@ -28,7 +28,7 @@ const items = [  {
         return (
           <>
             {items.map((items) => (     
-              <section style={{backgroundColor:"#eee" }}>
+              <section style={{backgroundColor:"#fff" }}>
               <div class="container py-3">
                 <div class="row justify-content-center ">
                   <div class="col-md-12 col-xl-10">
