@@ -84,6 +84,10 @@ a {
 
 /* Fillimi i Headeri */
 
+.w-80{
+  width: 70%;
+}
+
 .header-upper {
   background-color: rgba(237,237,237,255);
   padding-bottom: 5px;
