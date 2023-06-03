@@ -983,7 +983,317 @@ function ShippingInfo() {
     }
 //#endregion
   //#region MyListings    
+  function MyListings() {
+    const { userId } = useAuthToken();
+    const [isAddListingVisible, setIsListingVisible] = useState(false);
+    const [listings, setListings] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [newListing, setNewListing] = useState({
+      OwnerId: '',
+      IsApproved: false,
+      Name: '',
+      Quantity: '',
+      Image: '',
+      Specifications: '',
+      Description: '',
+      Price: '',
+      CategoryId: '',
+    });
+    const [formErrors, setFormErrors] = useState({
+      OwnerId: false,
+      IsApproved: false,
+      Name: false,
+      Image: false,
+      Specifications: false,
+      Description: false,
+      Price: false,
+      CategoryId: false,
+    });
+    const handleInputChange = (event) => {
+      const { name, value } = event.target;
+      setNewListing((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      setFormErrors((prevState) => ({
+        ...prevState,
+        [name]: false,
+      }));
+    };
+
+    const handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+    
+      reader.onloadend = () => {
+        const base64Data = reader.result.split(',')[1];
+        setNewListing((prevState) => ({
+          ...prevState,
+          Image: base64Data,
+        }));
+      };
+      reader.readAsDataURL(file);
+    };
   
+    const toggleListingForm = () => {
+      setIsListingVisible(!isAddListingVisible);
+    };
+  
+    useEffect(() => {
+      fetchListingsFromDatabase();
+      fetchCategories();
+    }, [userId]);
+  
+    const fetchListingsFromDatabase = async () => {
+      try {
+        const response = await axios.get(`http://localhost:39450/api/Product/getByOwnerId?OwnerId=${userId}`);
+        const products = response.data;
+        console.log(products);
+        setListings(products);
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      }
+    };
+    
+    const fetchCategories = async () => {
+      try {
+        const categoryResponse = await axios.get('http://localhost:39450/api/Category/getall');
+          if (categoryResponse.status === 200) {
+            const categoryData = categoryResponse.data;
+            setCategory(categoryData);
+          } else {
+            console.error('Failed to fetch category data');
+          }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    const handleFormSubmit = (event) => {
+      event.preventDefault();
+      
+    };
+
+    return (
+      <div id="shippingInfo">
+        <div id="addressList" style={{ display: isAddListingVisible ? 'none' : 'block' }}>
+          <div className="container-userdashboard-tabs">
+            <div
+              className="d-flex justify-content-between align-items-center"
+              style={{
+                padding: '10px',
+                width: '90%',
+                backgroundColor: '#fff',
+                margin: 'auto',
+                borderRadius: '10px',
+              }}
+            >
+              <h1 style={{ fontSize: '35px', fontWeight: '400', padding: '5px' }}>My Listings</h1>
+              <button className="btn btn-primary me-2" type="button" onClick={toggleListingForm}>
+                Add Listing
+              </button>
+            </div>
+            <div className="container rounded bg-white mt-5 mb-5">
+              <div className="row" style={{ backgroundColor: '#bdbdbd' }}>
+                <div className="col-md-12">
+                  <div className="grid-container">
+                    {listings.map((listing, index) => (
+                      <MDBCard className="text-black" key={index}>
+                        <div className="d-flex justify-content-between" style={{ width: '100%', padding: '15px' }}>
+                          <p>#{listing.id}</p>
+                          <p style={{ color: '#9A9A9A' }}>{listing.dateCreated}</p>
+                        </div>
+                        <div className="d-flex justify-content-between" style={{ paddingLeft: '15px' }}>
+                          <p>Status: {listing.status}</p>
+                        </div>
+                        <MDBCardImage
+                          src={listing.image}
+                          position="top"
+                          alt="Apple Computer"
+                          style={{ maxHeight: '250px', objectFit: 'cover' }}
+                        />
+                        <MDBCardBody>
+                          <div className="text-center">
+                            <MDBCardTitle>{listing.title}</MDBCardTitle>
+                            <p style={{ color: '#9A9A9A' }}>{listing.description}</p>
+                          </div>
+                          <div>
+                            <div className="d-flex justify-content-between">
+                              <span>Orders</span>
+                              <span>{listing.orders}</span>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                              <span>QTY</span>
+                              <span>{listing.qty}</span>
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between total font-weight-bold mt-4">
+                            <span>Total</span>
+                            <span>${listing.price}</span>
+                          </div>
+                          <div className="d-flex justify-content-center">
+                            <button className="btn btn-primary me-2" type="button" onClick={toggleListingForm}>
+                              Edit
+                            </button>
+                            <button className="btn btn-success me-2" type="button" onClick={toggleListingForm}>
+                              Details
+                            </button>
+                            <button className="btn btn-danger me-2" type="button">
+                              Delete
+                            </button>
+                          </div>
+                        </MDBCardBody>
+                      </MDBCard>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div
+          id="add-edit-address"
+          style={{ display: isAddListingVisible ? 'block' : 'none' }}
+          className="container-userdashboard-tabs"
+        >
+          <div className="container-userdashboard-tabs">
+            <div className="container rounded bg-white mt-5 mb-5">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="p-3 py-5">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h4 className="text-right">Listing Details</h4>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="productName" className="labels">
+                            Product Name
+                          </label>
+                          <input
+                            type="text"
+                            id="Name"
+                            className="form-control"
+                            placeholder="Product Name"
+                            name="Name"
+                            value={newListing.Name}
+                            onChange={handleInputChange}
+                        />
+                        {formErrors.Name && <p className="text-danger">Product Name is required</p>}
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="productQuantity" className="labels">
+                            Quantity
+                          </label>
+                          <input
+                            type="number"
+                            id="Quantity"
+                            className="form-control"
+                            placeholder="Quantity"
+                            name="Quantity"
+                            value={newListing.Quantity}
+                            onChange={handleInputChange}
+                        />
+                        {formErrors.Quantity && <p className="text-danger">Quantity is required</p>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col-md-6">
+                        <label htmlFor="productDescription" className="labels">
+                        Specifications
+                        </label>
+                        <textarea 
+                          style={{ height: "100px" }} 
+                          id="Specifications" 
+                          className="form-control" 
+                          placeholder="Specifications" 
+                          name="Specifications"
+                          value={listings.Specifications}
+                          onChange={handleInputChange}
+                        />
+                        {formErrors.Name && <p className="text-danger">Specifications is required</p>}
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="productImages" className="labels">
+                            Images
+                          </label>
+                          <input
+                            type="file"
+                            id="productImages"
+                            className="form-control"
+                            multiple
+                            onChange={handleImageUpload}
+                          />
+                          {formErrors.Image && <p className="text-danger">Image is required</p>}
+                          {/*  */}
+                          <label htmlFor="category" className="labels">Category</label>
+                          <select
+                          className="form-control"
+                          id="CategoryId"
+                          name="CategoryId"
+                          value={newListing.CategoryId}
+                          onChange={handleInputChange}
+                          >
+                          <option value="">Select Category</option>
+                          {category.map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.categoryName}
+                            </option>
+                          ))}
+                        </select>
+                        {formErrors.CategoryId && <p className="text-danger">Category is required</p>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label htmlFor="productDescription" className="labels">
+                            Description
+                          </label>
+                          <textarea
+                            id="Description" 
+                            className="form-control" 
+                            placeholder="Product Description" 
+                            name="Description"
+                            value={newListing.Description}
+                            onChange={handleInputChange}
+                          />
+                          {formErrors.Description && <p className="text-danger">Description is required</p>}
+                          <label htmlFor="price" className="labels">
+                            Price
+                          </label>
+                          <input
+                            type="text"
+                            id="Price"
+                            className="form-control"
+                            placeholder="Price"
+                            name="Price"
+                            value={newListing.Price}
+                            onChange={handleInputChange}
+                        />
+                        {formErrors.Price && <p className="text-danger">Price is required</p>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-5 text-center">
+                      <button className="btn btn-primary me-2" type="submit" onClick={handleFormSubmit}>Save Listing</button>
+                      <button className="btn btn-danger" type="button" onClick={toggleListingForm}>Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   //#endregion
   // #region ChangePassword
   function ChangePassword() {
