@@ -6,7 +6,6 @@ namespace LejlekuXpress.Data.DTO
     public class ProductDTO
     {
         public int OwnerId { get; set; }
-        public bool? IsApproved { get; set; }
         public string Name { get; set; }
         public int Quantity { get; set; }
         public byte[] Image { get; set; }
@@ -14,5 +13,6 @@ namespace LejlekuXpress.Data.DTO
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
+        public decimal ShippingPrice { get; set; }
     }
 }
