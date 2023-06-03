@@ -2,11 +2,23 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+
+
+
+
+
 const Login = () => {
   const [userLogin, setUserLogin] = useState({
     Email: '',
     Password: ''
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+
+  const handleShowPasswordChange = () => {
+    setShowPassword(!showPassword);
+  };
 
   const [formErrors, setFormErrors] = useState({
     Email: false,
@@ -67,13 +79,23 @@ const Login = () => {
             </div>
             <div className="form-group">
               <label htmlFor="Password">Password</label>
-              <input type="password" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} id="Password" name="Password" value={userLogin.Password} onChange={handleInputChange} />
+              <input type={showPassword ? "text" : "password"} className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} id="Password" name="Password" value={userLogin.Password} onChange={handleInputChange} />
               {formErrors.Password && <div className="invalid-feedback">Password is required</div>}
             </div>
-            <div className="form-group form-check">
-              <input type="checkbox" className="form-check-input" id="RememberMe" name="RememberMe" />
-              <label className="form-check-label" htmlFor="RememberMe">Remember me</label>
-            </div>
+            <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="showPassword"
+                        checked={showPassword}
+                        onChange={handleShowPasswordChange}
+                      />
+                      <label className="form-check-label" htmlFor="showPassword"> Show Password </label>
+                    </div>
+                  </div>
+                </div>
             <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Login</button>
           </form>
           <div className="text-center mt-3">
