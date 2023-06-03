@@ -30,6 +30,7 @@ namespace LejlekuXpress.Services
                     Specifications = request.Specifications,
                     Description = request.Description,
                     Price = request.Price,
+                    CategoryId = request.CategoryId,
                 };
 
                 _context.Product.Add(product);
