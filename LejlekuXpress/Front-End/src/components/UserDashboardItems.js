@@ -666,7 +666,7 @@ function ShippingInfo() {
             LastName: LastName.length === 0,
             CardNumber: CardNumber.length !== 16,
             ExpirationDate: ExpirationDate.length !== 5,
-            CVV: CVV.length !== 0,
+            CVV: CVV.length !== 3,
           };
           setFormErrors(errors);
           if (Object.values(errors).some((value) => value)) {
@@ -720,8 +720,10 @@ function ShippingInfo() {
                     <div className="grid-container">
                     {payment.map((payment, index) => (
             <div className="grid-item p-3 py-5" id="edit-address">
-            <div className="d-flex justify-content-between align-items-center mb-3">
+            <div className=" mb-3">
               <h4 className="text-right">Card: **** **** **** {getLastFourDigits(payment.cardNumber)}</h4>
+              <p className="text-right">CardHolder name: <b>{payment.firstName} {payment.lastName}</b></p>
+
             </div>
             <div className="row mt-2">
               <div className="col-md-12">
@@ -981,154 +983,348 @@ function ShippingInfo() {
     }
 //#endregion
   //#region MyListings    
-function MyListings() {
-      const [isAddListingVisible, setIsListingVisible] = useState(false);
+  function MyListings() {
+    const { userId } = useAuthToken();
+    const [isAddListingVisible, setIsListingVisible] = useState(false);
+    const [listings, setListings] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [newListing, setNewListing] = useState({
+      OwnerId: '',
+      IsApproved: false,
+      Name: '',
+      Quantity: '',
+      Image: '',
+      Specifications: '',
+      Description: '',
+      Price: '',
+      CategoryId: '',
+    });
+    const [formErrors, setFormErrors] = useState({
+      OwnerId: false,
+      IsApproved: false,
+      Name: false,
+      Image: false,
+      Specifications: false,
+      Description: false,
+      Price: false,
+      CategoryId: false,
+    });
+    const handleInputChange = (event) => {
+      const { name, value } = event.target;
+      setNewListing((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      setFormErrors((prevState) => ({
+        ...prevState,
+        [name]: false,
+      }));
+    };
 
-        const toggleListingForm = () => {
-          setIsListingVisible(!isAddListingVisible);    
-        };
-        const listings = [  {
-          id: "12",    
-          dateCreated: "02/05/2023   13:41",  
-          image: "https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/3.webp",  
-          title: "Apple IMac",    
-          description: "M2, 27-Inch Retina Display, 32GB Memory, 1TB Storage",    
-          orders: "79",    
-          qty: "21",    
-          price: "7,197.00",
-          status: "Approved"
-        },
-        {
-          id: "34",    
-          dateCreated: "04/05/2023   19:30",  
-          image: "https://media.istockphoto.com/id/496730484/photo/apple-watch-sport-42mm-silver-aluminum-case-with-white-band.jpg?s=612x612&w=0&k=20&c=RY2MGp4S-OVqAZm1ZCUDhM6KSmfAJ02RU51l4mJa2EA=",  
-          title: "Apple Watch",    
-          description: "M2, 27-Inch Retina Display, 32GB Memory, 1TB Storage",    
-          orders: "58",    
-          qty: "42",    
-          price: "427.00",
-          status: "Pending"
-        }];
+    const handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+    
+      reader.onloadend = () => {
+        const base64Data = reader.result.split(',')[1];
+        setNewListing((prevState) => ({
+          ...prevState,
+          Image: base64Data,
+        }));
+      };
+      reader.readAsDataURL(file);
+    };
+  
+    const toggleListingForm = () => {
+      setIsListingVisible(!isAddListingVisible);
+    };
+  
+    useEffect(() => {
+      fetchListingsFromDatabase();
+      fetchCategories();
+    }, [userId]);
+  
+    const fetchListingsFromDatabase = async () => {
+      try {
+        const response = await axios.get(`http://localhost:39450/api/Product/getByOwnerId?OwnerId=${userId}`);
+        const products = response.data;
+        console.log(products);
+        setListings(products);
+      } catch (error) {
+        console.error('Error fetching listings:', error);
+      }
+    };
+    
+    const fetchCategories = async () => {
+      try {
+        const categoryResponse = await axios.get('http://localhost:39450/api/Category/getall');
+          if (categoryResponse.status === 200) {
+            const categoryData = categoryResponse.data;
+            setCategory(categoryData);
+          } else {
+            console.error('Failed to fetch category data');
+          }
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
 
-        return (
-            <div id="shippingInfo">
-            <div id="addressList" style={{ display: isAddListingVisible ? 'none' : 'block' }}>              
-            <div className="container-userdashboard-tabs">
-            <div className="d-flex justify-content-between align-items-center" 
-            style={{padding: "10px", width: "90%", backgroundColor: "#fff", margin: "auto", borderRadius: "10px", }}>
-                <h1 style={{fontSize: "35px", fontWeight: "400", padding: "5px"}}>Listings</h1>
-              <button className="btn btn-primary me-2" type="button" onClick={toggleListingForm} >Add Listing</button>
-              </div>
-            <div className="container rounded bg-white mt-5 mb-5">
-                <div className="row" style={{backgroundColor: '#bdbdbd'}}>
-                <div className="col-md-12">
-                    <div className="grid-container">
-                    {listings.map((listing, index) => (
-                          <MDBCard className="text-black">
-                          <div className="d-flex justify-content-between" style={{ width: "100%", padding: "15px"}}>
-                              <p>#{listing.id}</p>
-                              <p style={{ color: "#9A9A9A"}}>{listing.dateCreated}</p>
-                          </div>
-                          <div className="d-flex justify-content-between" style={{paddingLeft: "15px"}}>
-                            <p>Status: {listing.status}</p>
-                          </div>
-                            <MDBCardImage
-                              src={listing.image}
-                              position="top"
-                              alt="Apple Computer"
-                              style={{maxHeight: "250px", objectFit: "cover"}}
-                            />
-                            <MDBCardBody>
-                              <div className="text-center">
-                                <MDBCardTitle>{listing.title}</MDBCardTitle>
-                                <p style={{ color: "#9A9A9A"}}>{listing.description}</p>
-                              </div>
-                              <div>
-                                <div className="d-flex justify-content-between">
-                                  <span>Orders</span>
-                                  <span>{listing.orders}</span>
-                                </div>
-                                <div className="d-flex justify-content-between">
-                                  <span>QTY</span>
-                                  <span>{listing.qty}</span>
-                                </div>
-                              </div>
-                              <div className="d-flex justify-content-between total font-weight-bold mt-4">
-                                <span>Total</span>
-                                <span>${listing.price}</span>
-                              </div>
-                              <div className="d-flex justify-content-center">
-                              <button className="btn btn-primary me-2" type="button" onClick={toggleListingForm}>Edit</button>
-                              <button className="btn btn-success me-2" type="button" onClick={toggleListingForm}>Details</button>
-                              <button className="btn btn-danger me-2" type="button">Delete</button>
-                              </div>
-                            </MDBCardBody>
-                          </MDBCard>
-                    ))}
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-            </div>
+    const handleFormSubmit = (event) => {
+      event.preventDefault();
+      const { Name, Quantity, Image, Specifications, Description, Price, CategoryId, } = newListing;
+      const errors = {
+        Name: Name.length === 0,
+        Quantity: Quantity.length === 0,
+        Image: Image.length === 0,
+        Specifications: Specifications.length === 0,
+        Price: Price.length === 0,
+        Description: Description.length === 0,
+        CategoryId: CategoryId.length === 0,
+      };
+      const listingWithUserId = {
+        ...newListing,
+        OwnerId: userId, 
+      };
+      console.log(listingWithUserId);
+
+      setFormErrors(errors);
+      if (Object.values(errors).some((value) => value)) {
+        return;
+      }      
+
+      axios
+        .post('http://localhost:39450/api/Product/add', listingWithUserId)
+        .then((response) => {
+          console.log('Registration successful', response.data);
+          window.alert('Registration successful');
+          window.location.href = '/userdashboard';
+        })
+        .catch((error) => {
+          console.error('Registration failed', error);
+          window.alert('Registration failed');
+        });
+        toggleListingForm();
+    };
+
+    return (
+      <div id="shippingInfo">
+        <div id="addressList" style={{ display: isAddListingVisible ? 'none' : 'block' }}>
+          <div className="container-userdashboard-tabs">
             <div
-                id="add-edit-address"
-                style={{ display: isAddListingVisible ? 'block' : 'none' }}
-                className="container-userdashboard-tabs"
+              className="d-flex justify-content-between align-items-center"
+              style={{
+                padding: '10px',
+                width: '90%',
+                backgroundColor: '#fff',
+                margin: 'auto',
+                borderRadius: '10px',
+              }}
             >
-            <div className="container-userdashboard-tabs">
-                <div className="container rounded bg-white mt-5 mb-5">
-                    <div className="row">
-                        <div className="col-md-12">
-                        <div className="p-3 py-5">
-                          <div className="d-flex justify-content-between align-items-center mb-3">
-                            <h4 className="text-right">Listing Details</h4>
-                          </div>
-                          <div className="row mt-2">
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label htmlFor="productName" className="labels">Product Name</label>
-                                <input type="text" id="productName" className="form-control" placeholder="Product Name" />
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label htmlFor="productQuantity" className="labels">Quantity</label>
-                                <input type="number" id="productQuantity" className="form-control"  placeholder="Quantity" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="row mt-3">
-                            <div className="col-md-6">
-                            <label htmlFor="productDescription" className="labels">Statsistics</label>
-                                <textarea id="stats" className="form-control" placeholder="statistics" />
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label htmlFor="productImages" className="labels">Images</label>
-                                <input type="file" id="productImages" className="form-control" multiple />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="row mt-3">
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label htmlFor="productDescription" className="labels">Description</label>
-                                <textarea id="productDescription" className="form-control" placeholder="Product Description" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="mt-5 text-center">
-                            <button className="btn btn-success" type="button" onClick={toggleListingForm}>Save Listing</button>
-                          </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
+              <h1 style={{ fontSize: '35px', fontWeight: '400', padding: '5px' }}>My Listings</h1>
+              <button className="btn btn-primary me-2" type="button" onClick={toggleListingForm}>
+                Add Listing
+              </button>
             </div>
+            <div className="container rounded bg-white mt-5 mb-5">
+              <div className="row" style={{ backgroundColor: '#bdbdbd' }}>
+                <div className="col-md-12">
+                  <div className="grid-container">
+                    {listings.map((listing, index) => (
+                      <MDBCard className="text-black" key={index}>
+                        <div className="d-flex justify-content-between" style={{ width: '100%', padding: '15px' }}>
+                          <p>#{listing.id}</p>
+                          <p style={{ color: '#9A9A9A' }}>{listing.dateCreated}</p>
+                        </div>
+                        <div className="d-flex justify-content-between" style={{ paddingLeft: '15px' }}>
+                          <p>Status: {listing.status}</p>
+                        </div>
+                        <MDBCardImage
+                          src={listing.image}
+                          position="top"
+                          alt="Apple Computer"
+                          style={{ maxHeight: '250px', objectFit: 'cover' }}
+                        />
+                        <MDBCardBody>
+                          <div className="text-center">
+                            <MDBCardTitle>{listing.title}</MDBCardTitle>
+                            <p style={{ color: '#9A9A9A' }}>{listing.description}</p>
+                          </div>
+                          <div>
+                            <div className="d-flex justify-content-between">
+                              <span>Orders</span>
+                              <span>{listing.orders}</span>
+                            </div>
+                            <div className="d-flex justify-content-between">
+                              <span>QTY</span>
+                              <span>{listing.qty}</span>
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-between total font-weight-bold mt-4">
+                            <span>Total</span>
+                            <span>${listing.price}</span>
+                          </div>
+                          <div className="d-flex justify-content-center">
+                            <button className="btn btn-primary me-2" type="button" onClick={toggleListingForm}>
+                              Edit
+                            </button>
+                            <button className="btn btn-success me-2" type="button" onClick={toggleListingForm}>
+                              Details
+                            </button>
+                            <button className="btn btn-danger me-2" type="button">
+                              Delete
+                            </button>
+                          </div>
+                        </MDBCardBody>
+                      </MDBCard>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+  
+        <div
+          id="add-edit-address"
+          style={{ display: isAddListingVisible ? 'block' : 'none' }}
+          className="container-userdashboard-tabs"
+        >
+          <div className="container-userdashboard-tabs">
+            <div className="container rounded bg-white mt-5 mb-5">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="p-3 py-5">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h4 className="text-right">Listing Details</h4>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="productName" className="labels">
+                            Product Name
+                          </label>
+                          <input
+                            type="text"
+                            id="Name"
+                            className="form-control"
+                            placeholder="Product Name"
+                            name="Name"
+                            value={newListing.Name}
+                            onChange={handleInputChange}
+                        />
+                        {formErrors.Name && <p className="text-danger">Product Name is required</p>}
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="productQuantity" className="labels">
+                            Quantity
+                          </label>
+                          <input
+                            type="number"
+                            id="Quantity"
+                            className="form-control"
+                            placeholder="Quantity"
+                            name="Quantity"
+                            value={newListing.Quantity}
+                            onChange={handleInputChange}
+                        />
+                        {formErrors.Quantity && <p className="text-danger">Quantity is required</p>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col-md-6">
+                        <label htmlFor="productDescription" className="labels">
+                        Specifications
+                        </label>
+                        <textarea 
+                          style={{ height: "100px" }} 
+                          id="Specifications" 
+                          className="form-control" 
+                          placeholder="Specifications" 
+                          name="Specifications"
+                          value={listings.Specifications}
+                          onChange={handleInputChange}
+                        />
+                        {formErrors.Name && <p className="text-danger">Specifications is required</p>}
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="productImages" className="labels">
+                            Images
+                          </label>
+                          <input
+                            type="file"
+                            id="productImages"
+                            className="form-control"
+                            multiple
+                            onChange={handleImageUpload}
+                          />
+                          {formErrors.Image && <p className="text-danger">Image is required</p>}
+                          {/*  */}
+                          <label htmlFor="category" className="labels">Category</label>
+                          <select
+                          className="form-control"
+                          id="CategoryId"
+                          name="CategoryId"
+                          value={newListing.CategoryId}
+                          onChange={handleInputChange}
+                          >
+                          <option value="">Select Category</option>
+                          {category.map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.categoryName}
+                            </option>
+                          ))}
+                        </select>
+                        {formErrors.CategoryId && <p className="text-danger">Category is required</p>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label htmlFor="productDescription" className="labels">
+                            Description
+                          </label>
+                          <textarea
+                            id="Description" 
+                            className="form-control" 
+                            placeholder="Product Description" 
+                            name="Description"
+                            value={newListing.Description}
+                            onChange={handleInputChange}
+                          />
+                          {formErrors.Description && <p className="text-danger">Description is required</p>}
+                          <label htmlFor="price" className="labels">
+                            Price
+                          </label>
+                          <input
+                            type="text"
+                            id="Price"
+                            className="form-control"
+                            placeholder="Price"
+                            name="Price"
+                            value={newListing.Price}
+                            onChange={handleInputChange}
+                        />
+                        {formErrors.Price && <p className="text-danger">Price is required</p>}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-5 text-center">
+                      <button className="btn btn-primary me-2" type="submit" onClick={handleFormSubmit}>Save Listing</button>
+                      <button className="btn btn-danger" type="button" onClick={toggleListingForm}>Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        );    
+      </div>
+    );
   }
   //#endregion
   // #region ChangePassword
