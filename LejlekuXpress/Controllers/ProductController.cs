@@ -118,11 +118,11 @@ namespace LejlekuXpress.Controllers
 
         #region Update
         [HttpPut("updateIsApproved")]
-        public async Task<IActionResult> UpdateIsApproved(int id, bool isApproved)
+        public async Task<IActionResult> UpdateIsApproved(int id, bool isApproved, bool isReviewed)
         {
             try
             {
-                var result = await _service.UpdateProductIsApproved(id, isApproved);
+                var result = await _service.UpdateProductIsApproved(id, isApproved, isReviewed);
                 if (result == null)
                     return NotFound();
                 return Ok(result);
