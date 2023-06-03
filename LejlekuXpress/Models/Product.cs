@@ -36,6 +36,12 @@ namespace LejlekuXpress.Models
         [Required]
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
+        [Required]
+        public bool IsReviewed { get; set; }
+
+        [Required]
+        public decimal ShippingPrice { get; set; }
     }
 
 }
