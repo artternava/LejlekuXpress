@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 const items = [  {   
     name: "Iphone 14",
-    quantity: 1,
+    
     imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
     specification: ["Option 1", "Option 2", "Option 3"],
     color:"Blue",
@@ -24,8 +24,36 @@ const items = [  {
         color:"Green",
         description: "lorem ipsum",
         price: "800", }];
+
+
+
+       
   
         function Cart() {
+          const [totalPrice, setTotalPrice] = useState(0);
+
+          useEffect(() => {  
+            calculateTotalPrice(); 
+          });
+
+
+
+          const calculateTotalPrice = () => {
+            const totalPrice = items.reduce(
+              (acc, item) => acc + Number(item.price),
+              0
+            );
+            setTotalPrice(totalPrice);
+          };
+
+          const handleQuantityChange = (index, value) => {
+            const updatedItems = [...items];
+            updatedItems[index].quantity += value;
+            calculateTotalPrice();
+          
+          };
+
+
             return (
               <>
                 <div class="d-flex mt-5">
@@ -67,25 +95,41 @@ const items = [  {
           
                                 <div class="col-lg-4 col-md-6 mb-lg-0 d-flex align-items-center justify-content-center vh-10">
                                   {/* <!-- Quantity --> */}
-                                  <div class="d-flex mb-4" style={{ maxWidth: "300px" }}>
-                                    <div className="mt-5" style={{ maxWidth: "150px" }}>
-                                    <button class="btn btn-primary px-3 me-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                      <i class="bi bi-dash"></i>
+                                  <div className="d-flex mb-4" style={{ maxWidth: "300px" }}>
+                                  <div className="mt-5" style={{ maxWidth: "150px" }}>
+                                    <button
+                                      className="btn btn-primary px-3 me-2"
+                                      onClick={() => handleQuantityChange(-1)}
+                                    >
+                                      <i className="bi bi-dash"></i>
                                     </button>
-                                    </div>
-                                    <div class="form-outline text-md-center">
-                                      <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control text-center mt-5" />
-                                      <label class="" for="form1">Quantity</label>
-                                      <p className="mt-3">
-                                        <strong>${item.price}</strong>
-                                      </p>
-                                    </div>
-                                    <div className="mt-5" style={{ maxWidth: "150px" }}>
-                                    <button class="btn btn-primary px-3  ms-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                      <i class="bi bi-plus"></i>
-                                    </button>
-                                    </div>
                                   </div>
+                                  <div className="form-outline text-md-center">
+                                    <input
+                                      id="form1"
+                                      min="0"
+                                      name="quantity"
+                                      value={item.quantity}
+                                      type="number"
+                                      className="form-control text-center mt-5"
+                                      onChange={(e) => handleQuantityChange(e.target.value)}
+                                    />
+                                    <label htmlFor="form1" className="">
+                                      Quantity
+                                    </label>
+                                    <p className="mt-3">
+                                      <strong>${item.price}</strong>
+                                    </p>
+                                  </div>
+                                  <div className="mt-5" style={{ maxWidth: "150px" }}>
+                                    <button
+                                      className="btn btn-primary px-3 ms-2"
+                                      onClick={() => handleQuantityChange(1)}
+                                    >
+                                      <i className="bi bi-plus"></i>
+                                    </button>
+                                  </div>
+                                </div>
                                   {/* <!-- Quantity --> */}
                                 </div>
                               </div>
@@ -104,7 +148,7 @@ const items = [  {
               <li
                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                 Products
-                <span>$53.98</span>
+                <span>${totalPrice}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                 Shipping
@@ -118,7 +162,7 @@ const items = [  {
                     <p class="mb-0">(including VAT)</p>
                   </strong>
                 </div>
-                <span><strong>$53.98</strong></span>
+                <span><strong>${totalPrice}</strong></span>
               </li>
             </ul>
 
