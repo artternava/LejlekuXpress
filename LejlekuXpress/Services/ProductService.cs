@@ -3,6 +3,7 @@ using LejlekuXpress.Data;
 using LejlekuXpress.Models;
 using Microsoft.EntityFrameworkCore;
 using LejlekuXpress.Data.ServiceInterfaces;
+using LejlekuXpress.Migrations;
 
 namespace LejlekuXpress.Services
 {
@@ -23,7 +24,7 @@ namespace LejlekuXpress.Services
                 Product product = new Product
                 {
                     OwnerId = request.OwnerId,
-                    IsApproved = request.IsApproved,
+                    IsApproved = false,
                     Name = request.Name,
                     Quantity = request.Quantity,
                     Image = request.Image,
@@ -31,6 +32,8 @@ namespace LejlekuXpress.Services
                     Description = request.Description,
                     Price = request.Price,
                     CategoryId = request.CategoryId,
+                    IsReviewed = false,
+                    ShippingPrice = request.ShippingPrice,
                 };
 
                 _context.Product.Add(product);
@@ -92,7 +95,6 @@ namespace LejlekuXpress.Services
                 if (product != null)
                 {
                     product.OwnerId = request.OwnerId;
-                    product.IsApproved = request.IsApproved;
                     product.Name = request.Name;
                     product.Quantity = request.Quantity;
                     product.Image = request.Image;
@@ -148,7 +150,7 @@ namespace LejlekuXpress.Services
         #endregion
 
         #region UpdateProductStatus
-        public async Task<Product> UpdateProductIsApproved(int id, bool isApproved)
+        public async Task<Product> UpdateProductIsApproved(int id, bool isApproved, bool isReviewed)
         {
             try
             {
@@ -156,6 +158,7 @@ namespace LejlekuXpress.Services
                 if (product != null)
                 {
                     product.IsApproved = isApproved;
+                    product.IsReviewed = isReviewed;
 
                     _context.SaveChanges();
                 }
