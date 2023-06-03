@@ -52,8 +52,8 @@ const Header = () => {
                 </button>
               </div>
             </div>
-            <div className="col-md-4 col-12">
-              <div className="header-upper-links d-flex align-items-center justify-content-start gap-3">
+            <div className="col-sm-5 col-12">
+              <div className="header-upper-links d-flex align-items-center justify-content-center gap-3">
                 <div>
                   <Link
                     to="Wishlist"
@@ -91,9 +91,18 @@ const Header = () => {
                           <i className="bi bi-lock bi-lg"></i>
                           <span>Logout</span>
                         </button>
+                        <Link
+                           to="admin"
+                           className=" align-items-center gap-10 text-black btn btn-outline-light text-black text-decoration-none">
+                                 <i class="bi bi-gear-fill fs-4"></i>
+                                 <p className="mb-0"></p>
+                        </Link>
+                  
                       </div>
+
                     </>
                   ) : (
+                   
                     <Link
                       to="login"
                       className="d-flex align-items-center gap-10 text-black container-fluid btn btn-outline-light text-black text-decoration-none"
@@ -101,7 +110,9 @@ const Header = () => {
                       <i className="d-flex bi bi-person fs-3"></i>
                       <p className="mb-0">Login</p>
                     </Link>
+                  
                   )}
+                   
                 </div>
               </div>
             </div>

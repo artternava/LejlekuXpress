@@ -1,118 +1,122 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
 import Meta from '../components/Meta'
 import{Link} from 'react-router-dom'
 import {BiArrowBack} from 'react-icons/bi'
-const Checkout = () => {
-  return (
-    <>
-    <Meta title={"Checkout"}></Meta>
-    <div className='checkout-wrapper py-5 home-wrapper-2'>
-        <div className='container-xxl'>
-            <div className='row'>
-            <div className='col-7'>
-                <div className='checkout-left-data'>
-                    <h3 className='website-name'>Dev corner</h3>
-                    <nav style={{"--bs-breadcrumb-divider": '>'}} aria-label="breadcrumb">
-                     <ol className="breadcrumb">
-                     <li className="breadcrumb-item"><Link className='text-dark' to="/cart">Cart</Link></li>
-                     &nbsp; /
-                     <li className="breadcrumb-item total-price active" aria-current="page">
-                        Information
-                    </li>
-                    &nbsp; /
-                     <li className="breadcrumb-item total-price active">Shipping</li>
-                     &nbsp; /
-                     <li className="breadcrumb-item total-price active" aria-current="page">Payment</li>
-                    </ol>
-                    </nav>
-                    <h4 className='title total'>Contact Information</h4>
-                    <p className='user-details total'>
-                        Ardit Beqaj (ardit@gmail.com)
-                    </p>
-                    <h4 className='mb-3'>Shipping</h4>
-                    <form action='' className='d-flex gap-15 flex-wrap justify-content-between'>
-                        <div className='w-100'>
-                            <select name='' className='form-control form-select' id=''>
-                                <option value="" selected disabled>
-                                    Select Address
-                                </option>
-                            </select>
-                        </div>
-                        
-                        <div className='flex-grow-1'>
-                            <select name='' className='form-control form-select' id=''>
-                            <option value="" selected disabled>
-                                    Select Payment
-                                </option>
-                            </select>
-                        </div>
-                        
-                        <div className='w-100'>
-                        <div className='d-flex justify-content-between align-item-center'>
-                            <Link to='/cart' className='text-dark'>
-                                <BiArrowBack className='me-2'/>
-                                Return to Cart
-                                </Link>
-                            <Link to='/#'className='btn btn-success me-2'>Continue Shipping</Link>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>            
-            <div className='col-5'>
-                <div className='border-bottom py-4'>
-                   <div className='d-flex gap-10 mb-3 align-items-center'>
-                   <div className='w-75 d-flex gap-10 border-bottom py-4'>
-                        <div className='w-25 position-relative'>
-                            <span style={{top:"-10px",right:"2px"}} className='badge be-secondary text-black rounded-circles p-3 position-absolute'>1</span>
-                            <img className='img-fluid' src='images/laptop.jpg' alt='product'></img>
-                        </div>
-                        <div>
-                            <h5 className='total-price1'> Laptop</h5>
-                            <p className='total-price1'>s/ sadsda</p>
-                        </div>
-                    </div>
-                    <div className='flex-grow'>
-                        <h5 className='total'>$ 100</h5>
-                    </div>
-                   </div>
-                   <div className='d-flex gap-10 mb-2 align-items-center'>
-                   <div className='w-75 d-flex gap-10'>
-                        <div className='w-25 position-relative'>
-                            <span style={{top:"-10px",right:"2px"}} className='badge be-secondary text-black rounded-circles p-3 position-absolute'>1</span>
-                            <img className='img-fluid' src='images/laptop.jpg' alt='product'></img>
-                        </div>
-                        <div>
-                            <h5 className='total-price1'> Laptop</h5>
-                            <p className='total-price1'>s/ sadsda</p>
-                        </div>
-                    </div>
-                    <div className='flex-grow'>
-                        <h5 className='total'>$ 100</h5>
-                    </div>
-                   </div>
-                </div>
-                <div className='border-bottom py-4'>
-                <div className='d-flex justify-content-between align-items-center'>
-                    <p className='total'>Subtotal</p>
-                    <p className='total-price'>$ 200</p>
-                </div>
-                <div className='d-flex justify-content-between align-items-center'>
-                    <p className='mb-0'>Shipping</p>
-                    <p className='mb-0'>$ 200</p>
-                </div>
-                </div>
-                <div className='d-flex justify-content-between align-items-center border-bottom py-4'>
-                    <h4 className='total'>Total</h4>
-                    <h5 className='total-price'>$ 200</h5>
-                </div>
-            </div>
-            </div>
-        </div>
-    </div>
+import axios from 'axios';
+import useAuthToken from '../components/useAuthToken';
 
- </>
-  )
-}
+
+
+const items = [  {   
+    name: "Iphone 14",
+    quantity: 1,
+    imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+    specification: ["Option 1", "Option 2", "Option 3"],
+    description: "lorem ipsum",
+    price: "1000", },  
+    {   
+      name: "Iphone 3g",
+      quantity: 3,
+      imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+      specification: ["Option 1", "Option 2", "Option 3"],
+      description: "lorem ipsum",
+      price: "100", },  
+      {   
+        name: "Nokia",
+        quantity: 4,
+        imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+        specification: ["Option 1", "Option 2", "Option 3"],
+        description: "lorem ipsum",
+        price: "800", }];
+
+
+function Checkout() {
+    const { userId } = useAuthToken();
+    const [addresses, setAddresses] = useState([]);
+
+    useEffect(() => {
+        fetchAddresses();
+    }, [userId])
+
+
+    const fetchAddresses = async () => {
+        try {
+          const countryResponse = await axios.get(`http://localhost:39450/api/ShippingAddress/get?UserId=${userId}`);
+          if (countryResponse.status === 200) {
+            const addressData = countryResponse.data;
+            setAddresses(addressData);
+            console.log(addressData);
+          }
+        } catch (error) {
+          console.error('Error fetching addresses:', error);
+        }
+      };
+
+
+            return (
+              <>
+
+                <Meta title={"Checkout"}></Meta>
+
+                        <div class="container mt-5">
+                             <div class="row justify-content-center">
+                                <div class="col-12 text-center">
+                                  <h3>Shipping</h3>
+                                 </div>
+                                 <div class="col-12 col-md-6 mt-1">
+                                 <select name='' className='form-control form-select' id=''>
+                                 <option value="" selected disabled> Select Address</option>
+                                    </select>
+                                    </div>
+                                    </div>
+                                    <div class="row justify-content-center mt-2">
+                                    <div class="col-12 text-center">
+                                        <h3>Payment</h3>
+                                    </div>
+                                    <div class="col-12 col-md-6 mt-1 mb-5">
+                                    <select name='' className='form-control form-select' id=''>
+                                        <option value="" selected disabled> Select Payment</option>
+                                    </select>
+                                    </div>
+                                    </div>
+                                    </div>
+
+
+                {items.map((items) => (     
+                  <section>
+                     
+                
+                     <div class="container mt-3 border border-2 mb-4" style={{backgroundColor:"rgb(245, 240, 240)" }}>
+                    <div class="row mt-3">
+                        <div class="col-md-3">
+                             <div class=" col-lg-3 mb-4 mb-lg-0 ">                                
+                                <div class="bg-image hover-zoom ripple rounded ripple-surface ">
+                                  <img src={items.imageSrc} class="w-80 justify-content-center" />
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Product Name</h5>
+                            <h7>{items.name}</h7>
+                        </div>
+                        <div class="col-md-3">
+                        <h5>Quantity:</h5>
+                        <h7>{items.quantity}</h7>
+                        </div>
+                        <div class="col-md-3">
+                        <h5>Product Price:</h5>
+                        <h7>${items.price}</h7>
+                        </div>
+                        </div>
+                        
+                    </div>
+              
+                    </section>
+                    
+                ))}
+                </>
+              );          
+        }
+    
 
 export default Checkout
