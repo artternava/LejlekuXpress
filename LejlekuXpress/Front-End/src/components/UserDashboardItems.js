@@ -1106,7 +1106,27 @@ function ShippingInfo() {
         });
         toggleListingForm();
     };
-
+    
+    //#region Convert Image Extension
+    const getImageExtension = (imageData) => {
+      if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
+        return 'jpeg';
+      }
+      if (
+        imageData[0] === 0x89 &&
+        imageData[1] === 0x50 &&
+        imageData[2] === 0x4E &&
+        imageData[3] === 0x47 &&
+        imageData[4] === 0x0D &&
+        imageData[5] === 0x0A &&
+        imageData[6] === 0x1A &&
+        imageData[7] === 0x0A
+      ) {
+        return 'png';
+      }
+      return 'jpeg';
+    };
+    //#endregion
     
     return (
       <div id="shippingInfo">
@@ -1139,7 +1159,7 @@ function ShippingInfo() {
                                 <div class="row">
                                   <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                                     <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                    <img src="" className="w-50" />
+                                    <img src={`data:image/${getImageExtension(listing.image)};base64,${listing.image}`} className="w-50" />
                                       <a href="#!">
                                         <div class="hover-overlay">
                                           <div class="mask" style={{backgroundColor: "rgba(253, 253, 253, 0.15)"}}></div>
