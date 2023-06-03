@@ -13,6 +13,12 @@ const Signup = () => {
     Password: '',
     ConfirmPassword: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+
+
+  const handleShowPasswordChange = () => {
+    setShowPassword(!showPassword);
+  };
 
   const [formErrors, setFormErrors] = useState({
     FirstName: false,
@@ -120,7 +126,7 @@ const Signup = () => {
       </div>
       </div>
         ) : (
-          <div className="auth-card border border-2 p-">
+          <div className="auth-card border border-2 mt-6">
           <h3 className="text-center mb-3" style={{ color: '#3d3d3d' }}>Sign Up</h3>
           <form onSubmit={handleFormSubmit} className="d-flex flex-column gap-15">
             <div className="row mb-3">
@@ -137,15 +143,29 @@ const Signup = () => {
               <input type="email" name="Email" placeholder="Email" className={`form-control ${formErrors.Email ? 'is-invalid' : ''}`} value={userRegistration.Email} onChange={handleInputChange} />
               {formErrors.Email && <div className="invalid-feedback">Email is required</div>}            </div>
             <div className="mb-3">
-              <input type="password" name="Password" placeholder="Password" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} value={userRegistration.Password} onChange={handleInputChange} />
+              <input type={showPassword ? "text" : "password"} name="Password" placeholder="Password" className={`form-control ${formErrors.Password ? 'is-invalid' : ''}`} value={userRegistration.Password} onChange={handleInputChange} />
               {formErrors.Password && <div className="invalid-feedback">{formErrors.Password}</div>}
               {formErrors.Password && <div className="invalid-feedback">Password is required</div>}
             </div>
-            <div className="mb-3">
-              <input type="password" name="ConfirmPassword" placeholder="Confirm Password" className={`form-control ${formErrors.ConfirmPassword ? 'is-invalid' : ''}`} value={userRegistration.ConfirmPassword} onChange={handleInputChange} />
+            <div>
+              <input type={showPassword ? "text" : "password"} name="ConfirmPassword" placeholder="Confirm Password" className={`form-control ${formErrors.ConfirmPassword ? 'is-invalid' : ''}`} value={userRegistration.ConfirmPassword} onChange={handleInputChange} />
               {formErrors.ConfirmPassword && <div className="invalid-feedback">Confirm Password is required</div>}
             </div>
-            <div className="mb-3">
+            <div className="row">
+                  <div className="col-md-12">
+                    <div className="form-group form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="showPassword"
+                        checked={showPassword}
+                        onChange={handleShowPasswordChange}
+                      />
+                      <label className="form-check-label" htmlFor="showPassword">  <span className="text-secondary" style={{ fontSize: '14px' }}>Show Password</span></label>
+                    </div>
+                  </div>
+                </div>
+            <div>
               <div className="form-check">
               <input type="checkbox" name="terms" className={`form-check-input ${formErrors.Terms ? 'is-invalid' : (userRegistration.terms ? 'is-valid' : '')}`} onChange={handleInputChange}onClick={() => setFormErrors({...formErrors, Terms: ''})} />
                 <label className="form-check-label">
@@ -154,7 +174,7 @@ const Signup = () => {
                 {formErrors.Terms && <div className="invalid-feedback">You must agree to the Terms And Conditions!</div>}
               </div>
             </div>
-            <button type="submit" className="btn btn-primary btn-lg mt-4" style={{ width: '100%', outline: 'none' }}>Sign Up</button>
+            <button type="submit" className="btn btn-primary btn-lg mt-2" style={{ width: '100%', outline: 'none' }}>Sign Up</button>
           </form>
           <div className="text-center mt-4">
             <span className="text-secondary" style={{ fontSize: '15px' }}>Already have an account? </span>
