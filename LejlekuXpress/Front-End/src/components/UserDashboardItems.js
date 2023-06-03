@@ -990,23 +990,23 @@ function ShippingInfo() {
     const [category, setCategory] = useState([]);
     const [newListing, setNewListing] = useState({
       OwnerId: '',
-      IsApproved: false,
       Name: '',
       Quantity: '',
       Image: '',
       Specifications: '',
       Description: '',
       Price: '',
+      ShippingPrice: '',
       CategoryId: '',
     });
     const [formErrors, setFormErrors] = useState({
       OwnerId: false,
-      IsApproved: false,
       Name: false,
       Image: false,
       Specifications: false,
       Description: false,
       Price: false,
+      ShippingPrice: false,
       CategoryId: false,
     });
     const handleInputChange = (event) => {
@@ -1068,16 +1068,17 @@ function ShippingInfo() {
         console.error('Error fetching categories:', error);
       }
     };
-
+    
     const handleFormSubmit = (event) => {
       event.preventDefault();
-      const { Name, Quantity, Image, Specifications, Description, Price, CategoryId, } = newListing;
+      const { Name, Quantity, Image, Specifications, Description, Price, CategoryId, ShippingPrice,} = newListing;
       const errors = {
         Name: Name.length === 0,
         Quantity: Quantity.length === 0,
         Image: Image.length === 0,
         Specifications: Specifications.length === 0,
         Price: Price.length === 0,
+        ShippingPrice: ShippingPrice.length === 0,
         Description: Description.length === 0,
         CategoryId: CategoryId.length === 0,
       };
@@ -1106,6 +1107,7 @@ function ShippingInfo() {
         toggleListingForm();
     };
 
+    
     return (
       <div id="shippingInfo">
         <div id="addressList" style={{ display: isAddListingVisible ? 'none' : 'block' }}>
@@ -1128,56 +1130,47 @@ function ShippingInfo() {
             <div className="container rounded bg-white mt-5 mb-5">
               <div className="row" style={{ backgroundColor: '#bdbdbd' }}>
                 <div className="col-md-12">
-                  <div className="grid-container">
                     {listings.map((listing, index) => (
-                      <MDBCard className="text-black" key={index}>
-                        <div className="d-flex justify-content-between" style={{ width: '100%', padding: '15px' }}>
-                          <p>#{listing.id}</p>
-                          <p style={{ color: '#9A9A9A' }}>{listing.dateCreated}</p>
-                        </div>
-                        <div className="d-flex justify-content-between" style={{ paddingLeft: '15px' }}>
-                          <p>Status: {listing.status}</p>
-                        </div>
-                        <MDBCardImage
-                          src={listing.image}
-                          position="top"
-                          alt="Apple Computer"
-                          style={{ maxHeight: '250px', objectFit: 'cover' }}
-                        />
-                        <MDBCardBody>
-                          <div className="text-center">
-                            <MDBCardTitle>{listing.title}</MDBCardTitle>
-                            <p style={{ color: '#9A9A9A' }}>{listing.description}</p>
-                          </div>
-                          <div>
-                            <div className="d-flex justify-content-between">
-                              <span>Orders</span>
-                              <span>{listing.orders}</span>
+                      <div class="container py-3">
+                        <div class="row justify-content-center ">
+                          <div class="col-md-12 col-xl-10">
+                            <div class="card shadow-0 border rounded-3">
+                              <div class="card-body">
+                                <div class="row">
+                                  <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                                    <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                                    <img src="" className="w-50" />
+                                      <a href="#!">
+                                        <div class="hover-overlay">
+                                          <div class="mask" style={{backgroundColor: "rgba(253, 253, 253, 0.15)"}}></div>
+                                        </div>
+                                      </a>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6 col-lg-6 col-xl-6">
+                                    <h5>{listing.name}</h5>
+                                    <div class="mt-1 mb-0 text-muted small">
+                                      <p>{listing.specifications}</p>
+                                    </div>
+                                    <p class="text-truncate mb-4 mb-md-0">{listing.description}</p>
+                                  </div>
+                                  <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                                    <div class="d-flex flex-row align-items-center mb-1">
+                                      <h4 class="mb-1 me-1">${listing.price}</h4>
+                                    </div>
+                                    <h6 class="text-success">${listing.shippingPrice}</h6>
+                                    <div class="d-flex flex-column mt-4">
+                                      <button class="btn btn-primary btn-sm" type="button">Update</button>
+                                      <button class="btn btn-outline-danger btn-sm mt-2" type="button"  >Delete</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            <div className="d-flex justify-content-between">
-                              <span>QTY</span>
-                              <span>{listing.qty}</span>
-                            </div>
                           </div>
-                          <div className="d-flex justify-content-between total font-weight-bold mt-4">
-                            <span>Total</span>
-                            <span>${listing.price}</span>
-                          </div>
-                          <div className="d-flex justify-content-center">
-                            <button className="btn btn-primary me-2" type="button" onClick={toggleListingForm}>
-                              Edit
-                            </button>
-                            <button className="btn btn-success me-2" type="button" onClick={toggleListingForm}>
-                              Details
-                            </button>
-                            <button className="btn btn-danger me-2" type="button">
-                              Delete
-                            </button>
-                          </div>
-                        </MDBCardBody>
-                      </MDBCard>
+                        </div>
+                        </div>
                     ))}
-                  </div>
                 </div>
               </div>
             </div>
@@ -1297,19 +1290,44 @@ function ShippingInfo() {
                             onChange={handleInputChange}
                           />
                           {formErrors.Description && <p className="text-danger">Description is required</p>}
-                          <label htmlFor="price" className="labels">
-                            Price
-                          </label>
-                          <input
-                            type="text"
-                            id="Price"
-                            className="form-control"
-                            placeholder="Price"
-                            name="Price"
-                            value={newListing.Price}
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.Price && <p className="text-danger">Price is required</p>}
+                          <div className="row mt-2">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label htmlFor="Price" className="labels">
+                                  Price
+                                </label>
+                                <input
+                                  type="number"
+                                  id="Price"
+                                  className="form-control"
+                                  placeholder="Price"
+                                  name="Price"
+                                  value={newListing.Price}
+                                  onChange={handleInputChange}
+                                />
+                                {formErrors.Price && <p className="text-danger">Price is required</p>}
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label htmlFor="ShippingPrice" className="labels">
+                                  Shipping Price
+                                </label>
+                                <input
+                                  type="number"
+                                  id="ShippingPrice"
+                                  className="form-control"
+                                  placeholder="Shipping Price"
+                                  name="ShippingPrice"
+                                  value={newListing.ShippingPrice}
+                                  onChange={handleInputChange}
+                                />
+                                {formErrors.ShippingPrice && (
+                                  <p className="text-danger">Shipping Price is required</p>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
