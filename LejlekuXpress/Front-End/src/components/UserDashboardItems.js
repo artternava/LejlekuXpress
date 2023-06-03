@@ -1107,6 +1107,19 @@ function ShippingInfo() {
         toggleListingForm();
     };
     
+    const deleteListing = async (id) => {
+      try {
+        const confirmDelete = window.confirm('Are you sure you want to delete this listing?');
+        if (confirmDelete) {
+          await axios.delete(`http://localhost:39450/api/Product/delete?id=${id}`);
+          fetchListingsFromDatabase();
+          window.location.href = '/userdashboard';
+        }
+      } catch (error) {
+        console.error('Error deleting address:', error);
+      }
+    };
+
     //#region Convert Image Extension
     const getImageExtension = (imageData) => {
       if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
@@ -1181,7 +1194,7 @@ function ShippingInfo() {
                                     <h6 class="text-success">${listing.shippingPrice}</h6>
                                     <div class="d-flex flex-column mt-4">
                                       <button class="btn btn-primary btn-sm" type="button">Update</button>
-                                      <button class="btn btn-outline-danger btn-sm mt-2" type="button"  >Delete</button>
+                                      <button class="btn btn-outline-danger btn-sm mt-2" type="button" onClick={() => deleteListing(listing.id)}>Delete</button>
                                     </div>
                                   </div>
                                 </div>
