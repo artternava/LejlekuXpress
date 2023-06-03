@@ -42,10 +42,14 @@ import {
         const response = await axios.get(`http://localhost:39450/api/User/get?id=${userId}`);
         if (response.status === 200) {
           const userData = response.data;
-          const phoneNumberParts = userData.phoneNumber.split('-');
-          const countryCode = phoneNumberParts[0].substring(1);
-          const phoneNumber = phoneNumberParts[1];
-  
+          let phoneNumber = '';
+          let countryCode = '';
+          if (userData.phoneNumber) {
+            const phoneNumberParts = userData.phoneNumber.split('-');
+            countryCode = phoneNumberParts[0].substring(1);
+            phoneNumber = phoneNumberParts[1];
+          }
+    
           setUser({
             firstName: userData.firstName,
             lastName: userData.lastName,
@@ -53,10 +57,12 @@ import {
             phoneNumber: phoneNumber,
             countryCode: countryCode,
           });
+    
+          console.log(user);
         } else {
           console.error('Failed to fetch user details');
         }
-  
+    
         const countryResponse = await axios.get('http://localhost:39450/api/Country/getall');
         if (countryResponse.status === 200) {
           const countryData = countryResponse.data;
@@ -1119,7 +1125,6 @@ function ShippingInfo() {
         console.error('Error deleting address:', error);
       }
     };
-
     //#region Convert Image Extension
     const getImageExtension = (imageData) => {
       if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
@@ -1167,12 +1172,11 @@ function ShippingInfo() {
                       <div class="container py-3">
                         <div class="row justify-content-center ">
                           <div class="col-md-12 col-xl-10">
-                            <div class="card shadow-0 border rounded-3">
-                              <div class="card-body">
+                            <div class="border rounded-3" style={{padding: "20px", backgroundColor: "#fff"}}>
                                 <div class="row">
                                   <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                                     <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                    <img src={`data:image/${getImageExtension(listing.image)};base64,${listing.image}`} className="w-50" />
+                                      <img src={`data:image/${getImageExtension(listing.image)};base64,${listing.image}`} className="w-50" />
                                       <a href="#!">
                                         <div class="hover-overlay">
                                           <div class="mask" style={{backgroundColor: "rgba(253, 253, 253, 0.15)"}}></div>
@@ -1193,12 +1197,10 @@ function ShippingInfo() {
                                     </div>
                                     <h6 class="text-success">${listing.shippingPrice}</h6>
                                     <div class="d-flex flex-column mt-4">
-                                      <button class="btn btn-primary btn-sm" type="button">Update</button>
                                       <button class="btn btn-outline-danger btn-sm mt-2" type="button" onClick={() => deleteListing(listing.id)}>Delete</button>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
                             </div>
                           </div>
                         </div>
