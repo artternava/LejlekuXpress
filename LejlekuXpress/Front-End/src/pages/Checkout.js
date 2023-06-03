@@ -36,11 +36,14 @@ function Checkout() {
   const { userId } = useAuthToken();
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState('');
+  const [payments, setPayments] = useState([]);
+  const [selectedPayments, setSelectedPayments] = useState('');
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     fetchAddresses();
+    fetchPayments();
     calculateTotalPrice();
     calculateTotalItems();
   }, [userId]);
@@ -52,6 +55,18 @@ function Checkout() {
       if (response.status === 200) {
         const addressData = response.data;
         setAddresses(addressData);        
+      }
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+    }
+  };
+
+  const fetchPayments = async () => {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/Payment/get?UserId=${userId}`);
+      if (response.status === 200) {
+        const paymentData = response.data;
+        setPayments(paymentData);        
       }
     } catch (error) {
       console.error('Error fetching addresses:', error);
@@ -77,6 +92,9 @@ function Checkout() {
   const handleAddressChange = (event) => {
     setSelectedAddress(event.target.value);
   };
+  const handlePaymentsChange = (event) => {
+    setSelectedPayments(event.target.value);
+  };
 
   return (
     <>
@@ -98,7 +116,7 @@ function Checkout() {
               <option value="">Select Address</option>
               {addresses.map((address) => (
                 <option key={address.id} value={address.id}>
-                  {address.address1}, {address.city}
+                   ({address.address1}, {address.city}), {address.firstName} {address.lastName}
                 </option>
               ))}
             </select>
@@ -109,10 +127,19 @@ function Checkout() {
             <h3>Payment</h3>
           </div>
           <div className="col-12 col-md-6 mt-1 mb-5">
-            <select name="" className="form-control form-select" id="">
-              <option value="" selected disabled>
-                Select Payment
-              </option>
+          <select
+              name="payments"
+              className="form-control form-select"
+              id={userId}
+              value={selectedPayments}
+              onChange={handlePaymentsChange}
+            >
+              <option value="">Select Payment</option>
+              {payments.map((payments) => (
+                <option key={payments.id} value={payments.id}>
+                  **** **** **** {payments.cardNumber.slice(-4)}
+                </option>
+              ))}
             </select>
           </div>
         </div>
