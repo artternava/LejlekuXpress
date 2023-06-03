@@ -1071,7 +1071,39 @@ function ShippingInfo() {
 
     const handleFormSubmit = (event) => {
       event.preventDefault();
-      
+      const { Name, Quantity, Image, Specifications, Description, Price, CategoryId, } = newListing;
+      const errors = {
+        Name: Name.length === 0,
+        Quantity: Quantity.length === 0,
+        Image: Image.length === 0,
+        Specifications: Specifications.length === 0,
+        Price: Price.length === 0,
+        Description: Description.length === 0,
+        CategoryId: CategoryId.length === 0,
+      };
+      const listingWithUserId = {
+        ...newListing,
+        OwnerId: userId, 
+      };
+      console.log(listingWithUserId);
+
+      setFormErrors(errors);
+      if (Object.values(errors).some((value) => value)) {
+        return;
+      }      
+
+      axios
+        .post('http://localhost:39450/api/Product/add', listingWithUserId)
+        .then((response) => {
+          console.log('Registration successful', response.data);
+          window.alert('Registration successful');
+          window.location.href = '/userdashboard';
+        })
+        .catch((error) => {
+          console.error('Registration failed', error);
+          window.alert('Registration failed');
+        });
+        toggleListingForm();
     };
 
     return (
