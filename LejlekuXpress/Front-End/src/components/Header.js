@@ -6,16 +6,28 @@ import useAuthToken from './useAuthToken.js';
 
 const Header = () => {
   const { token } = useAuthToken();
+  const { userRole } = useAuthToken();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [hasPrivilege, setHasPrivilege] = useState(false);
 
   useEffect(() => {
     setIsLoggedIn(!!token);
-  }, [token]);
+    setHasPrivilege(!!userRole);
+    isPrivileged();
+  }, [token, userRole]);
 
   const handleLogout = () => {
     Cookies.remove('access_token');
     setIsLoggedIn(false);
     window.location.href = '/';
+  };
+
+  const isPrivileged = () => {
+    if (userRole === 1 || userRole === 2) {
+      setHasPrivilege(true);
+    } else {
+      setHasPrivilege(false);
+    }
   };
 
   return (
@@ -24,16 +36,14 @@ const Header = () => {
       <header className="header-upper ">
         <div className="container-fluid px-8 ">
           <div className="row align-items-center">
-          <div className="col-sm-2 d-flex justify-content-start" >
-              
-                <Link to="" className="container-fluid">
-                  <img
-                    src="images/LejlekuXPress.jpg"
-                   className="container-fluid "
-                    alt="Lejleku XPress "
-                  />
-                </Link>
-             
+            <div className="col-sm-2 d-flex justify-content-start">
+              <Link to="" className="container-fluid">
+                <img
+                  src="images/LejlekuXPress.jpg"
+                  className="container-fluid "
+                  alt="Lejleku XPress "
+                />
+              </Link>
             </div>
             <div className="col-md-5 col-6">
               <div className="input-group">
@@ -44,10 +54,7 @@ const Header = () => {
                   aria-label="Search"
                   aria-describedby="basic-addon2"
                 />
-                <button
-                  className="input-group-text p-3"
-                  id="basic-addon2"
-                >
+                <button className="input-group-text p-3" id="basic-addon2">
                   <BsSearch />
                 </button>
               </div>
@@ -87,22 +94,25 @@ const Header = () => {
                           <i className="d-flex bi bi-person fs-3"></i>
                           <p className="mb-0">My Profile</p>
                         </Link>
-                        <button className="btn btn-outline-light text-black text-decoration-none" onClick={handleLogout}>
+                        <button
+                          className="btn btn-outline-light text-black text-decoration-none"
+                          onClick={handleLogout}
+                        >
                           <i className="bi bi-lock bi-lg"></i>
                           <span>Logout</span>
                         </button>
-                        <Link
-                           to="admin"
-                           className=" align-items-center gap-10 text-black btn btn-outline-light text-black text-decoration-none">
-                                 <i class="bi bi-gear-fill fs-4"></i>
-                                 <p className="mb-0"></p>
-                        </Link>
-                  
+                        {hasPrivilege && (
+                          <Link
+                            to="admin"
+                            className="align-items-center gap-10 text-black btn btn-outline-light text-black text-decoration-none"
+                          >
+                            <i className="bi bi-gear-fill fs-4"></i>
+                            <p className="mb-0">Admin</p>
+                          </Link>
+                        )}
                       </div>
-
                     </>
                   ) : (
-                   
                     <Link
                       to="login"
                       className="d-flex align-items-center gap-10 text-black container-fluid btn btn-outline-light text-black text-decoration-none"
@@ -110,9 +120,7 @@ const Header = () => {
                       <i className="d-flex bi bi-person fs-3"></i>
                       <p className="mb-0">Login</p>
                     </Link>
-                  
                   )}
-                   
                 </div>
               </div>
             </div>
