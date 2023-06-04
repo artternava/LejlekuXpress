@@ -7,7 +7,8 @@ import {
     MDBRow,
     MDBTypography,
   MDBCardImage,
-  MDBCardTitle
+  MDBCardTitle,
+  MDBModal
   } from "mdb-react-ui-kit";
   import axios from 'axios';
   import useAuthToken from './useAuthToken.js';
@@ -1050,6 +1051,8 @@ function ShippingInfo() {
     const [isAddListingVisible, setIsListingVisible] = useState(false);
     const [listings, setListings] = useState([]);
     const [category, setCategory] = useState([]);
+    const [selectedListing, setSelectedListing] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [newListing, setNewListing] = useState({
       OwnerId: '',
       Name: '',
@@ -1083,6 +1086,18 @@ function ShippingInfo() {
       }));
     };
 
+    const handleSelectedInputChange = (event) => {
+      const { name, value } = event.target;
+      setSelectedListing((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      setFormErrors((prevState) => ({
+        ...prevState,
+        [name]: false,
+      }));
+    };
+
     const handleImageUpload = (event) => {
       const file = event.target.files[0];
       const reader = new FileReader();
@@ -1096,7 +1111,20 @@ function ShippingInfo() {
       };
       reader.readAsDataURL(file);
     };
-  
+    
+    const handleSelectedImageUpload = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+    
+      reader.onloadend = () => {
+        const base64Data = reader.result.split(',')[1];
+        setSelectedListing((prevState) => ({
+          ...prevState,
+          Image: base64Data,
+        }));
+      };
+      reader.readAsDataURL(file);
+    };
     const toggleListingForm = () => {
       setIsListingVisible(!isAddListingVisible);
     };
@@ -1178,9 +1206,34 @@ function ShippingInfo() {
           window.location.href = '/userdashboard';
         }
       } catch (error) {
-        console.error('Error deleting address:', error);
+        console.error('Error deleting listing:', error);
       }
     };
+
+    const updateListing = async (id) => {
+      try {
+        const confirmUpdate = window.confirm('Are you sure you want to update this listing?');
+        if (confirmUpdate) {
+          await axios.put(`http://localhost:39450/api/Product/update?id=${id}`, selectedListing);
+          fetchListingsFromDatabase();
+          closeModal();
+          window.location.href = '/userdashboard';
+        }
+      } catch (error) {
+        console.error('Error updating listing:', error);
+      }
+    };
+
+    const openModal = (listing) => {
+      setSelectedListing(listing);
+      console.log(selectedListing)
+      setIsModalOpen(true);
+    };
+    
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+
     //#region Convert Image Extension
     const getImageExtension = (imageData) => {
       if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
@@ -1253,6 +1306,7 @@ function ShippingInfo() {
                                     </div>
                                     <h6 class="text-success">${listing.shippingPrice}</h6>
                                     <div class="d-flex flex-column mt-4">
+                                      <button className="btn btn-primary btn-sm mt-2" type="button" onClick={() => openModal(listing)}>Update Listing</button>
                                       <button class="btn btn-outline-danger btn-sm mt-2" type="button" onClick={() => deleteListing(listing.id)}>Delete</button>
                                     </div>
                                   </div>
@@ -1260,14 +1314,179 @@ function ShippingInfo() {
                             </div>
                           </div>
                         </div>
-                        </div>
+                      </div>
                     ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
-  
+        <MDBModal show={isModalOpen} onHide={closeModal}>
+          <div className="custom-modal" style={{ backgroundColor: "#fff", width: "50%", margin: "auto", padding: "20px", borderRadius: "20px", marginTop: "10%" }}>
+            <div className="custom-modal-header" style={{ display: "flex", alignItems: "center" }}>
+              <h5 className="modal-title mb-3" style={{ marginRight: "auto" }}>Listing Details</h5>
+              <button type="button" className="btn-close" onClick={closeModal}></button>
+            </div>
+            <div className="custom-modal-body">
+              {selectedListing && (
+                <div className="col-md-12">
+                <div className="p-3 py-5">
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h4 className="text-right">Listing Details</h4>
+                  </div>
+                  <div className="row mt-2">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="productName" className="labels">
+                          Product Name
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          className="form-control"
+                          placeholder="Product Name"
+                          name="name"
+                          value={selectedListing.name}
+                          onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.name && <p className="text-danger">Product Name is required</p>}
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="productQuantity" className="labels">
+                          Quantity
+                        </label>
+                        <input
+                          type="number"
+                          id="quantity"
+                          className="form-control"
+                          placeholder="Quantity"
+                          name="quantity"
+                          value={selectedListing.quantity}
+                          onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.Quantity && <p className="text-danger">Quantity is required</p>}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row mt-3">
+                    <div className="col-md-6">
+                      <label htmlFor="productDescription" className="labels">
+                      Specifications
+                      </label>
+                      <textarea 
+                        style={{ height: "100px" }} 
+                        id="specifications" 
+                        className="form-control" 
+                        placeholder="Specifications" 
+                        name="specifications"
+                        value={selectedListing.specifications}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.Name && <p className="text-danger">Specifications is required</p>}
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="productImages" className="labels">
+                          Images
+                        </label>
+                        <input
+                          type="file"
+                          id="productImages"
+                          className="form-control"
+                          multiple
+                          onChange={handleSelectedImageUpload}
+                        />
+                        {formErrors.Image && <p className="text-danger">Image is required</p>}
+                        {/*  */}
+                        <label htmlFor="category" className="labels">Category</label>
+                        <select
+                        className="form-control"
+                        id="categoryId"
+                        name="categoryId"
+                        value={selectedListing.categoryId}
+                        onChange={handleSelectedInputChange}
+                        >
+                        <option value="">Select Category</option>
+                        {category.map((category) => (
+                          <option key={category.id} value={category.id}>
+                            {category.categoryName}
+                          </option>
+                        ))}
+                      </select>
+                      {formErrors.CategoryId && <p className="text-danger">Category is required</p>}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row mt-3">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="productDescription" className="labels">
+                          Description
+                        </label>
+                        <textarea
+                          id="description" 
+                          className="form-control" 
+                          placeholder="Product Description" 
+                          name="description"
+                          value={selectedListing.description}
+                          onChange={handleSelectedInputChange}
+                        />
+                        {formErrors.Description && <p className="text-danger">Description is required</p>}
+                        <div className="row mt-2">
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="Price" className="labels">
+                                Price
+                              </label>
+                              <input
+                                type="number"
+                                id="price"
+                                className="form-control"
+                                placeholder="Price"
+                                name="price"
+                                value={selectedListing.price}
+                                onChange={handleSelectedInputChange}
+                              />
+                              {formErrors.price && <p className="text-danger">Price is required</p>}
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="shippingPrice" className="labels">
+                                Shipping Price
+                              </label>
+                              <input
+                                type="number"
+                                id="shippingPrice"
+                                className="form-control"
+                                placeholder="Shipping Price"
+                                name="shippingPrice"
+                                value={selectedListing.shippingPrice}
+                                onChange={handleSelectedInputChange}
+                              />
+                              {formErrors.shippingPrice && (
+                                <p className="text-danger">Shipping Price is required</p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-5 text-center">
+                    <button className="btn btn-primary me-2" type="submit" onClick={() => updateListing(selectedListing.id)}>Save Listing</button>
+                    <button className="btn btn-danger" type="button" onClick={closeModal}>Cancel</button>
+                  </div>
+                </div>
+              </div>
+              )}
+            </div>
+          </div>
+        </MDBModal>
+
+
         <div
           id="add-edit-address"
           style={{ display: isAddListingVisible ? 'block' : 'none' }}
