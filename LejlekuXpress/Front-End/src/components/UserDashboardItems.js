@@ -1344,7 +1344,7 @@ function ShippingInfo() {
           </div>
         </div>
         <MDBModal show={isModalOpen} onHide={closeModal}>
-          <div className="custom-modal" style={{ backgroundColor: "#fff", width: "50%", margin: "auto", padding: "20px", borderRadius: "20px", marginTop: "10%" }}>
+          <div className="custom-modal" style={{ backgroundColor: "#fff", width: "50%", margin: "auto", padding: "20px", borderRadius: "20px", marginTop: "5%" }}>
             <div className="custom-modal-header" style={{ display: "flex", alignItems: "center" }}>
               <h5 className="modal-title mb-3" style={{ marginRight: "auto" }}>Listing Details</h5>
               <button type="button" className="btn-close" onClick={closeModal}></button>
