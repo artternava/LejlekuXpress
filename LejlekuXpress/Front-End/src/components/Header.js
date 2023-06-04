@@ -106,8 +106,7 @@ const Header = () => {
                             to="admin"
                             className="align-items-center gap-10 text-black btn btn-outline-light text-black text-decoration-none"
                           >
-                            <i className="bi bi-gear-fill fs-4"></i>
-                            <p className="mb-0">Admin</p>
+                            <i className="bi bi-person-fill-gear fs-4"></i>
                           </Link>
                         )}
                       </div>
