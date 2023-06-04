@@ -15,8 +15,7 @@ namespace LejlekuXpress.Controllers
             _service = service;
         }
 
-
-
+        #region Get
         [HttpGet("get")]
         public async Task<IActionResult> GetUser(int id)
         {
@@ -32,7 +31,9 @@ namespace LejlekuXpress.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region Delete
         [HttpDelete("delete")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -46,7 +47,9 @@ namespace LejlekuXpress.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region Update
         [HttpPut("update")]
         public async Task<IActionResult> Update(int id, UserDTO request)
         {
@@ -62,7 +65,9 @@ namespace LejlekuXpress.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region GetAll
         [HttpGet("getall")]
         public async Task<IActionResult> GetAll()
         {
@@ -76,6 +81,24 @@ namespace LejlekuXpress.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
+        #region MakeMod
+        [HttpPut("makemod")]
+        public async Task<IActionResult> MakeMod(int id)
+        {
+            try
+            {
+                var result = _service.MakeMod(id);
+                if (result == null)
+                    return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }
