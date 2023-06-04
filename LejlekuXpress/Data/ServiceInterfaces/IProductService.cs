@@ -11,6 +11,8 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<Product> UpdateProduct(int id, ProductDTO request);
         Task<IEnumerable<Product>> GetAll();
         Task<List<Product>> GetProductByUserId(int ownerId);
-        Task<Product> UpdateProductIsApproved(int id, bool isApproved, bool isReviewed);
+        Task<Product> UpdateProductIsApproved(int id);
+
+        Task<IEnumerable<Product>> GetAllWhereNotApproved();
     }
 }

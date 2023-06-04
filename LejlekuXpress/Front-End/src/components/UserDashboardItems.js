@@ -19,6 +19,7 @@ import {
       firstName: '',
       lastName: '',
       email: '',
+      profilePicture: '',
       phoneNumber: '',
       countryCode: '',
     });
@@ -27,6 +28,7 @@ import {
       firstName: false,
       lastName: false,
       email: false,
+      profilePicture: false,
       phoneNumber: false,
       countryCode: false,
     });
@@ -37,6 +39,7 @@ import {
       }
     }, [userId]);
   
+    
     async function fetchUserDetails() {
       try {
         const response = await axios.get(`http://localhost:39450/api/User/get?id=${userId}`);
@@ -56,6 +59,7 @@ import {
             email: userData.email,
             phoneNumber: phoneNumber,
             countryCode: countryCode,
+            profilePicture: userData.profilePicture,
           });
     
           console.log(user);
@@ -77,7 +81,7 @@ import {
   
     async function updateUserDetails() {
       try {
-        const { firstName, lastName, email, phoneNumber, countryCode } = user;
+        const { firstName, lastName, email, phoneNumber, countryCode, profilePicture} = user;
   
         if (firstName.trim() === '' || lastName.trim() === '' || email.trim() === '') {
           setFormErrors({
@@ -109,7 +113,7 @@ import {
           lastName: lastName,
           email: email,
           phoneNumber: formattedPhoneNumber,
-          profilePicture: null,
+          profilePicture: profilePicture,
         });
         if (response.status === 200) {
           window.alert('Profile saved successfully');
@@ -122,12 +126,57 @@ import {
       }
     }
   
-    function handleInputChange(event) {
+    const handleInputChange = (event) => {
       const { name, value } = event.target;
-      setUser({ ...user, [name]: value });
-      setFormErrors({ ...formErrors, [name]: false });
-    }
-  
+      setUser((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+      setFormErrors((prevState) => ({
+        ...prevState,
+        [name]: false,
+      }));
+    };
+
+    const handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+    
+      reader.onloadend = () => {
+        const base64Data = reader.result.split(',')[1];
+        setUser((prevState) => ({
+          ...prevState,
+          profilePicture: base64Data,
+        }));
+      };
+      reader.readAsDataURL(file);
+    };
+    const getImageExtension = (imageData) => {
+      if (!imageData || imageData.length === 0) {
+        return 'jpeg';
+      }
+      if (
+        (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) ||
+        (imageData[0] === 0xFF && imageData[1] === 0xD9)
+      ) {
+        return 'jpeg';
+      }
+      if (
+        imageData[0] === 0x89 &&
+        imageData[1] === 0x50 &&
+        imageData[2] === 0x4E &&
+        imageData[3] === 0x47 &&
+        imageData[4] === 0x0D &&
+        imageData[5] === 0x0A &&
+        imageData[6] === 0x1A &&
+        imageData[7] === 0x0A
+      ) {
+        return 'png';
+      }
+      return 'jpeg';
+    };
+
+
     return (
       <div className="container-userdashboard-tabs">
         <div className="container rounded bg-white mt-5 mb-5">
@@ -135,10 +184,17 @@ import {
             <div className="col-md-4 border-right">
               <div className="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img
-                  className="rounded-circle mt-5"
-                  src="https://i.pinimg.com/564x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"
+                  className="rounded-circle mt-5 mb-3"
+                  src={`data:image/${getImageExtension(user.profilePicture)};base64,${user.profilePicture}`}
                   alt="user profile"
-                  width="150px"
+                  width="30%"
+                />
+                <input
+                  type="file"
+                  id="profilePicture"
+                  className="form-control"
+                  multiple
+                  onChange={handleImageUpload}
                 />
                 <span className="font-weight-bold">{user.firstName}</span>
                 <span className="text-black-50">{user.email}</span>

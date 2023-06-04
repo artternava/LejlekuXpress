@@ -1,72 +1,112 @@
-import React, { useState } from 'react';
-import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { MDBTable, MDBTableHead, MDBTableBody, MDBModal, MDBModalHeader, MDBModalBody, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn } from 'mdb-react-ui-kit';
 
 function Products() {
-    const [listings, setListings] = useState([
-        { id: 1, name: "Samsung Galaxy A12", price: 249.99, seller: "David Lee", status: "pending" },
-        { id: 2, name: "Sony Bravia 55 inch TV", price: 899.99, seller: "Mark Johnson", status: "approved" },
-        { id: 3, name: "Apple Watch Series 6", price: 399.99, seller: "Emily Chen", status: "rejected" },
-        { id: 4, name: "Canon EOS M50", price: 649.99, seller: "Robert Smith", status: "pending" },
-        { id: 5, name: "Microsoft Surface Laptop 4", price: 1199.99, seller: "Sophia Lee", status: "approved" },
-        { id: 6, name: "Bose QuietComfort Earbuds", price: 279.99, seller: "Michael Brown", status: "rejected" },
-        { id: 7, name: "Lenovo IdeaPad Gaming 3", price: 849.99, seller: "Erica Davis", status: "pending" },
-        { id: 8, name: "Xbox Series X", price: 499.99, seller: "Andrew Wilson", status: "approved" },
-        { id: 9, name: "Samsung Galaxy Watch 4", price: 349.99, seller: "Jennifer Kim", status: "rejected" },
-        { id: 10, name: "LG Gram 16", price: 1299.99, seller: "John Smith", status: "pending" },
-        { id: 11, name: "Dyson V11 Absolute", price: 599.99, seller: "Rachel Johnson", status: "approved" },
-        { id: 12, name: "Apple iPad Pro", price: 899.99, seller: "Kevin Lee", status: "rejected" },
-        { id: 13, name: "Garmin Forerunner 945", price: 599.99, seller: "Amanda Chen", status: "pending" },
-        { id: 14, name: "Dell XPS 13", price: 1199.99, seller: "Jack Wilson", status: "approved" },
-        { id: 15, name: "Beats Studio Buds", price: 149.99, seller: "Amy Davis", status: "rejected" }
-      ]);
-      
+  const [listings, setListings] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [selectedListing, setSelectedListing] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleApprove = (id) => {
-    const updatedListings = listings.map(listing => {
-      if (listing.id === id) {
-        return { ...listing, status: "approved" };
-      } else {
-        return listing;
-      }
-    });
-    setListings(updatedListings);
+  useEffect(() => {
+    fetchListings();
+    fetchUsers();
+  }, []);
+
+  const fetchListings = async () => {
+    try {
+      const response = await axios.get('http://localhost:39450/api/Product/getallnotapproved');
+      setListings(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleReject = (id) => {
-    const updatedListings = listings.map(listing => {
-      if (listing.id === id) {
-        return { ...listing, status: "rejected" };
-      } else {
-        return listing;
-      }
-    });
-    setListings(updatedListings);
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:39450/api/User/getall');
+      setUsers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const handleApprove = async (id) => {
+    try {
+      const confirmDelete = window.confirm('Are you sure you want to approve this listing?');
+      if (confirmDelete) {
+        await axios.put(`http://localhost:39450/api/Product/updateisapproved?id=${id}`);
+        fetchListings();
+        window.location.href = '/admin';
+      }
+    } catch (error) {
+      console.error('Error deleting listing:', error);
+    }
+  };
+
+  const handleReject = async (id) => {
+    try {
+      const confirmDelete = window.confirm('Are you sure you want to delete this listing?');
+      if (confirmDelete) {
+        await axios.delete(`http://localhost:39450/api/Product/delete?id=${id}`);
+        fetchListings();
+        window.location.href = '/admin';
+      }
+    } catch (error) {
+      console.error('Error updating listing:', error);
+    }
+  };
+
   const handleView = (id) => {
     const listing = listings.find(listing => listing.id === id);
-    console.log(listing);
+    setSelectedListing(listing);
+    setIsModalOpen(true);
   };
-  
-  
+
+  const getUserName = (ownerId) => {
+    const user = users.find(user => user.id === ownerId);
+    return user ? `${user.firstName} ${user.lastName}` : '';
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const getImageExtension = (imageData) => {
+    if (!imageData) {
+      return '';
+    }
+
+    if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
+      return 'jpeg';
+    }
+    if (
+      imageData[0] === 0x89 &&
+      imageData[1] === 0x50 &&
+      imageData[2] === 0x4E &&
+      imageData[3] === 0x47 &&
+      imageData[4] === 0x0D &&
+      imageData[5] === 0x0A &&
+      imageData[6] === 0x1A &&
+      imageData[7] === 0x0A
+    ) {
+      return 'png';
+    }
+    return 'jpeg';
+  };
   return (
     <div>
       <div className="row mb-2">
         <div className="col-6 text-start">
-          <h1 style={{fontSize: "35px"}}>Manage Listings</h1>
-        </div>
-        <div className="col-6 text-end">
-          <button className="btn btn-success me-2" onClick={() => {}}>Approve All</button>
-          <button className="btn btn-danger" onClick={() => {}}>Reject All</button>
+          <h1 style={{ fontSize: "35px" }}>Manage Listings</h1>
         </div>
       </div>
-  
+
       <MDBTable align='middle'>
         <MDBTableHead light>
           <tr>
             <th scope='col'>Name</th>
             <th scope='col'>Price</th>
             <th scope='col'>Seller</th>
-            <th scope='col'>Status</th>
             <th scope='col'>Details</th>
             <th scope='col'>Action</th>
           </tr>
@@ -76,32 +116,51 @@ function Products() {
             <tr key={listing.id}>
               <td>{listing.name}</td>
               <td>${listing.price}</td>
-              <td>{listing.seller}</td>
-              <td>
-                {listing.status === "pending" && <span className="badge bg-warning text-dark">Pending</span>}
-                {listing.status === "approved" && <span className="badge bg-success">Approved</span>}
-                {listing.status === "rejected" && <span className="badge bg-danger">Rejected</span>}
-              </td>
+              <td>{getUserName(listing.ownerId)}</td>
               <td>
                 <button className="btn btn-primary" onClick={() => handleView(listing.id)}>View</button>
               </td>
               <td>
-                {listing.status === "pending" && (
-                  <>
-                    <button className="btn btn-success me-2" onClick={() => handleApprove(listing.id)}>Approve</button>
-                    <button className="btn btn-danger" onClick={() => handleReject(listing.id)}>Reject</button>
-                  </>
-                )}
+                <button className="btn btn-success me-2" onClick={() => handleApprove(listing.id)}>Approve</button>
+                <button className="btn btn-danger" onClick={() => handleReject(listing.id)}>Reject</button>
               </td>
             </tr>
           ))}
         </MDBTableBody>
       </MDBTable>
+
+      <MDBModal show={isModalOpen} onHide={closeModal}>
+        <div className="custom-modal" style={{backgroundColor: "#fff", width: "50%", margin: "auto", padding: "20px", borderRadius: "20px", marginTop: "10%"}}>
+        <div className="custom-modal-header" style={{ display: "flex", alignItems: "center" }}>
+          <h5 className="modal-title mb-3" style={{ marginRight: "auto" }}>Listing Details</h5>
+          <button type="button" className="btn-close" onClick={closeModal}></button>
+        </div>
+          <div className="custom-modal-body">
+            {selectedListing && (
+              <div className="row">
+              <div className="col-md-6">
+                <div>
+                  <h4>{selectedListing.name}</h4>
+                  <p><b>Price: </b>${selectedListing.price}</p>
+                  <p><b>Shipping Price: </b>${selectedListing.shippingPrice}</p>
+                  <p><b>Seller: </b>{getUserName(selectedListing.ownerId)}</p>
+                  <p><b>Specifications: </b>{selectedListing.specifications}</p>
+                  <p><b>Description: </b>{selectedListing.description}</p>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div>
+                  <img src={`data:image/${getImageExtension(selectedListing.image)};base64,${selectedListing.image}`} alt="Product" style={{width: "300px"}}/>
+                </div>
+              </div>
+            </div>
+              
+            )}
+          </div>
+        </div>
+      </MDBModal>
     </div>
   );
-  
-  
 }
 
-export { Products }
-
+export { Products };

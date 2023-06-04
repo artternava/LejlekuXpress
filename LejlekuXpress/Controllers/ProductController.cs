@@ -116,15 +116,31 @@ namespace LejlekuXpress.Controllers
         }
         #endregion
 
-        #region Update
-        [HttpPut("updateIsApproved")]
-        public async Task<IActionResult> UpdateIsApproved(int id, bool isApproved, bool isReviewed)
+        #region UpdateIsApproved
+        [HttpPut("updateisapproved")]
+        public async Task<IActionResult> UpdateIsApproved(int id)
         {
             try
             {
-                var result = await _service.UpdateProductIsApproved(id, isApproved, isReviewed);
+                var result = await _service.UpdateProductIsApproved(id);
                 if (result == null)
                     return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
+
+        #region GetAllWhereNotApproved
+        [HttpGet("getallnotapproved")]
+        public async Task<IActionResult> GetAllWhereNotApproved()
+        {
+            try
+            {
+                var result = await _service.GetAllWhereNotApproved();
                 return Ok(result);
             }
             catch (Exception ex)

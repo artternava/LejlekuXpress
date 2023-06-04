@@ -14,7 +14,7 @@ namespace LejlekuXpress.Models
         public int OwnerId { get; set; }
         public User Owner { get; set; }
 
-        public bool? IsApproved { get; set; }
+        public bool IsApproved { get; set; }
 
         [Required]
         public string Name { get; set; }

@@ -14,6 +14,7 @@ namespace LejlekuXpress.Services
             _dbContext = dbContext;
         }
 
+        #region GetAll
         public async Task<IEnumerable<Category>> GetAll()
         {
             try
@@ -27,7 +28,9 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to get all categories."); ;
             }
         }
+        #endregion
 
+        #region GetById
         public async Task<Category> GetCategory(int id)
         {
             try
@@ -40,7 +43,7 @@ namespace LejlekuXpress.Services
                 Console.WriteLine(ex.Message);
                 throw new Exception("An error occurred while attempting to get category.");
             }
-
         }
+        #endregion
     }
 }

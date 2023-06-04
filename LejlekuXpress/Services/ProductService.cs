@@ -150,15 +150,14 @@ namespace LejlekuXpress.Services
         #endregion
 
         #region UpdateProductStatus
-        public async Task<Product> UpdateProductIsApproved(int id, bool isApproved, bool isReviewed)
+        public async Task<Product> UpdateProductIsApproved(int id)
         {
             try
             {
                 var product = _context.Product.Find(id);
                 if (product != null)
                 {
-                    product.IsApproved = isApproved;
-                    product.IsReviewed = isReviewed;
+                    product.IsApproved = true;
 
                     _context.SaveChanges();
                 }
@@ -168,6 +167,25 @@ namespace LejlekuXpress.Services
             {
                 Console.WriteLine(ex.Message);
                 throw new Exception("An error occurred while attempting to update the product record."); ;
+            }
+        }
+        #endregion
+
+        #region GetAllWhereNotApproved
+        public async Task<IEnumerable<Product>> GetAllWhereNotApproved()
+        {
+            try
+            {
+                var result = await _context.Product
+                           .Where(p => !p.IsApproved)
+                           .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to get all the product records."); ;
             }
         }
         #endregion
