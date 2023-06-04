@@ -12,5 +12,7 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<User> UpdateUser(int id, UserDTO request);
 
         Task<IEnumerable<User>> GetAll();
+
+        Task<User> MakeMod(int id);
     }
 }
