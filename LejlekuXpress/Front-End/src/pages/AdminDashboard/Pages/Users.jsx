@@ -74,7 +74,20 @@ function Users() {
           window.location.href = '/userdashboard';
         }
       } catch (error) {
-        console.error('Error deleting address:', error);
+        console.error('Error deleting user:', error);
+      }
+    };
+
+    const makeMod = async (id) => {
+      try {
+        const confirmDelete = window.confirm('Are you sure you want to make this user a moderator?');
+        if (confirmDelete) {
+          await axios.put(`http://localhost:39450/api/User/makemod?id=${id}`);
+          fetchUserDetails();
+          window.location.href = '/userdashboard';
+        }
+      } catch (error) {
+        console.error('Error making this user a moderator:', error);
       }
     };
 
@@ -106,8 +119,15 @@ function Users() {
             </td>
             <td>{getRoleNameById(user.roleId)}</td>
             <td>
-              <button className="btn btn-primary me-2">Make Mod</button>
-              <button className="btn btn-danger" type="button" onClick={() => deleteUser(user.id)}>Delete</button>
+              {user.id.toString() === userId && (
+                <button className="btn btn-success me-2" type="button">Session</button>
+              )}
+              {user.id.toString() !== userId && (
+                <button className="btn btn-danger me-2" type="button" onClick={() => deleteUser(user.id)}>Delete</button>
+              )}
+              {user.roleId !== 1 && user.roleId !== 2 && (
+                <button className="btn btn-primary" type="button" onClick={() => makeMod(user.id)}>Make Mod</button>
+              )}
             </td>
           </tr>
         ))}
