@@ -3,16 +3,7 @@ import useAuthToken from './useAuthToken.js';
 
 function Sidebar({ handleTabClick }) {
   const { userRole } = useAuthToken();
-  function showListings() {
-    console.log('userRole:', userRole);
-    if (userRole === 4) {
-      return false;
-    }
-    return true;
-  }
-
-  console.log('showListings:', showListings());
-
+  
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
