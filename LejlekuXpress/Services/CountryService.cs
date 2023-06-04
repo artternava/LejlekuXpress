@@ -15,6 +15,9 @@ namespace LejlekuXpress.Services
             _dbContext = dbContext;
         }
 
+        #region AddCountry
+
+        //NotNeeded
         public async Task<Country> AddCountry(CountryDTO request)
         {
             try
@@ -40,7 +43,9 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the country record.");
             }
         }
+        #endregion
 
+        #region GetCountry
         public async Task<Country> GetCountry(int id)
         {
             try
@@ -54,6 +59,11 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record.");
             }
         }
+        #endregion
+
+        #region DeleteCountry
+
+        //NotNeeded
         public async Task DeleteCountry (int id) 
         {
             try
@@ -72,6 +82,10 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record.");
             }
         }
+        #endregion
+
+        #region UpdateCountry
+        //NotNeeded
         public async Task<Country> UpdateCountry(int id, CountryDTO request)
         {
             try
@@ -96,7 +110,9 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record."); ;
             }
         }
+        #endregion
 
+        #region GetAll
         public async Task<IEnumerable<Country>> GetAll()
         {
             try
@@ -110,5 +126,6 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record."); ;
             }
         }
+        #endregion
     }
 }
