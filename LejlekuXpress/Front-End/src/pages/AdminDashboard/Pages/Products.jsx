@@ -32,29 +32,29 @@ function Products() {
   };
 
   const handleApprove = async (id) => {
-    // try {
-    //   const confirmDelete = window.confirm('Are you sure you want to approve this listing?');
-    //   if (confirmDelete) {
-    //     await axios.put(`http://localhost:39450/api/Product/updateisapproved?id=${id}`);
-    //     fetchListings();
-    //     window.location.href = '/admin';
-    //   }
-    // } catch (error) {
-    //   console.error('Error deleting listing:', error);
-    // }
+    try {
+      const confirmDelete = window.confirm('Are you sure you want to approve this listing?');
+      if (confirmDelete) {
+        await axios.put(`http://localhost:39450/api/Product/updateisapproved?id=${id}`);
+        fetchListings();
+        window.location.href = '/admin';
+      }
+    } catch (error) {
+      console.error('Error deleting listing:', error);
+    }
   };
 
   const handleReject = async (id) => {
-    // try {
-    //   const confirmDelete = window.confirm('Are you sure you want to delete this listing?');
-    //   if (confirmDelete) {
-    //     await axios.delete(`http://localhost:39450/api/Product/delete?id=${id}`);
-    //     fetchListings();
-    //     window.location.href = '/admin';
-    //   }
-    // } catch (error) {
-    //   console.error('Error updating listing:', error);
-    // }
+    try {
+      const confirmDelete = window.confirm('Are you sure you want to delete this listing?');
+      if (confirmDelete) {
+        await axios.delete(`http://localhost:39450/api/Product/delete?id=${id}`);
+        fetchListings();
+        window.location.href = '/admin';
+      }
+    } catch (error) {
+      console.error('Error updating listing:', error);
+    }
   };
 
   const handleView = (id) => {
