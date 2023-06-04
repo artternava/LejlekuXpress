@@ -189,6 +189,7 @@ import {
                   src={`data:image/${getImageExtension(user.profilePicture)};base64,${user.profilePicture}`}
                   alt="user profile"
                   width="30%"
+                  style={{width: "30%", aspectRatio: "1/1", borderRadius: "50%",}}
                 />
                 <input
                   type="file"
@@ -1212,6 +1213,23 @@ function ShippingInfo() {
 
     const updateListing = async (id) => {
       try {
+        const { Name, Quantity, Image, Specifications, Description, Price, CategoryId, ShippingPrice,} = selectedListing;
+        const errors = {
+        Name: Name.length === 0,
+        Quantity: Quantity.length === 0,
+        Image: Image.length === 0,
+        Specifications: Specifications.length === 0,
+        Price: Price.length === 0,
+        ShippingPrice: ShippingPrice.length === 0,
+        Description: Description.length === 0,
+        CategoryId: CategoryId.length === 0,
+      };
+      
+      setFormErrors(errors);
+      if (Object.values(errors).some((value) => value)) {
+        return;
+      }      
+
         const confirmUpdate = window.confirm('Are you sure you want to update this listing?');
         if (confirmUpdate) {
           await axios.put(`http://localhost:39450/api/Product/update?id=${id}`, selectedListing);
@@ -1285,7 +1303,11 @@ function ShippingInfo() {
                                 <div class="row">
                                   <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                                     <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                      <img src={`data:image/${getImageExtension(listing.image)};base64,${listing.image}`} className="w-50" />
+                                      <img 
+                                        src={`data:image/${getImageExtension(listing.image)};base64,${listing.image}`} 
+                                        className="w-50"
+                                        style={{ aspectRatio: "1/1"}} 
+                                      />
                                       <a href="#!">
                                         <div class="hover-overlay">
                                           <div class="mask" style={{backgroundColor: "rgba(253, 253, 253, 0.15)"}}></div>
@@ -1349,7 +1371,7 @@ function ShippingInfo() {
                           value={selectedListing.name}
                           onChange={handleSelectedInputChange}
                       />
-                      {formErrors.name && <p className="text-danger">Product Name is required</p>}
+                      {formErrors.Name && <p className="text-danger">Product Name is required</p>}
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -1384,7 +1406,7 @@ function ShippingInfo() {
                         value={selectedListing.specifications}
                         onChange={handleSelectedInputChange}
                       />
-                      {formErrors.Name && <p className="text-danger">Specifications is required</p>}
+                      {formErrors.Specifications && <p className="text-danger">Specifications is required</p>}
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
@@ -1449,7 +1471,7 @@ function ShippingInfo() {
                                 value={selectedListing.price}
                                 onChange={handleSelectedInputChange}
                               />
-                              {formErrors.price && <p className="text-danger">Price is required</p>}
+                              {formErrors.Price && <p className="text-danger">Price is required</p>}
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -1466,7 +1488,7 @@ function ShippingInfo() {
                                 value={selectedListing.shippingPrice}
                                 onChange={handleSelectedInputChange}
                               />
-                              {formErrors.shippingPrice && (
+                              {formErrors.ShippingPrice && (
                                 <p className="text-danger">Shipping Price is required</p>
                               )}
                             </div>
