@@ -108,7 +108,7 @@ function Users() {
                 <img
                   src={`data:image/${getImageExtension(user.profilePicture)};base64,${user.profilePicture}`}
                   alt=''
-                  style={{ width: '45px', height: '45px' }}
+                  style={{ width: '45px', height: '45px', aspectRatio: "1/1", borderRadius: "50%", }}
                   className='rounded-circle'
                 />
                 <div className='ms-3'>
