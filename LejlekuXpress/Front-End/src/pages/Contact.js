@@ -33,9 +33,9 @@ const Contact = () => {
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-12 text-center">
-            <h1>How can we help you?</h1>
-            <div>
             <h1>Hello, {getUserName(userId)}</h1>
+            <div>
+            <h3>How can we help you?</h3>
             </div>
           </div>
           <div className="col-12 col-md-6 mt-3">
