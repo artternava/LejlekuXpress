@@ -6,7 +6,7 @@ const useAuthToken = () => {
   const [cookies] = useCookies(['access_token']);
   const [token, setToken] = useState(cookies.access_token || '');
   const [userId, setUserId] = useState('');
-  const [userRole, setUserRole] = useState('');
+  const [userRole, setUserRole] = useState(null); // Initialize as null
 
   useEffect(() => {
     setToken(cookies.access_token || '');
