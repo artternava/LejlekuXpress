@@ -1,10 +1,11 @@
 ﻿using LejlekuXpress.Data;
+using LejlekuXpress.Data.ServiceInterfaces;
 using LejlekuXpress.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LejlekuXpress.Services
 {
-    public class RolesService
+    public class RolesService : IRolesService
     {
         private readonly AppDbContext _context;
         public RolesService(AppDbContext context)
