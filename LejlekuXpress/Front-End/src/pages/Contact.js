@@ -1,14 +1,44 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import useAuthToken from '../components/useAuthToken';
+import axios from 'axios';
+
 const Contact = () => {
+  const { userId } = useAuthToken();
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [userId]);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:39450/api/User/getall');
+      setUsers(response.data);
+      console.log(users)
+      console.log(userId)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getUserName = (userId) => {
+    const user = users.find(user => user.id.toString() === userId.toString());
+    return user ? `${user.firstName} ${user.lastName}` : '';
+  };
+
+
   return (
     <>
-      <div class="container mt-5">
-        <div class="row justify-content-center">
-          <div class="col-12 text-center">
+      <div className="container mt-5">
+        <div className="row justify-content-center">
+          <div className="col-12 text-center">
             <h1>How can we help you?</h1>
+            <div>
+            <h1>Hello, {getUserName(userId)}</h1>
+            </div>
           </div>
-          <div class="col-12 col-md-6 mt-3">
+          <div className="col-12 col-md-6 mt-3">
             <input type="text" class="form-control" placeholder="Search"></input>
           </div>
           <div className="row mt-3 justify-content-center">
