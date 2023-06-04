@@ -1,59 +1,78 @@
 import React from "react";
-import ReactStars from "react-stars";
 import { Link } from "react-router-dom";
 
-const SpecialProduct = () => {
-  return (
-    <div className="col-6 mb-3">
-      <div className="special-product-card">
-        <div className="d-flex justify-content-between ">
-          <div>
-            <img src="images/watch.jpg" className="img-fluid" alt="watch" />
-          </div>
-          <div className="special-product-content">
-            <h5 className="brand">Havels</h5>
-            <h6 className="title">Samsung Galaxy Watch5 Pro <br /> Smart Watch</h6>
-            <ReactStars
-              count={5}
-              size={24}
-              value={4}
-              edit={false}
-              activeColor="#ffd700"
-            />
-            <p className="price">
-              <span className="red-p">100€</span> &nbsp; <strike>200€</strike>
-            </p>
-            <div className="discount-till d-flex align-items-center gap-10">
-              <p className="mb-0">
-                <b>5 </b>days
-              </p>
-              <div className="d-flex gap-10 align-items-center">
-                <span className="badge rounded-circle p-3 bg-danger">1</span>:
-                <span className="badge rounded-circle p-3 bg-danger">1</span>:
-                <span className="badge rounded-circle p-3 bg-danger">1</span>
-              </div>
-            </div>
+const items = [  {   
+  name: "Iphone 14",
+  quantity: 1,
+  imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+  specification: ["Option 1", "Option 2", "Option 3"],
+  description: "lorem ipsum",
+  price: "1000", 
+  category: "Laptop",},
+  {   
+    name: "Iphone 3g",
+    quantity: 1,
+    imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+    specification: ["Option 1", "Option 2", "Option 3"],
+    description: "lorem ipsum",
+    price: "100",   
+    category: "Laptop",},
+    {   
+      name: "Nokia",
+      quantity: 1,
+      imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
+      specification: ["Option 1", "Option 2", "Option 3"],
+      description: "lorem ipsum",
+      price: "800",
+      category: "Laptop", }];
 
-            <div className="prod-count my-3">
-              <p>Products: 5</p>
-              <div className="progress">
-                <div
-                  className="progress-bar"
-                  role="progressbar"
-                  style={{ width: "25%" }}
-                  aria-valuenow="25"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                ></div>
-              </div>
-            </div>
 
-            <Link className="btn btn-primary">Add to Cart</Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+      function SpecialProduct() {
+        
+        return (
+          <>
+            {items.map((items) => (     
+              
+               <div className="col-md-6 col-lg-4 mb-4 mb-md-0 ">
+                <div className="mb-4">
+               <div className="card">
+                 <div className="d-flex justify-content-between p-3">
+                   <p className="lead mb-0">Items of the day</p>     
+                 </div>
+                 <div className="text-center">
+                 <img src={items.imageSrc} className="card-img-top align-items-center" alt="Gaming Laptop " style={{ width: '40%'}}/>
+                 </div>
+                 <div className="card-body">
+                   <div className="d-flex justify-content-between">
+                     <p className="small"><a href="#!" className="text-muted">{items.category}</a></p>
+                   </div>
+         
+                   <div className="d-flex justify-content-between mb-3">
+                     <h5 className="mb-0">{items.name}</h5>
+                     <h5 className="text-dark mb-0">${items.price}</h5>
+                   </div>
+         
+                   <div className="d-flex justify-content-between mb-2">
+                     <p className="text-muted mb-0">Available: <span className="fw-bold">{items.quantity}</span></p> 
+                     <div className="ms-auto text-warning">
+                       
+                     <button type="button" class="btn btn-danger btn-sm mb-2 me-4 " data-mdb-toggle="tooltip" title="Move to the wish list">
+                        <i class="bi bi-heart-fill"></i>
+                     </button>
+                     
+                     <button type="button" class="btn btn-warning btn-sm mb-2 " data-mdb-toggle="tooltip" title="Move to the wish list">
+                     <i className="bi bi-cart4 "></i>
+                     </button>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             </div>
+            ))}
+            </>
+          );          
+    }
 
-export default SpecialProduct;
+
+export default SpecialProduct
