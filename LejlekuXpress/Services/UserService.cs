@@ -14,7 +14,7 @@ namespace LejlekuXpress.Services
         {
             _dbContext = context;
         }
-
+        #region GetUser
         public async Task<User> GetUser(int id)
         {
             try
@@ -28,6 +28,9 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record.");
             }
         }
+        #endregion
+
+        #region DeleteUser
         public async Task DeleteUser(int id)
         {
             try
@@ -46,6 +49,9 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record.");
             }
         }
+        #endregion
+
+        #region UpdateUser
         public async Task<User> UpdateUser(int id, UserDTO request)
         {
             try
@@ -70,7 +76,9 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record."); ;
             }
         }
+        #endregion
 
+        #region GetAll
         public async Task<IEnumerable<User>> GetAll()
         {
             try
@@ -84,6 +92,29 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the user record."); ;
             }
         }
+        #endregion
+
+        #region MakeMod
+        public async Task<User> MakeMod(int id)
+        {
+            try
+            {
+                var user = _dbContext.User.Find(id);
+                if (user != null)
+                {
+                    user.RoleId = 2;
+
+                    _dbContext.SaveChanges();
+                }
+                return user;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to save the user record."); ;
+            }
+        }
+        #endregion
 
     }
 }

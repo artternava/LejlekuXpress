@@ -24,7 +24,7 @@ namespace LejlekuXpress.Services
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw new Exception("An error occurred while attempting to save the user record."); ;
+                throw new Exception("An error occurred while attempting to get all categories."); ;
             }
         }
 
@@ -38,7 +38,7 @@ namespace LejlekuXpress.Services
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw new Exception("An error occurred while attempting to get the category name.");
+                throw new Exception("An error occurred while attempting to get category.");
             }
 
         }
