@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   const isPrivileged = () => {
-    if (userRole === 1 || userRole === 2) {
+    if (userRole === '1' || userRole === '2') {
       setHasPrivilege(true);
     } else {
       setHasPrivilege(false);
