@@ -72,26 +72,26 @@ function Products() {
     setIsModalOpen(false);
   };
   const getImageExtension = (imageData) => {
-    // if (!imageData) {
-    //   return '';
-    // }
+    if (!imageData) {
+      return '';
+    }
 
-    // if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
-    //   return 'jpeg';
-    // }
-    // if (
-    //   imageData[0] === 0x89 &&
-    //   imageData[1] === 0x50 &&
-    //   imageData[2] === 0x4E &&
-    //   imageData[3] === 0x47 &&
-    //   imageData[4] === 0x0D &&
-    //   imageData[5] === 0x0A &&
-    //   imageData[6] === 0x1A &&
-    //   imageData[7] === 0x0A
-    // ) {
-    //   return 'png';
-    // }
-    // return 'jpeg';
+    if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
+      return 'jpeg';
+    }
+    if (
+      imageData[0] === 0x89 &&
+      imageData[1] === 0x50 &&
+      imageData[2] === 0x4E &&
+      imageData[3] === 0x47 &&
+      imageData[4] === 0x0D &&
+      imageData[5] === 0x0A &&
+      imageData[6] === 0x1A &&
+      imageData[7] === 0x0A
+    ) {
+      return 'png';
+    }
+    return 'jpeg';
   };
   return (
     <div>
@@ -129,7 +129,7 @@ function Products() {
         </MDBTableBody>
       </MDBTable>
 
-      {/* <MDBModal show={isModalOpen} onHide={closeModal}>
+      <MDBModal show={isModalOpen} onHide={closeModal}>
         <div className="custom-modal" style={{backgroundColor: "#fff", width: "50%", margin: "auto", padding: "20px", borderRadius: "20px", marginTop: "10%"}}>
         <div className="custom-modal-header" style={{ display: "flex", alignItems: "center" }}>
           <h5 className="modal-title mb-3" style={{ marginRight: "auto" }}>Listing Details</h5>
@@ -158,7 +158,7 @@ function Products() {
             )}
           </div>
         </div>
-      </MDBModal> */}
+      </MDBModal>
     </div>
   );
 }
