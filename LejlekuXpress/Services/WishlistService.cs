@@ -1,11 +1,12 @@
 ﻿using LejlekuXpress.Data;
 using LejlekuXpress.Data.DTO;
+using LejlekuXpress.Data.ServiceInterfaces;
 using LejlekuXpress.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LejlekuXpress.Services
 {
-    public class WishlistService
+    public class WishlistService : IWishlistService
     {
         private readonly AppDbContext _context;
 
