@@ -8,5 +8,7 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<Wishlist> AddItem(WishlistDTO request);
 
         Task<List<Wishlist>> GetByUserId(int userId);
+
+        Task DeleteItem(int id);
     }
 }
