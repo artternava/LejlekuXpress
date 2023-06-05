@@ -102,7 +102,7 @@ const Contact = () => {
     </h2>
     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <strong>About payment methods.</strong>  We offer a variety of convenient payment methods to ensure a seamless and secure transaction experience. When making a purchase, you can choose from multiple payment options to suit your preferences. We accept major credit cards such as Visa, Mastercard, and American Express, providing you with flexibility and ease of use. Additionally, we also support popular digital payment methods, including PayPal and Apple Pay, for a faster and more streamlined checkout process. These digital payment options offer enhanced security measures and enable you to make purchases without sharing your sensitive financial information. We are continuously exploring new payment methods to provide you with even more choices in the future. Rest assured, all payment transactions are encrypted and safeguarded to protect your data. If you have any questions or concerns regarding our payment methods, please don't hesitate to reach out to our customer support team, and we'll be happy to assist you.
       </div>
     </div>
   </div>
