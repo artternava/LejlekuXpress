@@ -165,5 +165,21 @@ namespace LejlekuXpress.Controllers
             }
         }
         #endregion
+
+        #region GetRandomSix
+        [HttpGet("getrandomsix")]
+        public async Task<IActionResult> GetRandomSix()
+        {
+            try
+            {
+                var result = await _service.GetRandomSix();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }
