@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Meta from '../components/Meta'
 import ReactStars from "react-rating-stars-component";
 import ProductCard from "../components/ProductCard"
+import Header from "../components/Header"
 
 const OurStore = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get("search");
+
+  useEffect(() => {
+    console.log('Search Query in ourStore:', searchQuery);
+  }, [searchQuery]);
+
+
   return (
     <>
     <Meta title="Our Store"></Meta>

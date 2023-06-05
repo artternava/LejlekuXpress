@@ -5,8 +5,7 @@ import { BsSearch } from "react-icons/bs";
 import useAuthToken from './useAuthToken.js';
 
 const Header = () => {
-  const { token } = useAuthToken();
-  const { userRole } = useAuthToken();
+  const { token, userRole } = useAuthToken();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hasPrivilege, setHasPrivilege] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,6 +15,8 @@ const Header = () => {
     setHasPrivilege(!!userRole);
     isPrivileged();
   }, [token, userRole]);
+
+ 
 
 
   const handleLogout = () => {
@@ -61,10 +62,9 @@ const Header = () => {
                 onChange={handleSearchInputChange}
               />
                 <Link 
-                  to="/product"
+                  to={`/product?search=${encodeURIComponent(searchQuery)}`}
                   className="input-group-text p-3" 
                   id="basic-addon2"
-                  onClick={() => {console.log(searchQuery)}}
                   >
                   <BsSearch />
                 </Link>
