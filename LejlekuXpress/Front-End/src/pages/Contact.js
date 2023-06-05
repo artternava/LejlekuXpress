@@ -78,7 +78,7 @@ const Contact = () => {
     </h2>
     <div id="collapseOne" class="accordion-collapse collapsed" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <strong>Having trouble resetting your password?</strong>If you're having trouble resetting your password, don't worry, we're here to assist you. To reset your password, simply click on the 'Can't Reset Password' button on the login page. This will direct you to the password reset page, where you'll be prompted to enter your registered email address. Once you've provided your email address, click on the 'Reset Password' button. You'll receive an email with further instructions on how to reset your password securely. Follow the instructions in the email, which may include clicking on a password reset link or entering a verification code. After successfully verifying your identity, you'll be able to create a new password for your account. Remember to choose a strong and unique password to ensure the security of your account. If you encounter any issues during the password reset process, please reach out to our support team for immediate assistance.
       </div>
     </div>
   </div>
