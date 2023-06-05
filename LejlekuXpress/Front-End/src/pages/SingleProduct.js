@@ -14,6 +14,11 @@ const SingleProduct = () => {
   const { userId } = useAuthToken();
   const [orderedProduct] = useState(true);
 
+  useEffect(() => {
+    fetchListings();
+    console.log('Id:', id);
+  }, [id]);
+
   return (
     <>
       <div className="main-product-wrapper py-5 home-wrapper-2">
