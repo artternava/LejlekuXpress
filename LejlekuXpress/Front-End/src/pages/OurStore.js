@@ -45,6 +45,23 @@ const OurStore = () => {
   }
 
   
+  async function handleAdd(productId) {
+    try {
+      const itemsData ={
+        UserId: parseInt(userId, 10),
+        ProductId: productId,
+      }
+      console.log(itemsData);
+      setAddItem(itemsData)
+      await axios.post('http://localhost:39450/api/Wishlist/add', addItem)
+      .then((response) => {
+        window.alert('add successful');
+      });
+      fetchWishlist(); 
+    } catch (error) {
+      console.error('Error adding items:', error);
+    }
+  }
 
   
 
