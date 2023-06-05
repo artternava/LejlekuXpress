@@ -24,5 +24,7 @@ namespace LejlekuXpress.Data
         public DbSet<Product> Product { get; set; }
 
         public DbSet<Category> Category { get; set; }
+
+        public DbSet<Wishlist> Wishlist { get; set; }
     }
 }
