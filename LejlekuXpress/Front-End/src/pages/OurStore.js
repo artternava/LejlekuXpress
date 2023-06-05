@@ -1,5 +1,4 @@
 import React from 'react'
-import BreadCrumb from '../components/BreadCrumb'
 import Meta from '../components/Meta'
 import ReactStars from "react-rating-stars-component";
 import ProductCard from "../components/ProductCard"
@@ -8,7 +7,6 @@ const OurStore = () => {
   return (
     <>
     <Meta title="Our Store"></Meta>
-    {/* <BreadCrumb title = "Our Store"></BreadCrumb> */}
     <div className='store-wrapper home-wrapper-2 py5'>
       <div className='container-xxl'>
         <div className='row'>
