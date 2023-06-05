@@ -1,105 +1,163 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import useAuthToken from '../components/useAuthToken';
+
+function Wishlist() {
+  const { userId } = useAuthToken();
+  const [items, setItems] = useState(null);
+  const [listings, setListings] = useState(null);
+  const [image, getImage] = useState(null);
+
+  useEffect(() => {
+    fetchListings();
+    fetchWishlist();
+  }, [userId]);
+
+  const fetchListings = async () => {
+    try {
+      const response = await axios.get('http://localhost:39450/api/Product/getall');
+      setListings(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  async function fetchWishlist() {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/Wishlist/getbyuserid?userID=${userId}`);
+      if (response.status === 200) {
+        const itemsResponse = response.data;
+        setItems(itemsResponse);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleDelete(id) {
+    try {
+      const confirmDelete = window.confirm('Are you sure you want to remove this item from your Wishlist?');
+      if (confirmDelete){
+        await axios.delete(`http://localhost:39450/api/Wishlist/delete?id=${id}`);
+        fetchWishlist();
+        window.location.href = '/Wishlist';
+      }
+    } catch (error) {
+      console.error('Error deleting items:', error);
+    }
+  }
+
+  const getProductName = (productId) => {
+    const listing = listings.find(listings => listings.id === productId);
+    return listing ? `${listing.name}` : '';
+  };
+  const getimage = (productId) => {
+    const listing = listings.find(listings => listings.id === productId);
+    return listing ? `${listing.image}` : '';
+  };
+  const getPrice = (productId) => {
+    const listing = listings.find(listings => listings.id === productId);
+    return listing ? `${listing.price}` : '';
+  };
+  const getDescription = (productId) => {
+    const listing = listings.find(listings => listings.id === productId);
+    return listing ? `${listing.description}` : '';
+  };
+  const getSpecifications = (productId) => {
+    const listing = listings.find(listings => listings.id === productId);
+    return listing ? `${listing.specifications}` : '';
+  };
+  const getQuantity = (productId) => {
+    const listing = listings.find(listings => listings.id === productId);
+    return listing ? `${listing.quantity}` : '';
+  };
+  const getShippingPrice = (productId) => {
+    const listing = listings.find(listings => listings.id === productId);
+    return listing ? `${listing.shippingPrice}` : '';
+  };
 
 
-const items = [  {   
-  name: "Iphone 14",
-  quantity: 1,
-  imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
-  specification: ["Option 1", "Option 2", "Option 3"],
-  description: "lorem ipsum",
-  price: "1000", },  
-  {   
-    name: "Iphone 3g",
-    quantity: 1,
-    imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
-    specification: ["Option 1", "Option 2", "Option 3"],
-    description: "lorem ipsum",
-    price: "100", },  
-    {   
-      name: "Nokia",
-      quantity: 1,
-      imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
-      specification: ["Option 1", "Option 2", "Option 3"],
-      description: "lorem ipsum",
-      price: "800", }];
+//#region getImageExtension
+  const getImageExtension = (imageData) => {
+    if (!imageData) {
+      return '';
+    }
 
-      function Wishlist() {
-        
-        return (
-          <>
-            {items.map((items) => (     
-              <section style={{backgroundColor:"#fff" }}>
-              <div class="container py-3">
-                <div class="row justify-content-center ">
-                  <div class="col-md-12 col-xl-10">
-                    <div class="card shadow-0 border rounded-3">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                            <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                              <img src={items.imageSrc} class="w-50" />
-                              <a href="#!">
-                                <div class="hover-overlay">
-                                  <div class="mask" style={{backgroundColor: "rgba(253, 253, 253, 0.15)"}}></div>
-                                </div>
-                              </a>
+    if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
+      return 'jpeg';
+    }
+    if (
+      imageData[0] === 0x89 &&
+      imageData[1] === 0x50 &&
+      imageData[2] === 0x4E &&
+      imageData[3] === 0x47 &&
+      imageData[4] === 0x0D &&
+      imageData[5] === 0x0A &&
+      imageData[6] === 0x1A &&
+      imageData[7] === 0x0A
+    ) {
+      return 'png';
+    }
+    return 'jpeg';
+  };
+//#endregion
+  return (
+    <>
+      {items && items.map((item) => (
+        <section style={{ backgroundColor: "#fff" }}>
+          <div className="container py-3">
+            <div className="row justify-content-center">
+              <div className="col-md-12 col-xl-10">
+                <div className="card shadow-0 border rounded-3">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                        <div className="bg-image hover-zoom ripple rounded ripple-surface">
+                          <img src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "60%", aspectRatio: "1/1" }} />
+                          <a href="#!">
+                            <div className="hover-overlay">
+                              <div className="mask" style={{ backgroundColor: "rgba(253, 253, 253, 0.15)" }}></div>
                             </div>
+                          </a>
+                        </div>
+                      </div>
+                      <div className="col-md-6 col-lg-6 col-xl-6">
+                        <h5>{getProductName(item.productId)}</h5>
+                        <div className="d-flex flex-row">
+                          <div className="text-danger mb-1 me-2">
+                            <p><b>Quantity</b></p>
                           </div>
-                          <div class="col-md-6 col-lg-6 col-xl-6">
-                            <h5>{items.name}</h5>
-                            <div class="d-flex flex-row">
-                              <div class="text-danger mb-1 me-2">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                              </div>
-                              <span>310</span>
-                            </div>
-                            <div class="mt-1 mb-0 text-muted small">
-                              <span>100% cotton</span>
-                              <span class="text-primary"> • </span>
-                              <span>Light weight</span>
-                              <span class="text-primary"> • </span>
-                              <span>Best finish<br /></span>
-                            </div>
-                            <div class="mb-2 text-muted small">
-                              <span>Unique design</span>
-                              <span class="text-primary"> • </span>
-                              <span>For men</span>
-                              <span class="text-primary"> • </span>
-                              <span>Casual<br /></span>
-                            </div>
-                            <p class="text-truncate mb-4 mb-md-0">
-                              There are many variations of passages of Lorem Ipsum available, but the
-                              majority have suffered alteration in some form, by injected humour, or
-                              randomised words which don't look even slightly believable.
-                            </p>
-                          </div>
-                          <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
-                            <div class="d-flex flex-row align-items-center mb-1">
-                              <h4 class="mb-1 me-1">${items.price}</h4>
-                              
-                            </div>
-                            <h6 class="text-success">Free shipping</h6>
-                            <div class="d-flex flex-column mt-4">
-                              <button class="btn btn-primary btn-sm" type="button">Add to Cart</button>
-                              <button class="btn btn-outline-danger btn-sm mt-2" type="button">
-                               Delete
-                              </button>
-                            </div>
-                          </div>
+                          <span>{getQuantity(item.productId)}</span>
+                        </div>
+                        <div className="mt-1 mb-0 text-muted small">
+                          <p>{getSpecifications(item.productId)}</p>
+                        </div>
+                        <p className="text-truncate mb-4 mb-md-0">
+                          {getDescription(item.productId)}
+                        </p>
+                      </div>
+                      <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                        <div className="d-flex flex-row align-items-center mb-1">
+                          <h4 className="mb-1 me-1">${getPrice(item.productId)}</h4>
+                        </div>
+                        <h6 className="text-success">${getShippingPrice(item.productId)}</h6>
+                        <div className="d-flex flex-column mt-4">
+                          <button className="btn btn-primary btn-sm" type="button">Add to Cart</button>
+                          <button className="btn btn-outline-danger btn-sm mt-2" type="button" onClick={() => handleDelete(item.id)}>
+                            Delete
+                          </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                </div>
-                </section>
-            ))}
-            </>
-          );          
-    }
+              </div>
+            </div>
+          </div>
+        </section>
+      ))}
+    </>
+  );
+}
 
-
-export default Wishlist
+export default Wishlist;
