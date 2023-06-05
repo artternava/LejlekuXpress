@@ -14,5 +14,6 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<Product> UpdateProductIsApproved(int id);
         Task<IEnumerable<Product>> GetAllWhereNotApproved();
         Task<IEnumerable<Product>> GetAllWhereApprovedAndNameLike(string searchQuery);
+        Task<IEnumerable<Product>> GetRandomSix();
     }
 }
