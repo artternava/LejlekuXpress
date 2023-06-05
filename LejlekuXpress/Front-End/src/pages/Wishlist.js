@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import useAuthToken from '../components/useAuthToken';
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Wishlist() {
+  const location = useLocation();
   const { userId } = useAuthToken();
   const [items, setItems] = useState(null);
   const [listings, setListings] = useState(null);
@@ -119,7 +122,9 @@ function Wishlist() {
                     <div className="row">
                       <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                         <div className="bg-image hover-zoom ripple rounded ripple-surface">
+                        <Link to={`/product/${item.productId}`} className="input-group-text p-3" id="basic-addon2">
                           <img src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "60%", aspectRatio: "1/1" }} />
+                        </Link>
                           <a href="#!">
                             <div className="hover-overlay">
                               <div className="mask" style={{ backgroundColor: "rgba(253, 253, 253, 0.15)" }}></div>
