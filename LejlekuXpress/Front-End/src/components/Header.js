@@ -5,16 +5,19 @@ import { BsSearch } from "react-icons/bs";
 import useAuthToken from './useAuthToken.js';
 
 const Header = () => {
-  const { token } = useAuthToken();
-  const { userRole } = useAuthToken();
+  const { token, userRole } = useAuthToken();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [hasPrivilege, setHasPrivilege] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     setIsLoggedIn(!!token);
     setHasPrivilege(!!userRole);
     isPrivileged();
   }, [token, userRole]);
+
+ 
+
 
   const handleLogout = () => {
     Cookies.remove('access_token');
@@ -29,7 +32,9 @@ const Header = () => {
       setHasPrivilege(false);
     }
   };
-
+  const handleSearchInputChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
   return (
     <>
       {/* Navbari Kryesor */}
@@ -47,16 +52,22 @@ const Header = () => {
             </div>
             <div className="col-md-5 col-6">
               <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control justify-content-start"
-                  placeholder="Search"
-                  aria-label="Search"
-                  aria-describedby="basic-addon2"
-                />
-                <button className="input-group-text p-3" id="basic-addon2">
+              <input
+                type="text"
+                id="search"
+                className="form-control"
+                placeholder="Search"
+                name="search"
+                value={searchQuery}
+                onChange={handleSearchInputChange}
+              />
+                <Link 
+                  to={`/product?search=${encodeURIComponent(searchQuery)}`}
+                  className="input-group-text p-3" 
+                  id="basic-addon2"
+                  >
                   <BsSearch />
-                </button>
+                </Link>
               </div>
             </div>
             <div className="col-sm-5 col-12">
