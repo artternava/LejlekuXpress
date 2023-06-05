@@ -19,6 +19,16 @@ const SingleProduct = () => {
     console.log('Id:', id);
   }, [id]);
 
+  const fetchListings = async () => {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/Product/get?id=${id}`);
+      setItems(response.data);
+      console.log(items)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="main-product-wrapper py-5 home-wrapper-2">
