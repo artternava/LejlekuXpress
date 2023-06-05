@@ -18,11 +18,19 @@ const OurStore = () => {
   const { userId } = useAuthToken();
 
   useEffect(() => {
-    
+    fetchListings();
     console.log('Search Query in ourStore:', searchQuery);
   }, [searchQuery]);
 
-  
+  const fetchListings = async () => {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/Product/getallwhereapprovedandnamelike?searchQuery=${searchQuery}`);
+      setItems(response.data);
+      console.log(items)
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   
 
