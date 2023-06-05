@@ -83,6 +83,9 @@ const SingleProduct = () => {
     return 'jpeg';
   };
 //#endregion  
+if (!items) {
+  return <div>Loading...</div>; 
+}
 
   return (
     <>
