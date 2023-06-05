@@ -209,5 +209,27 @@ namespace LejlekuXpress.Services
             }
         }
         #endregion
+
+        #region GetRandomSix
+        public async Task<IEnumerable<Product>> GetRandomSix()
+        {
+            try
+            {
+                var result = await _context.Product
+                               .Where(p => p.IsApproved)
+                               .OrderBy(p => Guid.NewGuid())
+                               .Take(6)
+                               .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to get all the product records.");
+            }
+        }
+        #endregion
+
     }
 }
