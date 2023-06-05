@@ -1215,20 +1215,21 @@ function ShippingInfo() {
       try {
         const { Name, Quantity, Image, Specifications, Description, Price, CategoryId, ShippingPrice,} = selectedListing;
         const errors = {
-        Name: Name.length === 0,
-        Quantity: Quantity.length === 0,
-        Image: Image.length === 0,
-        Specifications: Specifications.length === 0,
-        Price: Price.length === 0,
-        ShippingPrice: ShippingPrice.length === 0,
-        Description: Description.length === 0,
-        CategoryId: CategoryId.length === 0,
-      };
+          Name: Name && Name.length === 0,
+          Quantity: Quantity && Quantity.length === 0,
+          Image: Image && Image.length === 0,
+          Specifications: Specifications && Specifications.length === 0,
+          Price: Price && Price.length === 0,
+          ShippingPrice: ShippingPrice && ShippingPrice.length === 0,
+          Description: Description && Description.length === 0,
+          CategoryId: CategoryId && CategoryId.length === 0,
+        };
       
       setFormErrors(errors);
       if (Object.values(errors).some((value) => value)) {
         return;
       }      
+      console.log(selectedListing)
 
         const confirmUpdate = window.confirm('Are you sure you want to update this listing?');
         if (confirmUpdate) {
