@@ -190,5 +190,24 @@ namespace LejlekuXpress.Services
             }
         }
         #endregion
+
+        #region GetAllWhereApprovedAndNameLike
+        public async Task<IEnumerable<Product>> GetAllWhereApprovedAndNameLike(string searchQuery)
+        {
+            try
+            {
+                var result = await _context.Product
+                       .Where(p => p.IsApproved && p.Name.Contains(searchQuery))
+                       .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to get all the product records."); ;
+            }
+        }
+        #endregion
     }
 }
