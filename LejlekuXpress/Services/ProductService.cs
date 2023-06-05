@@ -197,7 +197,7 @@ namespace LejlekuXpress.Services
             try
             {
                 var result = await _context.Product
-                       .Where(p => p.IsApproved && p.Name.Contains(searchQuery))
+                       .Where(p => p.IsApproved && p.Name.ToLower().Contains(searchQuery.ToLower()))
                        .ToListAsync();
 
                 return result;

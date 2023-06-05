@@ -149,5 +149,21 @@ namespace LejlekuXpress.Controllers
             }
         }
         #endregion
+
+        #region GetAllWhereApprovedAndNameLike
+        [HttpGet("getallwhereapprovedandnamelike")]
+        public async Task<IActionResult> GetAllWhereApprovedAndNameLike(string searchQuery)
+        {
+            try
+            {
+                var result = await _service.GetAllWhereApprovedAndNameLike(searchQuery);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }
