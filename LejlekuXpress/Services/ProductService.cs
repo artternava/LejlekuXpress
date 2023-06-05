@@ -101,6 +101,7 @@ namespace LejlekuXpress.Services
                     product.Specifications = request.Specifications;
                     product.Description = request.Description;
                     product.Price = (decimal)request.Price;
+                    product.ShippingPrice = (decimal)request.ShippingPrice;
 
                     _context.SaveChanges();
                 }
