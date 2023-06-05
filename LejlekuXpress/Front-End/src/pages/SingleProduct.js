@@ -7,7 +7,12 @@ import { useParams } from "react-router-dom";
 import useAuthToken from '../components/useAuthToken';
 
 const SingleProduct = () => {
-  
+  const { id } = useParams();
+  const [items, setItems] = useState(null);
+  const [wishlist, setWishlist] = useState(null);
+  const [addItem, setAddItem] = useState(null);
+  const { userId } = useAuthToken();
+  const [orderedProduct] = useState(true);
 
   return (
     <>
