@@ -48,5 +48,21 @@ namespace LejlekuXpress.Controllers
             }
         }
         #endregion
+
+        #region Delete
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = _service.DeleteItem(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }
