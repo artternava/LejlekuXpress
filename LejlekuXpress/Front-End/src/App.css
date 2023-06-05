@@ -42,6 +42,10 @@ a {
   border-color: inherit;
 }
 
+.gap-2 {
+  gap: 2px;
+}
+
 .gap-5 {
   gap: 5px;
 }
@@ -146,7 +150,7 @@ footer {
 
 .carousel-wrapper {
   width: 150%;
-  max-width: 85%; /* Adjust the maximum width as needed */
+  max-width: 85%; 
   margin: 0 auto;
 }
 
