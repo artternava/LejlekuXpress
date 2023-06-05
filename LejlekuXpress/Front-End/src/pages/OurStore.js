@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Meta from '../components/Meta'
 import ReactStars from "react-rating-stars-component";
@@ -43,7 +44,6 @@ const OurStore = () => {
       console.error(error);
     }
   }
-
   
   async function handleAdd(productId) {
     try {
@@ -102,7 +102,9 @@ const OurStore = () => {
                     <div className="row">
                       <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                         <div className="bg-image hover-zoom ripple rounded ripple-surface">
-                          <img src={`data:image/${item.image};base64,${item.image}`} alt="Product" style={{ width: "60%", aspectRatio: "1/1" }} />
+                          <Link to={`/product/${item.id}`} className="input-group-text p-3" id="basic-addon2">
+                            <img src={`data:image/${getImageExtension(item.image)};base64,${item.image}`} alt="Product" style={{width: "60%", aspectRatio: "1/1"}} />
+                          </Link>
                           <a href="#!">
                             <div className="hover-overlay">
                               <div className="mask" style={{ backgroundColor: "rgba(253, 253, 253, 0.15)" }}></div>
