@@ -6,7 +6,6 @@ function Wishlist() {
   const { userId } = useAuthToken();
   const [items, setItems] = useState(null);
   const [listings, setListings] = useState(null);
-  const [image, getImage] = useState(null);
 
   useEffect(() => {
     fetchListings();
@@ -48,33 +47,40 @@ function Wishlist() {
   }
 
   const getProductName = (productId) => {
-    const listing = listings.find(listings => listings.id === productId);
+    const listing = listings && listings.find(listing => listing.id === productId);
     return listing ? `${listing.name}` : '';
   };
+
   const getimage = (productId) => {
-    const listing = listings.find(listings => listings.id === productId);
+    const listing = listings && listings.find(listing => listing.id === productId);
     return listing ? `${listing.image}` : '';
   };
+
   const getPrice = (productId) => {
-    const listing = listings.find(listings => listings.id === productId);
+    const listing = listings && listings.find(listing => listing.id === productId);
     return listing ? `${listing.price}` : '';
   };
+
   const getDescription = (productId) => {
-    const listing = listings.find(listings => listings.id === productId);
+    const listing = listings && listings.find(listing => listing.id === productId);
     return listing ? `${listing.description}` : '';
   };
+
   const getSpecifications = (productId) => {
-    const listing = listings.find(listings => listings.id === productId);
+    const listing = listings && listings.find(listing => listing.id === productId);
     return listing ? `${listing.specifications}` : '';
   };
+
   const getQuantity = (productId) => {
-    const listing = listings.find(listings => listings.id === productId);
+    const listing = listings && listings.find(listing => listing.id === productId);
     return listing ? `${listing.quantity}` : '';
   };
+
   const getShippingPrice = (productId) => {
-    const listing = listings.find(listings => listings.id === productId);
+    const listing = listings && listings.find(listing => listing.id === productId);
     return listing ? `${listing.shippingPrice}` : '';
   };
+
 
 
 //#region getImageExtension
