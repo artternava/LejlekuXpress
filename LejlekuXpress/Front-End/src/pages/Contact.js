@@ -42,7 +42,7 @@ const Contact = () => {
           </div>
           <div className="row mt-3 justify-content-center">
             <div className="col-3 col-md-2 mb-5">
-              <div className="card" style={{height: "100px", backgroundColor:"#C44226"}}>
+              <div className="card" style={{height: "100px", backgroundColor:"#E4A11B"}}>
                 <div className="card-body">
                   <h5 className="card-title">Payment Help</h5>
                   <p className="card-text"></p>
@@ -50,7 +50,7 @@ const Contact = () => {
               </div>
             </div>
             <div className="col-3 col-md-2">
-              <div className="card" style={{height: "100px", backgroundColor:"#3BB930"}}>
+              <div className="card" style={{height: "100px", backgroundColor:"#AD1457"}}>
                 <div className="card-body">
                   <h5 className="card-title">Safety & Privacy</h5>
                   <p className="card-text"></p>
