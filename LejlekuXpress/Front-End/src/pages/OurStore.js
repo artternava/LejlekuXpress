@@ -32,7 +32,17 @@ const OurStore = () => {
     }
   };
 
-  
+  async function fetchWishlist() {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/Wishlist/getbyuserid?userID=${userId}`);
+      if (response.status === 200) {
+        const itemsResponse = response.data;
+        setWishlist(itemsResponse);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   
 
