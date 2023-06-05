@@ -12,7 +12,7 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<IEnumerable<Product>> GetAll();
         Task<List<Product>> GetProductByUserId(int ownerId);
         Task<Product> UpdateProductIsApproved(int id);
-
         Task<IEnumerable<Product>> GetAllWhereNotApproved();
+        Task<IEnumerable<Product>> GetAllWhereApprovedAndNameLike(string searchQuery);
     }
 }
