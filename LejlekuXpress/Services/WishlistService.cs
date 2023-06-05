@@ -38,5 +38,24 @@ namespace LejlekuXpress.Services
         }
         #endregion
 
+        #region GeyByUserId
+        public async Task<List<Wishlist>> GetByUserId(int userId)
+        {
+            try
+            {
+                var wishlist = _context.Wishlist
+                    .Where(wishlist => wishlist.UserId == userId)
+                    .ToList();
+
+                return wishlist;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to get the Wishlist records.");
+            }
+        }
+        #endregion
+
     }
 }
