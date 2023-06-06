@@ -1,4 +1,6 @@
 ﻿using LejlekuXpress.Data;
+using LejlekuXpress.Data.DTO;
+using LejlekuXpress.Models;
 
 namespace LejlekuXpress.Services
 {
@@ -11,6 +13,32 @@ namespace LejlekuXpress.Services
             _context = context;
         }
 
+        #region AddItem
+        public async Task<CheckOut> AddItem(CheckOutDTO request)
+        {
+            try
+            {
+                var product = await _context.Product.FindAsync(request.ProductId);
 
+                product.Quantity -= request.Quantity;
+
+                CheckOut checkOut = new CheckOut
+                {
+                    UserId = request.UserId,
+                    ProductId = request.ProductId,
+                };
+
+                _context.CheckOut.Add(checkOut);
+                await _context.SaveChangesAsync();
+
+                return checkOut;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to save the cart record.");
+            }
+        }
+        #endregion
     }
 }
