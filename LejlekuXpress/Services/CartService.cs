@@ -1,10 +1,11 @@
 ﻿using LejlekuXpress.Data.DTO;
 using LejlekuXpress.Data;
 using LejlekuXpress.Models;
+using LejlekuXpress.Data.ServiceInterfaces;
 
 namespace LejlekuXpress.Services
 {
-    public class CartService
+    public class CartService : ICartService
     {
         private readonly AppDbContext _context;
 
