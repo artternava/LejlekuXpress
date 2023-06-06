@@ -1,10 +1,11 @@
 ﻿using LejlekuXpress.Data;
 using LejlekuXpress.Data.DTO;
+using LejlekuXpress.Data.ServiceInterfaces;
 using LejlekuXpress.Models;
 
 namespace LejlekuXpress.Services
 {
-    public class CheckOutService
+    public class CheckOutService : ICheckOutService
     {
         private readonly AppDbContext _context;
 
