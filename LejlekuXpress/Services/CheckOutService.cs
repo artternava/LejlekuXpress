@@ -40,5 +40,24 @@ namespace LejlekuXpress.Services
             }
         }
         #endregion
+
+        #region GeyByUserId
+        public async Task<List<CheckOut>> GetByUserId(int userId)
+        {
+            try
+            {
+                var checkOut = _context.CheckOut
+                    .Where(checkOut => checkOut.UserId == userId)
+                    .ToList();
+
+                return checkOut;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to get the Cart records.");
+            }
+        }
+        #endregion
     }
 }
