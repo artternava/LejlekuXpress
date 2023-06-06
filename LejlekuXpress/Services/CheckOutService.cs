@@ -23,6 +23,11 @@ namespace LejlekuXpress.Services
 
                 product.Quantity -= request.Quantity;
 
+                if (product.Quantity <= 0)
+                {
+                    _context.Product.Remove(product);
+                }
+
                 CheckOut checkOut = new CheckOut
                 {
                     UserId = request.UserId,
@@ -40,6 +45,7 @@ namespace LejlekuXpress.Services
                 throw new Exception("An error occurred while attempting to save the cart record.");
             }
         }
+
         #endregion
 
         #region GeyByUserId
