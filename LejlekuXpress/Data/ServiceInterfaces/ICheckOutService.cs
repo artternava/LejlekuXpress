@@ -6,5 +6,7 @@ namespace LejlekuXpress.Data.ServiceInterfaces
     public interface ICheckOutService
     {
         Task<CheckOut> AddItem(CheckOutDTO request);
+
+        Task<List<CheckOut>> GetByUserId(int userId);
     }
 }
