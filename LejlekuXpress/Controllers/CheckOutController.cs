@@ -63,5 +63,21 @@ namespace LejlekuXpress.Controllers
             }
         }
         #endregion
+
+        #region DeleteAll
+        [HttpDelete("deleteall")]
+        public async Task<IActionResult> DeleteAll()
+        {
+            try
+            {
+                var result = _service.DeleteAllItems();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }
