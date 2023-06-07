@@ -42,7 +42,7 @@ function UserDashboard() {
   }
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", minHeight: "100vh" }}>
   <div style={{ flex: "0 0 200px" }}>
     <Sidebar handleTabClick={handleTabClick} />
   </div>
