@@ -85,6 +85,10 @@ function Wishlist() {
     const listing = listings && listings.find(listing => listing.id === productId);
     return listing ? `${listing.name}` : '';
   };
+  const getProductId = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.id}` : '';
+  };
 
   const getimage = (productId) => {
     const listing = listings && listings.find(listing => listing.id === productId);
@@ -199,7 +203,7 @@ if (!items) {
                      </div>
                      <h6 className="text-success">Shipping: ${getShippingPrice(item.productId)}</h6>
                      <div className="d-flex flex-column mt-4">
-                       <button className="btn btn-primary btn-sm" type="button" onClick={() => handleAdd(item.id)}>
+                       <button className="btn btn-primary btn-sm" type="button" onClick={() => handleAdd(getProductId(item.productId))}>
                         Add to Cart
                         </button>
                        <button className="btn btn-outline-danger btn-sm mt-2" type="button" onClick={() => handleDelete(item.id)}>
