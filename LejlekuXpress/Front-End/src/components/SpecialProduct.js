@@ -143,7 +143,7 @@ const getImageExtension = (imageData) => {
                    <p className="lead mb-0">Items of the day</p>     
                  </div>
                  <div className="text-center">
-                 <Link to={`/product/${item.productId}`} className="input-group-text p-3 justify-content-center" id="basic-addon2">
+                 <Link to={`/product/${item.id}`} className="input-group-text p-3 justify-content-center" id="basic-addon2">
                          <img className="" src={`data:image/${getImageExtension(item.image)};base64,${item.image}`} alt="Product" style={{ width: "50%", height: "auto", objectFit: "contain", aspectRatio: "1/1" }} />
                        </Link>
                  </div>
