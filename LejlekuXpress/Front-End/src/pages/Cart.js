@@ -15,19 +15,13 @@ function Cart() {
   const [totalShippingPrice, setTotalShippingPrice] = useState(0);
   const [ProductPrice, setProductPrice] = useState(0);
 
-
-  useEffect(() => {
-    calculateTotalPrice(items);
+  useEffect(() => {  
     calculateTotalShippingPrice(items);
     calculateProductPrice(items);
-  }, [items]);
-
-
-  useEffect(() => {   
-  fetchListings();
-  fetchCart();
-
-  }, [userId]);
+    calculateTotalPrice(items); 
+    fetchListings();
+    fetchCart();
+  }, [userId,items]);
 
   //#region Calculate Total and Shipping price
   
@@ -81,6 +75,7 @@ function Cart() {
     if (response.status === 200) {
       const itemsResponse = response.data;
       setItems(itemsResponse);
+      console.log(items)
       }
     } catch (error) {
       console.error(error);
