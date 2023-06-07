@@ -86,5 +86,25 @@ namespace LejlekuXpress.Services
             }
         }
         #endregion
+
+        #region DeleteAllItems
+        public async Task DeleteAllItems()
+        {
+            try
+            {
+                var items = _context.CheckOut.ToList();
+                if (items.Count > 0)
+                {
+                    _context.CheckOut.RemoveRange(items);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to delete all cart records.");
+            }
+        }
+        #endregion
     }
 }
