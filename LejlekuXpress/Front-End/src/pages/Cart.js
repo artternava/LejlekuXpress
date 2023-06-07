@@ -13,29 +13,40 @@ function Cart() {
   const [listings, setListings] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalShippingPrice, setTotalShippingPrice] = useState(0);
+  const [ProductPrice, setProductPrice] = useState(0);
 
-  useEffect(() => {
-    calculateTotalPrice(items);
+  useEffect(() => {  
     calculateTotalShippingPrice(items);
-  }, [items]);
-
-
-  useEffect(() => {   
-  fetchListings();
-  fetchCart();
-
-  }, [userId]);
+    calculateProductPrice(items);
+    calculateTotalPrice(items); 
+    fetchListings();
+    fetchCart();
+  }, [userId,items]);
 
   //#region Calculate Total and Shipping price
+  
   const calculateTotalPrice = (items) => {
+    let totalPrice = 0;
     if (items) {
-      const totalPrice = items.reduce((acc, item) => {
-        const price = parseInt(getPrice(item.productId));
-        return acc + price;
+      items.forEach(item => {
+        const price = getPrice(item.productId);
+        const shippingPrice = getShippingPrice(item.productId);
+        totalPrice += price + shippingPrice;
+      });
+    }
+    return totalPrice;
+  };
+
+  const calculateProductPrice = (items) => {
+    if (items) {
+      const ProductPrice = items.reduce((acc, item) => {
+        const productPrice = parseInt(getPrice(item.productId));
+        return acc + productPrice;
       }, 0);
-      setTotalPrice(totalPrice);
+      setProductPrice(ProductPrice);
     }
   };
+  
 
   const calculateTotalShippingPrice = (items) => {
     if (items) {
@@ -64,6 +75,7 @@ function Cart() {
     if (response.status === 200) {
       const itemsResponse = response.data;
       setItems(itemsResponse);
+      console.log(items)
       }
     } catch (error) {
       console.error(error);
@@ -96,8 +108,8 @@ function Cart() {
   };
 
   const getPrice = (productId) => {
-  const listing = listings && listings.find(listing => listing.id === productId);
-  return listing ? `${listing.price}` : '';
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? parseFloat(listing.price) : 0;
   };
 
   const getDescription = (productId) => {
@@ -116,9 +128,10 @@ function Cart() {
   };
 
   const getShippingPrice = (productId) => {
-  const listing = listings && listings.find(listing => listing.id === productId);
-  return listing ? `${listing.shippingPrice}` : '';
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? parseFloat(listing.shippingPrice) : 0;
   };
+
 
   const getImageExtension = (imageData) => {
   if (!imageData) {
@@ -162,55 +175,53 @@ function Cart() {
           <div class="row justify-content-center">
             <div class="col-md-8">
             {items && items.map((item) => (
-                <div class="card mb-4">
-                  <div class="card-header py-3">
-                    <h5 class="mb-0">{getProductName(item.productId)}</h5>
-                  </div>
-                  <div class="card-body">
-                    {/* <!-- Single item --> */}
-                    <div class="row">
-                      <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-                        {/* <!-- Image --> */}
-                        <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                        <Link to={`/product/${item.productId}`} className="input-group-text p-3 justify-content-center mt-3" id="basic-addon2">
-                          <img className="" src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "60%", aspectRatio: "1/1" }} />
-                        </Link>
-                          <a href="#!">
-                            <div class="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}></div>
-                          </a>
-                        </div>
-                        {/* <!-- Image --> */}
-                      </div>
-                      <div class="col-lg-5 col-md-6 mb-lg-0 ">
-                        <p><b>Specifications:</b> {getSpecifications(item.productId)}</p>
-                        <div className="d-flex align-items-center mb-3">
-                        <b>Quantity:</b>
-                          <div className="ml-1"> 
-                            <input
-                              className="form-control"
-                              type="number"
-                              name=""
-                              min={1}
-                              max={getQuantity(item.productId)}
-                              style={{ width: "70px", height: "30px" }}
-                            />
-                          </div>
-                        </div>
-                        <p><b>Price: </b>${getPrice(item.productId)}</p>
-                        <p><b>Shipping Price: </b>${getShippingPrice(item.productId)}</p>
-                        {/* <!-- Data --> */}
-                      </div>
-                      <div class="col-lg-4 col-md-6 mb-lg-0 mt-2 d-flex justify-content-center">
-                      <button type="button" class="btn btn-danger me-3 mt-5 fs-5 align-items-center" data-mdb-toggle="tooltip" title="Remove item" style={{width:"30%",height:"30%"}}>
-                      <i class="bi bi-trash-fill" onClick={() => handleDelete(item.id)}></i>
-                      </button>
-                     
-                      
-                      </div>
+               <div class="card mb-4">
+               <div class="card-header py-3">
+                 <h5 class="mb-0">{getProductName(item.productId)}</h5>
+               </div>
+               <div class="card-body">
+                
+                 <div class="row align-items-center">
+                   <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+                    
+                   <div className="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                      <Link to={`/product/${item.productId}`} className="input-group-text p-3 justify-content-center mt-3" id="basic-addon2">
+                        <img className="" src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "80%", height: "auto", objectFit: "contain" }} />
+                      </Link>
+                      <a href="#!">
+                        <div className="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.2)" }}></div>
+                      </a>
                     </div>
-                    {/* <!-- Single item --> */}
-                  </div>
-                </div>
+                   </div>
+                   <div class="col-lg-5 col-md-6 mb-lg-0 align-items-center">
+                     <p><b>Specifications:</b> {getSpecifications(item.productId)}</p>
+                     <div className="d-flex align-items-center mb-3">
+                       <b>Quantity:</b>
+                       <div className="ml-1"> 
+                         <input
+                           className="form-control"
+                           type="number"
+                           name=""
+                           min={1}
+                           max={getQuantity(item.productId)}
+                           style={{ width: "70px", height: "30px" }}
+                         />
+                       </div>
+                     </div>
+                     <p><b>Price: </b>${getPrice(item.productId)}</p>
+                     <p><b>Shipping Price: </b>${getShippingPrice(item.productId)}</p>
+                    
+                   </div>
+                   <div class="col-lg-3 col-md-3 mb-lg-0 mt-2 d-flex justify-content-end align-items-center">
+                     <button type="button" class="btn btn-danger me-3 fs-5 " data-mdb-toggle="tooltip" title="Remove item" style={{ width: "50%", height: "20%" }}>
+                       <i class="bi bi-trash-fill" onClick={() => handleDelete(item.id)}></i>
+                     </button>
+                   </div>
+                 </div>
+                
+               </div>
+             </div>
+             
               ))}
             </div>
             <div class="col-md-3">
@@ -220,15 +231,14 @@ function Cart() {
               </div>
               <div class="card-body">
                 <ul class="list-group list-group-flush">
-                  <li
-                    class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                    Products
-                    <span>${totalPrice}</span>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                    Shipping
-                    <span>${totalShippingPrice}</span>
-                  </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                  Products
+                  <span>${ProductPrice}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  Shipping
+                  <span>${totalShippingPrice}</span>
+                </li>
                   <li
                     class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                     <div>
@@ -237,7 +247,7 @@ function Cart() {
                         <p class="mb-0">(including VAT)</p>
                       </strong>
                     </div>
-                    <span><strong>$ {items.totalPrice} </strong></span>
+                    <span><strong>$ {calculateTotalPrice(items)} </strong></span>
                   </li>
                 </ul>
                 <Link to="/checkout" className="btn btn-primary btn-block">

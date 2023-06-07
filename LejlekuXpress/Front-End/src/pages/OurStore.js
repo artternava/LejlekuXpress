@@ -89,15 +89,16 @@ const OurStore = () => {
 //#endregion
 
 
-if (!items) {
+if (items === null || items.length === 0) {
   return (
-    <div className="text-center" >
-      <h1 className="mt-4 mb-3"> Put something in the Wishlist ghaddd damnit </h1>
-    <img src="/images/broken-heart.png" style={{width: "30%"}} alt="Offer 1" />
-    <h4 className="mt-4 mb-3">Your Wishlist is empty.</h4>
+    <div className="text-center">
+      <h1 className="mt-4 mb-3">We don't have it ghaddd damnit</h1>
+      <img src="/images/bonocular.png" style={{width: "50%"}} alt="Offer 1" />
+      <h4 className="mt-4 mb-3">Product not found!</h4>
     </div>
-    ); 
-  }
+  ); 
+}
+  
 
   return (
     <>
