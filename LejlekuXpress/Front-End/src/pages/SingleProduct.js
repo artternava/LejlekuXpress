@@ -95,7 +95,7 @@ if (!items) {
             <div className="col-6">
               <div className="main-product-image">
                 <div>
-                  <img src={`data:image/${getImageExtension(items.image)};base64,${items.image}`} alt="Product" style={{width: "60%", aspectRatio: "1/1"}} />
+                  <img src={`data:image/${getImageExtension(items.image)};base64,${items.image}`} alt="Product" style={{ width: "80%", height: "auto", objectFit: "contain" }} />
                 </div>
               </div>
             </div>

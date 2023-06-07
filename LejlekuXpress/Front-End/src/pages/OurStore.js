@@ -8,7 +8,6 @@ import ProductCard from "../components/ProductCard"
 import Header from "../components/Header"
 import useAuthToken from '../components/useAuthToken';
 
-
 const OurStore = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -27,7 +26,7 @@ const OurStore = () => {
     try {
       const response = await axios.get(`http://localhost:39450/api/Product/getallwhereapprovedandnamelike?searchQuery=${searchQuery}`);
       setItems(response.data);
-      console.log(items)
+      console.log(items);
     } catch (error) {
       console.log(error);
     }
@@ -47,7 +46,7 @@ const OurStore = () => {
   
   async function handleAdd(productId) {
     try {
-      const itemsData ={
+      const itemsData = {
         UserId: parseInt(userId, 10),
         ProductId: productId,
       }
@@ -63,7 +62,6 @@ const OurStore = () => {
     }
   }
 
-  //#region getImageExtension
   const getImageExtension = (imageData) => {
     if (!imageData) {
       return '';
@@ -86,19 +84,16 @@ const OurStore = () => {
     }
     return 'jpeg';
   };
-//#endregion
 
-
-if (!items) {
-  return (
-    <div className="text-center" >
-      <h1 className="mt-4 mb-3"> Put something in the Wishlist ghaddd damnit </h1>
-    <img src="/images/broken-heart.png" style={{width: "30%"}} alt="Offer 1" />
-    <h4 className="mt-4 mb-3">Your Wishlist is empty.</h4>
-    </div>
+  if (items === null || items.length===0) {  
+    return (
+      <div className="text-center">
+        <h1 className="mt-4 mb-3">We don't have it ghaddd damnit !</h1>
+        <img src="/images/bonocular.png" style={{width: "40%"}} alt="Offer 1" />
+        <h4 className="mt-4 mb-3">Product not found !</h4>
+      </div>
     ); 
   }
-
   return (
     <>
     <Meta title="Our Store"></Meta>

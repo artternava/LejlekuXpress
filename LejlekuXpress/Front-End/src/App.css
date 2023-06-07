@@ -15,6 +15,15 @@
   --color-777777: #777777;
 }
 
+
+/* 
+@media (max-width: 768px) {
+  .header-upper-links {
+   
+  } */
+
+
+
 .min-height-100vh {
   min-height: 100vh;
 }
