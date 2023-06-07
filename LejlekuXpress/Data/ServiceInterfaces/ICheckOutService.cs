@@ -10,5 +10,7 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<List<CheckOut>> GetByUserId(int userId);
 
         Task DeleteItem(int id);
+
+        Task DeleteAllItems();
     }
 }
