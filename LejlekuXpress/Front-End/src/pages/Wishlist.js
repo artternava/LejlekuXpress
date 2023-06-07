@@ -163,7 +163,7 @@ if (!items) {
   return (
     <>
       {items && items.map((item) => (
-       <section style={{ backgroundColor: "#fff" }} className="mt-5">
+       <section style={{ backgroundColor: "#fff" }} className="mt-3 mb-3">
        <div className="container">
          <div className="row justify-content-center">
            <div className="col-md-12 col-xl-10">

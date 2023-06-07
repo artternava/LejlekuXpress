@@ -29,7 +29,7 @@ const SingleProduct = () => {
     }
   };
 
-  async function handleAdd(productId) {
+  async function handleAddToWishlist(productId) {
     try {
       const itemsData ={
         UserId: parseInt(userId, 10),
@@ -38,6 +38,41 @@ const SingleProduct = () => {
       console.log(itemsData);
       setAddItem(itemsData)
       await axios.post('http://localhost:39450/api/Wishlist/add', addItem)
+      .then((response) => {
+        window.alert('add successful');
+      });
+      fetchWishlist(); 
+    } catch (error) {
+      console.error('Error adding items:', error);
+    }
+  }
+  async function handleAddToCart(productId) {
+    try {
+      const itemsData ={
+        UserId: parseInt(userId, 10),
+        ProductId: productId,
+      }
+      console.log(itemsData);
+      setAddItem(itemsData)
+      await axios.post('http://localhost:39450/api/Cart/add', addItem)
+      .then((response) => {
+        window.alert('add successful');
+      });
+      fetchWishlist(); 
+    } catch (error) {
+      console.error('Error adding items:', error);
+    }
+  }
+
+  async function handleBuyNow(productId) {
+    try {
+      const itemsData ={
+        UserId: parseInt(userId, 10),
+        ProductId: productId,
+      }
+      console.log(itemsData);
+      setAddItem(itemsData)
+      await axios.post('http://localhost:39450/api/CeckOut/add', addItem)
       .then((response) => {
         window.alert('add successful');
       });
@@ -129,11 +164,11 @@ if (!items) {
                       />
                     </div>
                     <div className="d-flex align-items-center gap-30 ms-5">
-                      <button className="btn btn-outline-success me-2" type="submit">
+                      <button className="btn btn-outline-success me-2" type="button" onClick={() => handleAddToCart(items.id)}><i className="bi bi-cart-fill me-2"></i>
                         Add to Cart
                       </button>
 
-                      <button className="btn btn-success me-2">Buy It Now</button>
+                      <button className="btn btn-success me-2" type="button" >Buy It Now</button>
                     </div>
                   </div>
                   <div className="mt-1 mb-0 ">
@@ -141,7 +176,7 @@ if (!items) {
                     </div>
                   <div className="d-flex align-items-center gap-30">
                     <div>
-                      <button className="btn btn-outline-secondary" type="button" onClick={() => handleAdd(items.id)}><i className="bi bi-heart-fill me-2"></i>Add to Wishlist</button>
+                      <button className="btn btn-outline-secondary" type="button" onClick={() => handleAddToWishlist(items.id)}><i className="bi bi-heart-fill me-2"></i>Add to Wishlist</button>
                     </div>
                   </div>
                 </div>
