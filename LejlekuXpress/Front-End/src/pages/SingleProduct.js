@@ -13,6 +13,9 @@ const SingleProduct = () => {
   const [addItem, setAddItem] = useState(null);
   const { userId } = useAuthToken();
   const [orderedProduct] = useState(true);
+  const [checkout, setCheckout] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+
 
   useEffect(() => {
     fetchListings();
@@ -56,7 +59,7 @@ const SingleProduct = () => {
       setAddItem(itemsData)
       await axios.post('http://localhost:39450/api/Cart/add', addItem)
       .then((response) => {
-        window.alert('add successful');
+        window.alert('add successful');        
       });
       fetchWishlist(); 
     } catch (error) {
@@ -64,17 +67,19 @@ const SingleProduct = () => {
     }
   }
 
-  async function handleBuyNow(productId) {
+  async function handleBuyNow(productId, quantity) {
     try {
-      const itemsData ={
+      const itemsData = {
         UserId: parseInt(userId, 10),
         ProductId: productId,
+        Quantity: quantity,
       }
       console.log(itemsData);
-      setAddItem(itemsData)
-      await axios.post('http://localhost:39450/api/CeckOut/add', addItem)
+      setCheckout(itemsData)
+      await axios.post('http://localhost:39450/api/CheckOut/add', checkout)
       .then((response) => {
-        window.alert('add successful');
+        window.alert('Proceed to checkout');
+        window.location.href = '/checkout';
       });
       fetchWishlist(); 
     } catch (error) {
@@ -154,21 +159,23 @@ if (!items) {
                     <h3 className="product-heading">Quantity :</h3>
                     <div>
                       
-                      <input
-                        className="form-control"
-                        type="number"
-                        name=""
-                        min={1}
-                        max={items.quantity}
-                        style={{ width: "70px" }}
-                      />
+                    <input
+                      className="form-control"
+                      type="number"
+                      name=""
+                      min={1}
+                      max={items.quantity}
+                      style={{ width: "70px" }}
+                      value={quantity}
+                      onChange={(e) => setQuantity(parseInt(e.target.value))}
+                    />
                     </div>
                     <div className="d-flex align-items-center gap-30 ms-5">
                       <button className="btn btn-outline-success me-2" type="button" onClick={() => handleAddToCart(items.id)}><i className="bi bi-cart-fill me-2"></i>
                         Add to Cart
                       </button>
 
-                      <button className="btn btn-success me-2" type="button" >Buy It Now</button>
+                      <button className="btn btn-success me-2" type="button" onClick={() => handleBuyNow(items.id, quantity)}>Buy It Now</button>
                     </div>
                   </div>
                   <div className="mt-1 mb-0 ">
