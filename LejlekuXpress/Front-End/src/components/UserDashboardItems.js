@@ -1277,14 +1277,15 @@ function ShippingInfo() {
     return (
       <div id="shippingInfo">
         <div id="addressList" style={{ display: isAddListingVisible ? 'none' : 'block' }}>
-          <div className="container-userdashboard-tabs">
+          <div className="">
             <div
               className="d-flex justify-content-between align-items-center"
               style={{
                 padding: '10px',
                 width: '90%',
-                backgroundColor: '#fff',
+                backgroundColor: 'white',
                 margin: 'auto',
+                marginTop:'10px',
                 borderRadius: '10px',
               }}
             >
