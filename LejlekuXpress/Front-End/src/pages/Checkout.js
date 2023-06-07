@@ -87,12 +87,19 @@ function Checkout() {
     }
   }
 
-  const calculateTotalPrice = () => {
-    const totalPrice = items.reduce(
-      (acc, item) => acc + Number(item.price),
-      0
-    );
-    setTotalPrice(totalPrice);
+  const calculateTotalPrice = (items) => {
+    let totalPrice = 0;
+    if (items) {
+      items.forEach(item => {
+        const price = getPrice(item.productId);
+        console.log(price);
+        const shippingPrice = getShippingPrice(item.productId);
+        console.log(shippingPrice);
+        totalPrice += price + shippingPrice;
+        console.log(totalPrice);
+      });
+    }
+    return totalPrice;
   };
 
   const calculateTotalItems = () => {
@@ -128,7 +135,7 @@ function Checkout() {
 
   const getPrice = (productId) => {
     const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.price}` : '';
+    return listing ? listing.price : '';
   };
 
   const getDescription = (productId) => {
@@ -148,7 +155,7 @@ function Checkout() {
 
   const getShippingPrice = (productId) => {
     const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.shippingPrice}` : '';
+    return listing ? listing.shippingPrice : '';
   };
 
 
@@ -243,11 +250,11 @@ return (
                 </div>
                 <div className="col-md-3">
                   <h5>Quantity:</h5>
-                  <h7>{getQuantity(item.productId)}</h7>
+                  <h7>{item.quantity}</h7>
                 </div>
-                <div className="col-md-3">
-                  <h5>Product Price:</h5>
-                  <h7>${getPrice(item.productId)}</h7>
+                <div className="col-md-3 mb-3">
+                  <h5>Total Product Price:</h5>
+                  <h7>${getPrice(item.productId)} + ${getShippingPrice(item.productId)}</h7>
                 </div>
               </div>
             </div>
@@ -264,7 +271,7 @@ return (
             </div>
             <div className="col">
               <h4 className="" style={{ paddingLeft: "110px" }}>
-                Total Price: ${totalPrice}
+                Total Price: $ {calculateTotalPrice(items)}
               </h4>
             </div>
           </div>
