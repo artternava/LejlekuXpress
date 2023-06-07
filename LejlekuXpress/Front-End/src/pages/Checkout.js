@@ -5,50 +5,35 @@ import { BiArrowBack } from 'react-icons/bi'
 import axios from 'axios';
 import useAuthToken from '../components/useAuthToken';
 
-const items = [
-  {
-    name: "Iphone 14",
-    quantity: 1,
-    imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",
-    specification: ["Option 1", "Option 2", "Option 3"],
-    description: "lorem ipsum",
-    price: "1000",
-  },
-  {
-    name: "Iphone 3g",
-    quantity: 1,
-    imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",
-    specification: ["Option 1", "Option 2", "Option 3"],
-    description: "lorem ipsum",
-    price: "100",
-  },
-  {
-    name: "Nokia",
-    quantity: 1,
-    imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",
-    specification: ["Option 1", "Option 2", "Option 3"],
-    description: "lorem ipsum",
-    price: "800",
-  },
-];
-
 function Checkout() {
   const { userId } = useAuthToken();
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState('');
   const [payments, setPayments] = useState([]);
+  const [listings, setListings] = useState([]);
+  const [items, setItems] = useState([]);
   const [selectedPayments, setSelectedPayments] = useState('');
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
+    fetchItems();
+    fetchListings();
     fetchAddresses();
     fetchPayments();
     calculateTotalPrice();
     calculateTotalItems();
   }, [userId]);
 
-
+  const fetchListings = async () => {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/Product/getall`);
+      setListings(response.data);
+      console.log(items)
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(`http://localhost:39450/api/ShippingAddress/get?UserId=${userId}`);
@@ -60,7 +45,6 @@ function Checkout() {
       console.error('Error fetching addresses:', error);
     }
   };
-
   const fetchPayments = async () => {
     try {
       const response = await axios.get(`http://localhost:39450/api/Payment/get?UserId=${userId}`);
@@ -72,6 +56,36 @@ function Checkout() {
       console.error('Error fetching addresses:', error);
     }
   };
+  const fetchItems = async () => {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/CheckOut/getbyuserid?UserId=${userId}`);
+      if (response.status === 200) {
+        const paymentData = response.data;
+        setItems(paymentData);    
+        console.log(items);    
+      }
+    } catch (error) {
+      console.error('Error fetching addresses:', error);
+    }
+  };
+
+  const deleteAll = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:39450/api/CheckOut/deleteall`);
+    } catch (error) {
+      console.error('Error deleting all items:', error);
+    }
+  };
+
+  const buyNow = async () => {
+    try{
+      //
+      deleteAll();
+      window.location.href = '/';
+    } catch (error){
+      console.error('Error buying:', error);
+    }
+  }
 
   const calculateTotalPrice = () => {
     const totalPrice = items.reduce(
@@ -96,10 +110,79 @@ function Checkout() {
     setSelectedPayments(event.target.value);
   };
 
-  return (
+
+  //#region Get From Product
+  const getProductName = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.name}` : '';
+  };
+  const getProductId = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.id}` : '';
+  };
+
+  const getimage = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.image}` : '';
+  };
+
+  const getPrice = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.price}` : '';
+  };
+
+  const getDescription = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.description}` : '';
+  };
+
+  const getSpecifications = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.specifications}` : '';
+  };
+
+  const getQuantity = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.quantity}` : '';
+  };
+
+  const getShippingPrice = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.shippingPrice}` : '';
+  };
+
+
+//#region getImageExtension
+const getImageExtension = (imageData) => {
+  if (!imageData) {
+    return '';
+  }
+
+  if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
+    return 'jpeg';
+  }
+  if (
+    imageData[0] === 0x89 &&
+    imageData[1] === 0x50 &&
+    imageData[2] === 0x4E &&
+    imageData[3] === 0x47 &&
+    imageData[4] === 0x0D &&
+    imageData[5] === 0x0A &&
+    imageData[6] === 0x1A &&
+    imageData[7] === 0x0A
+  ) {
+    return 'png';
+  }
+  return 'jpeg';
+};
+//#endregion  
+
+
+//#endregion
+  
+return (
     <>
       <Meta title={'Checkout'}></Meta>
-
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-12 text-center">
@@ -143,7 +226,6 @@ function Checkout() {
             </select>
           </div>
         </div>
-
         {items.map((item) => (
           <section key={item.name}>
             <div className="container mt-3 border border-2 mb-4" style={{ backgroundColor: "#f0ecec" }}>
@@ -151,27 +233,26 @@ function Checkout() {
                 <div className="col-md-3">
                   <div className="col-lg-3 mb-4 mb-lg-0">
                     <div className="bg-image hover-zoom ripple rounded ripple-surface">
-                      <img src={item.imageSrc} className="w-80 justify-content-center" alt={item.name} />
+                      <img src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} className="w-80 justify-content-center" alt={item.name} />
                     </div>
                   </div>
                 </div>
                 <div className="col-md-3">
                   <h5>Product Name:</h5>
-                  <h7>{item.name}</h7>
+                  <h7>{getProductName(item.productId)}</h7>
                 </div>
                 <div className="col-md-3">
                   <h5>Quantity:</h5>
-                  <h7>{item.quantity}</h7>
+                  <h7>{getQuantity(item.productId)}</h7>
                 </div>
                 <div className="col-md-3">
                   <h5>Product Price:</h5>
-                  <h7>${item.price}</h7>
+                  <h7>${getPrice(item.productId)}</h7>
                 </div>
               </div>
             </div>
           </section>
         ))}
-
         <div className="container mb-5">
           <hr />
           <div className="row">
@@ -189,9 +270,7 @@ function Checkout() {
           </div>
         </div>
         <div className="row mb-5 justify-content-end">
-        <Link to="/checkout" className="btn btn-primary btn-block w-10 ">
-            Buy
-        </Link>
+          <button className="btn btn-primary btn-block w-10" onClick={buyNow}>Buy</button>
         </div> 
       </div>
     </>
