@@ -32,6 +32,7 @@ namespace LejlekuXpress.Services
                 {
                     UserId = request.UserId,
                     ProductId = request.ProductId,
+                    Quantity = request.Quantity,
                 };
 
                 _context.CheckOut.Add(checkOut);
