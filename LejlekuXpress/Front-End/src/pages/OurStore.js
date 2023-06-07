@@ -88,10 +88,21 @@ const OurStore = () => {
   };
 //#endregion
 
+
+if (!items) {
+  return (
+    <div className="text-center" >
+      <h1 className="mt-4 mb-3"> Put something in the Wishlist ghaddd damnit </h1>
+    <img src="/images/broken-heart.png" style={{width: "30%"}} alt="Offer 1" />
+    <h4 className="mt-4 mb-3">Your Wishlist is empty.</h4>
+    </div>
+    ); 
+  }
+
   return (
     <>
     <Meta title="Our Store"></Meta>
-    <div className='store-wrapper home-wrapper-2 py5'>
+    <div className='store-wrapper home-wrapper-2 py5' style={{minHeight:"100vh"}}>
     {items && items.map((item) => (
         <section style={{ backgroundColor: "#fff" }}>
           <div className="container py-3">
@@ -102,7 +113,7 @@ const OurStore = () => {
                     <div className="row">
                       <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                         <div className="bg-image hover-zoom ripple rounded ripple-surface">
-                          <Link to={`/product/${item.id}`} className="input-group-text p-3" id="basic-addon2">
+                          <Link to={`/product/${item.id}`} className="input-group-text justify-content-center p-3" id="basic-addon2">
                             <img src={`data:image/${getImageExtension(item.image)};base64,${item.image}`} alt="Product" style={{width: "60%", aspectRatio: "1/1"}} />
                           </Link>
                           <a href="#!">
