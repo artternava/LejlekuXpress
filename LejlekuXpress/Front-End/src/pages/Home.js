@@ -54,7 +54,6 @@ const Home = () => {
           </div>
           <div className="row">
             <SpecialProduct />
-            <SpecialProduct />
           </div>
         </div>
       </section>
