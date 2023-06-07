@@ -110,62 +110,77 @@ function Wishlist() {
     return 'jpeg';
   };
 //#endregion
+
+if (!items) {
+  return (
+    <div className="text-center" style={{minHeight: "58vh"}}>
+      <h1 className="mt-4 mb-3"> Put something in the Wishlist ghaddd damnit </h1>
+    <img src="/images/broken-heart.png" style={{width: "30%"}} alt="Offer 1" />
+    <h4 className="mt-4 mb-3">Your Wishlist is empty.</h4>
+    </div>
+    ); 
+  }
+
+
+
+
   return (
     <>
       {items && items.map((item) => (
-        <section style={{ backgroundColor: "#fff" }}>
-          <div className="container py-3">
-            <div className="row justify-content-center">
-              <div className="col-md-12 col-xl-10">
-                <div className="card shadow-0 border rounded-3">
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                        <div className="bg-image hover-zoom ripple rounded ripple-surface">
-                        <Link to={`/product/${item.productId}`} className="input-group-text p-3" id="basic-addon2">
-                          <img src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "60%", aspectRatio: "1/1" }} />
-                        </Link>
-                          <a href="#!">
-                            <div className="hover-overlay">
-                              <div className="mask" style={{ backgroundColor: "rgba(253, 253, 253, 0.15)" }}></div>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                      <div className="col-md-6 col-lg-6 col-xl-6">
-                        <h5>{getProductName(item.productId)}</h5>
-                        <div className="d-flex flex-row">
-                          <div className="text-danger mb-1 me-2">
-                            <p><b>Quantity</b></p>
-                          </div>
-                          <span>{getQuantity(item.productId)}</span>
-                        </div>
-                        <div className="mt-1 mb-0 text-muted small">
-                          <p>{getSpecifications(item.productId)}</p>
-                        </div>
-                        <p className="text-truncate mb-4 mb-md-0">
-                          {getDescription(item.productId)}
-                        </p>
-                      </div>
-                      <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
-                        <div className="d-flex flex-row align-items-center mb-1">
-                          <h4 className="mb-1 me-1">${getPrice(item.productId)}</h4>
-                        </div>
-                        <h6 className="text-success">${getShippingPrice(item.productId)}</h6>
-                        <div className="d-flex flex-column mt-4">
-                          <button className="btn btn-primary btn-sm" type="button">Add to Cart</button>
-                          <button className="btn btn-outline-danger btn-sm mt-2" type="button" onClick={() => handleDelete(item.id)}>
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+       <section style={{ backgroundColor: "#fff" }} className="mt-5">
+       <div className="container">
+         <div className="row justify-content-center">
+           <div className="col-md-12 col-xl-10">
+             <div className="card shadow-0 border rounded-3">
+               <div className="card-body">
+                 <div className="row align-items-center">
+                   <div className="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0 d-flex ">
+                     <div className="bg-image hover-zoom ripple rounded ripple-surface ">
+                       <Link to={`/product/${item.productId}`} className="input-group-text p-3 justify-content-center" id="basic-addon2">
+                         <img className="" src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "60%", aspectRatio: "1/1" }} />
+                       </Link>
+                       <a href="#!">
+                         <div className="hover-overlay">
+                           <div className="mask" style={{ backgroundColor: "rgba(253, 253, 253, 0.15)" }}></div>
+                         </div>
+                       </a>
+                     </div>
+                   </div>
+                   <div className="col-md-6 col-lg-6 col-xl-6">
+                     <h5>{getProductName(item.productId)}</h5>
+                     <div className="d-flex flex-row">
+                       <div className="text-danger mb-1 me-2">
+                         <p><b>Quantity:</b></p>
+                       </div>
+                       <span>{getQuantity(item.productId)}</span>
+                     </div>
+                     <div className="mt-1 mb-0 text-muted small">
+                       <p>{getSpecifications(item.productId)}</p>
+                     </div>
+                     <p className="text-truncate mb-4 mb-md-0">
+                       {getDescription(item.productId)}
+                     </p>
+                   </div>
+                   <div className="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                     <div className="d-flex flex-row align-items-center mb-1">
+                       <h4 className="mb-1 me-1">Price: ${getPrice(item.productId)}</h4>
+                     </div>
+                     <h6 className="text-success">Shipping: ${getShippingPrice(item.productId)}</h6>
+                     <div className="d-flex flex-column mt-4">
+                       <button className="btn btn-primary btn-sm" type="button">Add to Cart</button>
+                       <button className="btn btn-outline-danger btn-sm mt-2" type="button" onClick={() => handleDelete(item.id)}>
+                         Delete
+                       </button>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </section>
+     
       ))}
     </>
   );
