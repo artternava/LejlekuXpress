@@ -93,7 +93,7 @@ if (items === null || items.length === 0) {
   return (
     <div className="text-center">
       <h1 className="mt-4 mb-3">We don't have it ghaddd damnit</h1>
-      <img src="/images/bonocular.png" style={{width: "50%"}} alt="Offer 1" />
+      <img src="/images/bonocular.png" style={{width: "45%"}} alt="Offer 1" />
       <h4 className="mt-4 mb-3">Product not found!</h4>
     </div>
   ); 

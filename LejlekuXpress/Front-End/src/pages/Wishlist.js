@@ -151,7 +151,7 @@ if (!items) {
   return (
     <div className="text-center" style={{minHeight: "58vh"}}>
       <h1 className="mt-4 mb-3"> Put something in the Wishlist ghaddd damnit </h1>
-    <img src="/images/broken-heart.png" style={{width: "30%"}} alt="Offer 1" />
+    <img src="/images/broken.png" style={{width: "25%"}} alt="Offer 1" />
     <h4 className="mt-4 mb-3">Your Wishlist is empty.</h4>
     </div>
     ); 
