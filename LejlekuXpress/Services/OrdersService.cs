@@ -65,7 +65,25 @@ namespace LejlekuXpress.Services
         }
         #endregion
 
-
+        #region DeleteItem
+        public async Task DeleteItem(int id)
+        {
+            try
+            {
+                var result = _context.Orders.Find(id);
+                if (result != null)
+                {
+                    _context.Orders.Remove(result);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to delete the cart record.");
+            }
+        }
+        #endregion
 
     }
 }
