@@ -16,5 +16,8 @@ namespace LejlekuXpress.Models
         [Required]
         public int ProductId { get; set; }
         public Product Product { get; set; }
+
+        [Required]
+        public int Quantity { get; set; }
     }
 }
