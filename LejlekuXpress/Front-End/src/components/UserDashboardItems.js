@@ -487,7 +487,15 @@ function ShippingInfo() {
     }
   };
 
- 
+  const openModal = (address) => {
+    setSelectedAddress(address);
+    console.log(selectedAddress)
+    setIsModalOpen(true);
+  };
+  
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div id="shippingInfo">
@@ -551,7 +559,153 @@ function ShippingInfo() {
       </div>
       
 
-{/*  */}
+      <MDBModal show={isModalOpen} onHide={closeModal}>
+          <div className="custom-modal" style={{ backgroundColor: "#fff", width: "50%", margin: "auto", padding: "20px", borderRadius: "20px", marginTop: "5%" }}>
+            <div className="custom-modal-header" style={{ display: "flex", alignItems: "center" }}>
+              <h5 className="modal-title mb-3" style={{ marginRight: "auto" }}>Address Details</h5>
+              <button type="button" className="btn-close" onClick={closeModal}></button>
+            </div>
+            <div className="custom-modal-body">
+              {selectedAddress && (
+                
+                <div className="p-3">
+                  
+                  <div className="container rounded bg-white mb-5">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="p-3 py-5">
+                <div className="row mt-2">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="firstName" className="labels">First Name</label>
+                      <input
+                        type="text"
+                        id="firstName"
+                        className="form-control"
+                        placeholder="First Name"
+                        name="FirstName"
+                        value={selectedAddress.FirstName}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.FirstName && <p className="text-danger">First Name is required</p>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="lastName" className="labels">Last Name</label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        className="form-control"
+                        placeholder="Last Name"
+                        name="LastName"
+                        value={selectedAddress.LastName}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.LastName && <p className="text-danger">Last Name is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="country" className="labels">Country</label>
+                      <select
+                          className={`form-control ${formErrors.countryCode ? 'is-invalid' : ''}`}
+                          id="CountryId"
+                          name="CountryId"
+                          value={newAddress.CountryId}
+                          onChange={handleSelectedInputChange}
+                        >
+                          <option value="">Select Country</option>
+                          {countries.map((country) => (
+                            <option key={country.id} value={country.id}>
+                              {country.niceName}
+                            </option>
+                          ))}
+                        </select>
+                      {formErrors.CountryId && <p className="text-danger">Country is required</p>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="state" className="labels">State</label>
+                      <input
+                        type="text"
+                        id="state"
+                        className="form-control"
+                        placeholder="State"
+                        name="State"
+                        value={addresses.State}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.State && <p className="text-danger">State is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="city" className="labels">City</label>
+                      <input
+                        type="text"
+                        id="city"
+                        className="form-control"
+                        placeholder="City"
+                        name="City"
+                        value={addresses.City}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.City && <p className="text-danger">City is required</p>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="zipcode" className="labels">Zip Code</label>
+                      <input
+                        type="text"
+                        id="zipcode"
+                        className="form-control"
+                        placeholder="Zip Code"
+                        name="ZipCode"
+                        value={addresses.ZipCode}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.ZipCode && <p className="text-danger">Zip Code is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label htmlFor="address1" className="labels">Address 1</label>
+                      <input
+                        type="text"
+                        id="address1"
+                        className="form-control"
+                        placeholder="Address 1"
+                        name="Address1"
+                        value={addresses.Address1}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.Address1 && <p className="text-danger">Address 1 is required</p>}
+                    </div>
+                  </div>
+                </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-5 text-center">
+                    <button className="btn btn-primary me-2" type="submit" onClick={() => updateAddress(selectedAddress.id)}>Save Listing</button>
+                    <button className="btn btn-danger" type="button" onClick={closeModal}>Cancel</button>
+                  </div>
+                </div>
+              
+              )}
+            </div>
+          </div>
+        </MDBModal>
 
 
 
