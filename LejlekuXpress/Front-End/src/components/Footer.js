@@ -61,7 +61,7 @@ const Footer = () => {
                 &copy; {new Date().getFullYear()}: LejlekuXPress. All rights reserved.
               </p>
               <div className="text-center">
-                <Link to="contact">Contact</Link>
+                <Link to="contact">Help</Link>
               </div>
             </div>
           </div>
