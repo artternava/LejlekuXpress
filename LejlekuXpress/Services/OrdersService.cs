@@ -1,6 +1,7 @@
 ﻿using LejlekuXpress.Data;
 using LejlekuXpress.Data.DTO;
 using LejlekuXpress.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LejlekuXpress.Services
 {
@@ -85,5 +86,28 @@ namespace LejlekuXpress.Services
         }
         #endregion
 
+        #region UpdateItem
+        public async Task<Orders> UpdateItem(int id, OrdersDTO request)
+        {
+            try
+            {
+                var orders = _context.Orders.Find(id);
+                if (orders != null)
+                {
+                    orders.UserId = request.UserId;
+                    orders.ProductId = request.ProductId;
+                    orders.Quantity = request.Quantity;
+
+                    _context.SaveChanges();
+                }
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to update the order."); ;
+            }
+        }
+        #endregion
     }
 }
