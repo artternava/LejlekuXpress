@@ -8,5 +8,7 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<Orders> AddItem(OrdersDTO request);
 
         Task<List<Orders>> GetByUserId(int userId);
+
+        Task DeleteItem(int id);
     }
 }
