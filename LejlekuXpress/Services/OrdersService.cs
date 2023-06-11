@@ -1,11 +1,12 @@
 ﻿using LejlekuXpress.Data;
 using LejlekuXpress.Data.DTO;
+using LejlekuXpress.Data.ServiceInterfaces;
 using LejlekuXpress.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LejlekuXpress.Services
 {
-    public class OrdersService
+    public class OrdersService : IOrdersService
     {
         private readonly AppDbContext _context;
 
