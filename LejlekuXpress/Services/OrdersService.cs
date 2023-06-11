@@ -46,6 +46,25 @@ namespace LejlekuXpress.Services
         }
         #endregion
 
+        #region GeyByUserId
+        public async Task<List<Orders>> GetByUserId(int userId)
+        {
+            try
+            {
+                var orders = _context.Orders
+                    .Where(orders => orders.UserId == userId)
+                    .ToList();
+
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("An error occurred while attempting to get the orders.");
+            }
+        }
+        #endregion
+
 
 
     }
