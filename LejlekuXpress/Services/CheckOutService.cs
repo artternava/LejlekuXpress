@@ -19,15 +19,6 @@ namespace LejlekuXpress.Services
         {
             try
             {
-                //var product = await _context.Product.FindAsync(request.ProductId);
-
-                //product.Quantity -= request.Quantity;
-
-                //if (product.Quantity <= 0)
-                //{
-                //    _context.Product.Remove(product);
-                //}
-
                 CheckOut checkOut = new CheckOut
                 {
                     UserId = request.UserId,
