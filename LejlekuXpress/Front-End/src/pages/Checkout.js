@@ -15,6 +15,9 @@ function Checkout() {
   const [selectedPayments, setSelectedPayments] = useState('');
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
+  const [orders, setOrders] = useState(0);
+  const [addItem, setAddItem] = useState(null);
+
 
   useEffect(() => {
     fetchItems();
@@ -24,6 +27,37 @@ function Checkout() {
     calculateTotalPrice();
     calculateTotalItems();
   }, [userId]);
+
+  async function handleAdd(productId) {
+    try {
+      const itemsData = {
+        UserId: parseInt(userId, 10),
+        ProductId: productId,
+      }
+      console.log(itemsData);
+      setAddItem(itemsData)
+      await axios.post('http://localhost:39450/api/MyOrders/add', addItem)
+      .then((response) => {
+        window.alert('add successful');
+      });
+      fetchOrders(); 
+    } catch (error) {
+      console.error('Error adding items:', error);
+    }
+  }
+
+  async function fetchOrders() {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/MyOrders/getbyuserid?userID=${userId}`);
+      if (response.status === 200) {
+        const itemsResponse = response.data;
+        setOrders(itemsResponse);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
 
   const fetchListings = async () => {
     try {
@@ -115,6 +149,12 @@ function Checkout() {
   };
   const handlePaymentsChange = (event) => {
     setSelectedPayments(event.target.value);
+  };
+
+
+  const handleCombinedClick = (productId) => {
+    handleAdd(productId);
+    buyNow();
   };
 
 
@@ -277,7 +317,7 @@ return (
           </div>
         </div>
         <div className="row mb-5 justify-content-end">
-          <button className="btn btn-primary btn-block w-10" onClick={buyNow}>Buy</button>
+          <button className="btn btn-primary btn-block w-10" onClick={() => handleCombinedClick(getProductId(items.productId))}>Buy</button>
         </div> 
       </div>
     </>

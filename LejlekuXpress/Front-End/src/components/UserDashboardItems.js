@@ -12,6 +12,9 @@ import {
   } from "mdb-react-ui-kit";
   import axios from 'axios';
   import useAuthToken from './useAuthToken.js';
+  import { Link } from "react-router-dom";
+  import { useLocation } from "react-router-dom";
+
 
   //#region PersonalInfo
   function PersonalInfo() {
@@ -317,7 +320,9 @@ function ShippingInfo() {
   const { userId } = useAuthToken();
   const [isAddAddressVisible, setIsAddAddressVisible] = useState(false);
   const [countries, setCountries] = useState([]);
-  const [addresses, setAddresses] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [addresses, setAddresses] = useState([])
   const [newAddress, setNewAddress] = useState({
     FirstName: '',
     LastName: '',
@@ -351,6 +356,8 @@ function ShippingInfo() {
       [name]: false,
     }));
   };
+
+
 
   const toggleAddressForm = () => {
     setIsAddAddressVisible(!isAddAddressVisible);
@@ -440,6 +447,38 @@ function ShippingInfo() {
     }
   };
 
+  const updateAddress = async (id) => {
+    try {
+      const { Name, LastName, CountryId, City, ZipCode, Address1} = selectedAddress;
+      const errors = {
+        Name: Name && Name.length === 0,
+        LastName: LastName && LastName.length === 0,
+          CountryId: CountryId && CountryId.length === 0,
+      	  City: City && City.length === 0,
+          ZipCode: ZipCode && ZipCode.length === 0,
+          Address1: Address1 && Address1.length === 0
+      };
+    
+    setFormErrors(errors);
+    if (Object.values(errors).some((value) => value)) {
+      return;
+    }      
+    console.log(selectedAddress)
+
+      const confirmUpdate = window.confirm('Are you sure you want to update this Address?');
+      if (confirmUpdate) {
+        await axios.put(`http://localhost:39450/api/ShippingAddress/update?id=${id}`, selectedAddress);
+        fetchAddresses();
+        closeModal();
+        window.location.href = '/userdashboard';
+      }
+    } catch (error) {
+      console.error('Error updating address:', error);
+    }
+  };
+
+ 
+
   return (
     <div id="shippingInfo">
       <div id="addressList" style={{ display: isAddAddressVisible ? 'none' : 'block' }}>
@@ -482,11 +521,13 @@ function ShippingInfo() {
                         </div>
                         <div className="w-100">
                           <div className="row mt-2">
-                            <div className="col-md-12">
+                            <div className="col-md-12">     
                               <button className="btn btn-danger me-2" type="button" onClick={() => deleteAddress(address.id)}>
                                 Delete
                               </button>
+                              <button className="btn btn-primary me-2 ml-3" type="button" onClick={() => openModal(address)}>Update Address</button>
                             </div>
+                            
                           </div>
                         </div>
                       </div>
@@ -498,11 +539,23 @@ function ShippingInfo() {
           </div>
         </div>
       </div>
-      <div
+      
+
+{/*  */}
+
+
+
+        <div
         id="add-edit-address"
         style={{ display: isAddAddressVisible ? 'block' : 'none' }}
         className="container-userdashboard-tabs"
       >
+
+
+
+
+
+
         <div className="container rounded bg-white mt-5 mb-5">
           <div className="row">
             <div className="col-md-12">
@@ -922,40 +975,105 @@ function ShippingInfo() {
 
 //#endregion
   //#region Orders
+ 
+  function MyOrders() {
+  const location = useLocation();
+  const { userId } = useAuthToken();
+  const [listings, setListings] = useState([]);
+  const [items, setItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
 
-    const orders = [  {
-          invoiceNumber: "#Y34XDHR",    
-          expectedArrival: "01/12/19",    
-          trackingNumber: "234094567242423422898",    
-          imageSrc: "https://www.att.com/idpassets/global/devices/phones/apple/apple-iphone-14/carousel/blue/blue-1.png",    
-          productName: "Iphone 14",    
-          capacity: "64gb",    
-          color: "Blue",    
-          price: "$1000"  },  
-          {    
-            invoiceNumber: "#Z56VBFE",    
-            expectedArrival: "05/06/19",    
-            trackingNumber: "234094567242423422899",    
-            imageSrc: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1660803972361",    
-            productName: "Airpods pro 2",    
-            capacity: "-",    
-            color: "White",    
-            price: "$200"  },  
-            {    
-              invoiceNumber: "#A12RTGS",    
-              expectedArrival: "07/08/19",    
-              trackingNumber: "234094567242423422900",    
-              imageSrc: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp-spacegray-select-202206?wid=904&hei=840&fmt=jpeg&qlt=90&.v=1664497359481",    
-              productName: "MacBook Pro",    
-              capacity: "1tb",    
-              color: "Space Gray",    
-              price: "$3750"  }];
 
-      function MyOrders() {
+
+  
+  useEffect(() => {
+    fetchListings();
+    // calculateTotalPrice();
+    // calculateTotalItems();
+  }, [userId]);
+
+
+  const fetchListings = async () => {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/Product/getall`);
+      setListings(response.data);
+      console.log(items)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  
+
+
+  const getProductName = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.name}` : '';
+  };
+  const getProductId = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.id}` : '';
+  };
+
+  const getimage = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.image}` : '';
+  };
+
+  const getPrice = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.price}` : '';
+  };
+
+  const getDescription = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.description}` : '';
+  };
+
+  const getSpecifications = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.specifications}` : '';
+  };
+
+  const getQuantity = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.quantity}` : '';
+  };
+
+  const getShippingPrice = (productId) => {
+    const listing = listings && listings.find(listing => listing.id === productId);
+    return listing ? `${listing.shippingPrice}` : '';
+  };
+
+
+  const getImageExtension = (imageData) => {
+    if (!imageData) {
+      return '';
+    }
+
+    if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
+      return 'jpeg';
+    }
+    if (
+      imageData[0] === 0x89 &&
+      imageData[1] === 0x50 &&
+      imageData[2] === 0x4E &&
+      imageData[3] === 0x47 &&
+      imageData[4] === 0x0D &&
+      imageData[5] === 0x0A &&
+      imageData[6] === 0x1A &&
+      imageData[7] === 0x0A
+    ) {
+      return 'png';
+    }
+    return 'jpeg';
+  };
+
         
         return (
           <>
-            {orders.map((order) => (
+            {items && items.map((item) => (
               <section className="" style={{ backgroundColor: "#bdbdbd" }}>
                 <MDBContainer className="py-5 h-100">
                   <MDBRow className="justify-content-center align-items-start h-100">
@@ -970,27 +1088,29 @@ function ShippingInfo() {
                               <MDBTypography tag="h5" className="mb-0">
                                 INVOICE{" "}
                                 <span className="text-primary font-weight-bold">
-                                  {order.invoiceNumber}
+                                  sadasda
                                 </span>
                               </MDBTypography>
                               <div className="ml-3 d-flex justify-content-between w-100" style={{ marginTop: "10%"}}>
-                                <React.Fragment key={order.invoiceNumber}>
-                                  <img src={order.imageSrc} alt="product-image" style={{ maxWidth: "50px", marginRight: "5%" }}/>
-                                  <p style={{ marginRight: "30%" }}>{order.productName}</p>
-                                  <p style={{ marginRight: "30%" }}>{order.capacity ? `Capacity: ${order.capacity}` : ""}</p>
-                                  <p style={{ marginRight: "80%" }}>{order.color ? `Color: ${order.color}` : ""}</p>
-                                  <h5>{order.price}</h5>
+                                <React.Fragment key={2}>
+                                <Link to={`/product/${item.productId}`} className="input-group-text p-3 justify-content-center" id="basic-addon2">
+                         <img className="" src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "70%", height: "auto", objectFit: "contain" }} />
+                       </Link>
+                                  <p style={{ marginRight: "30%" }}>{getProductName(item.productId)}</p>
+                                  <p style={{ marginRight: "30%" }}>{getQuantity(item.productId)}</p>
+                                  {/* <p style={{ marginRight: "80%" }}>{order.color ? `Color: ${order.color}` : ""}</p> */}
+                                  <h5>{getPrice(item.productId)}</h5>
                                 </React.Fragment>
                             </div>
                             </div>
                             <div className="text-end">
                               <p className="mb-0">
-                                Expected Arrival <span>{order.expectedArrival}</span>
+                                Expected Arrival <span>2121</span>
                               </p>
                               <p className="mb-0">
                                 USPS{" "}
                                 <span className="font-weight-bold">
-                                  {order.trackingNumber}
+                                  21212
                                 </span>
                               </p>
                             </div>
