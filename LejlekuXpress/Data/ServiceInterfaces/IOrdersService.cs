@@ -10,5 +10,7 @@ namespace LejlekuXpress.Data.ServiceInterfaces
         Task<List<Orders>> GetByUserId(int userId);
 
         Task DeleteItem(int id);
+
+        Task<Orders> UpdateItem(int id, OrdersDTO request);
     }
 }
