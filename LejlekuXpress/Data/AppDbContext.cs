@@ -30,5 +30,7 @@ namespace LejlekuXpress.Data
         public DbSet<Cart> Cart { get; set; }
 
         public DbSet<CheckOut> CheckOut { get; set; }
+
+        public DbSet<Orders> Orders { get; set; }
     }
 }
