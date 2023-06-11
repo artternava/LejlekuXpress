@@ -64,5 +64,23 @@ namespace LejlekuXpress.Controllers
             }
         }
         #endregion
+
+        #region Update
+        [HttpPut("update")]
+        public async Task<IActionResult> Update(int id, OrdersDTO request)
+        {
+            try
+            {
+                var result = _service.UpdateItem(id, request);
+                if (result == null)
+                    return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }
