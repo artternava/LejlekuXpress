@@ -30,5 +30,23 @@ namespace LejlekuXpress.Controllers
             }
         }
         #endregion
+
+        #region GetByUserId
+        [HttpGet("getbyuserid")]
+        public async Task<IActionResult> GetByUserId(int userID)
+        {
+            try
+            {
+                var result = await _service.GetByUserId(userID);
+                if (result == null || result.Count == 0)
+                    return NotFound();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        #endregion
     }
 }
