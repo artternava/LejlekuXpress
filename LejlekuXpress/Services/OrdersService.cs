@@ -23,16 +23,12 @@ namespace LejlekuXpress.Services
 
                 product.Quantity -= request.Quantity;
 
-                if (product.Quantity <= 0)
-                {
-                    _context.Product.Remove(product);
-                }
-
                 Orders orders = new Orders
                 {
                     UserId = request.UserId,
                     ProductId = request.ProductId,
                     Quantity = request.Quantity,
+                    EnteredOn = DateTime.Now,
                 };
 
                 _context.Orders.Add(orders);
@@ -47,7 +43,7 @@ namespace LejlekuXpress.Services
             }
         }
         #endregion
-        //
+        
         #region GeyByUserId
         public async Task<List<Orders>> GetByUserId(int userId)
         {
