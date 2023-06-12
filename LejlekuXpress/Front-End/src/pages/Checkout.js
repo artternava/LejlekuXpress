@@ -15,9 +15,8 @@ function Checkout() {
   const [selectedPayments, setSelectedPayments] = useState('');
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
-  const [orders, setOrders] = useState(0);
+  const [order, setOrder] = useState(0);
   const [addItem, setAddItem] = useState(null);
-
 
   useEffect(() => {
     fetchItems();
@@ -28,36 +27,28 @@ function Checkout() {
     calculateTotalItems();
   }, [userId]);
 
-  async function handleAdd(productId) {
+  const handleAdd = async () => {
     try {
-      const itemsData = {
-        UserId: parseInt(userId, 10),
-        ProductId: productId,
-      }
-      console.log(itemsData);
-      setAddItem(itemsData)
-      await axios.post('http://localhost:39450/api/MyOrders/add', addItem)
-      .then((response) => {
-        window.alert('add successful');
-      });
-      fetchOrders(); 
+      const requests = items.map(item => axios.post('http://localhost:39450/api/Orders/add', item));
+      await Promise.all(requests);
+      window.alert('Add successful');
+      fetchOrder();
     } catch (error) {
       console.error('Error adding items:', error);
     }
-  }
+  };
 
-  async function fetchOrders() {
+  async function fetchOrder() {
     try {
-      const response = await axios.get(`http://localhost:39450/api/MyOrders/getbyuserid?userID=${userId}`);
+      const response = await axios.get(`http://localhost:39450/api/Orders/getbyuserid?userID=${userId}`);
       if (response.status === 200) {
         const itemsResponse = response.data;
-        setOrders(itemsResponse);
+        setOrder(itemsResponse);
         }
       } catch (error) {
         console.error(error);
       }
     }
-
 
   const fetchListings = async () => {
     try {
@@ -112,14 +103,14 @@ function Checkout() {
   };
 
   const buyNow = async () => {
-    try{
-      //
+    try {
+      handleAdd();
       deleteAll();
       window.location.href = '/';
-    } catch (error){
+    } catch (error) {
       console.error('Error buying:', error);
     }
-  }
+  };
 
   const calculateTotalPrice = (items) => {
     let totalPrice = 0;
@@ -149,12 +140,6 @@ function Checkout() {
   };
   const handlePaymentsChange = (event) => {
     setSelectedPayments(event.target.value);
-  };
-
-
-  const handleCombinedClick = (productId) => {
-    handleAdd(productId);
-    buyNow();
   };
 
 
@@ -317,7 +302,7 @@ return (
           </div>
         </div>
         <div className="row mb-5 justify-content-end">
-          <button className="btn btn-primary btn-block w-10" onClick={() => handleCombinedClick(getProductId(items.productId))}>Buy</button>
+          <button className="btn btn-primary btn-block w-10" onClick={buyNow}>Buy</button>
         </div> 
       </div>
     </>
