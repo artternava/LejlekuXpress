@@ -1417,12 +1417,12 @@ function ShippingInfo() {
               <>
                {items && items.map((item) => (
                 <section className="vh-100 gradient-custom-2" >
-                  <div className="container py-4 h-100 justify-content-center">
+                  <div className="container py-4 h-50 justify-content-center">
                     <div className="row d-flex align-items-center h-80 ">
                       <div className="col-md-7 col-lg-9" >
                         <div className="card card-stepper justify-content-center" style={{ borderRadius: '16px', width: '100%', marginLeft: '190px' }}>
-                          <div className="card-header p-4">
-                            <div className="d-flex justify-content-between align-items-center">
+                          <div className="card-header p-4 " >
+                            <div className="d-flex justify-content-between align-items-center" >
                               <div>
                                 <p className="text-muted mb-2">
                                   Order ID <span className="fw-bold text-body">{item.id}</span>
@@ -1435,13 +1435,13 @@ function ShippingInfo() {
                               </div>
                             </div>
                           </div>
-                          <div className="card-body p-4">
+                          <div className="card-body p-4" style={{ borderRadius: '16px' }}>
                             <div className="d-flex flex-row mb-4 pb-2">
                               <div className="flex-fill">
                                 <h5 className="bold">{getProductName(item.productId)}</h5>
-                                <p className="text-muted">{getProductName(item.productId)}</p>
+                               
                                 <h4 className="mb-3">
-                                {getPrice(item.productId)} <span className="small text-muted">via (COD)</span>
+                                $ {getPrice(item.productId)}
                                 </h4>
                                 <p className="text-muted">
                                   Tracking Status on: <span className="text-body">Shipped</span>
