@@ -1413,100 +1413,67 @@ function ShippingInfo() {
             };
 
         
-        return (
-          <>
-            {items && items.map((item) => (
-              <section className="" style={{ backgroundColor: "#bdbdbd" }}>
-                <MDBContainer className="py-5 h-100">
-                  <MDBRow className="justify-content-center align-items-start h-100">
-                    <MDBCol size="12">
-                      <MDBCard
-                        className="card-stepper text-black"
-                        style={{ borderRadius: "16px" }}
-                      >
-                        <MDBCardBody className="p-5">
-                          <div className="d-flex justify-content-between align-items-center mb-5">
-                            <div>
-                              <MDBTypography tag="h5" className="mb-0">
-                                INVOICE{" "}
-                                <span className="text-primary font-weight-bold">
-                                  sadasda
-                                </span>
-                              </MDBTypography>
-                              <div className="ml-3 d-flex justify-content-between w-100" style={{ marginTop: "10%"}}>
-                                <React.Fragment key={2}>
-                                <Link to={`/product/${item.productId}`} className="input-group-text p-3 justify-content-center" id="basic-addon2">
-                         <img className="" src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "70%", height: "auto", objectFit: "contain" }} />
-                       </Link>
-                                  <p style={{ marginRight: "30%" }}>{getProductName(item.productId)}</p>
-                                  <p style={{ marginRight: "30%" }}>{getQuantity(item.productId)}</p>
-                                  {/* <p style={{ marginRight: "80%" }}>{order.color ? `Color: ${order.color}` : ""}</p> */}
-                                  <h5>{getPrice(item.productId)}</h5>
-                                </React.Fragment>
-                            </div>
-                            </div>
-                            <div className="text-end">
-                              <p className="mb-0">
-                                Expected Arrival <span>2121</span>
-                              </p>
-                              <p className="mb-0">
-                                USPS{" "}
-                                <span className="font-weight-bold">
-                                  21212
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                          <ul
-                            id="progressbar-2"
-                            className="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2"
-                          >
-                            <li className="step0 active text-center" id="step1"></li>
-                            <li className="step0 active text-center" id="step2"></li>
-                            <li className="step0 active text-center" id="step3"></li>
-                            <li className="step0 text-muted text-end" id="step4"></li>
-                          </ul>
-      
-                          <div className="d-flex justify-content-between">
-                            <div className="d-lg-flex align-items-center">
-                              <i class="bi bi-file-text fs-1 icon-spacing"></i>
+            return (
+              <>
+               {items && items.map((item) => (
+                <section className="vh-100 gradient-custom-2" >
+                  <div className="container py-4 h-100 justify-content-center">
+                    <div className="row d-flex align-items-center h-80 ">
+                      <div className="col-md-7 col-lg-9" >
+                        <div className="card card-stepper justify-content-center" style={{ borderRadius: '16px', width: '100%', marginLeft: '190px' }}>
+                          <div className="card-header p-4">
+                            <div className="d-flex justify-content-between align-items-center">
                               <div>
-                                <p className="fw-bold mb-1">Order</p>
-                                <p className="fw-bold mb-0">Processed</p>
+                                <p className="text-muted mb-2">
+                                  Order ID <span className="fw-bold text-body">{item.id}</span>
+                                </p>
+                                <p className="text-muted mb-0">
+                                  Place On <span className="fw-bold text-body">{item.enteredOn}</span>
+                                </p>
                               </div>
-                            </div>
-                            <div className="d-lg-flex align-items-center">
-                              <i class="bi bi-box-seam-fill fs-1 icon-spacing"></i>
                               <div>
-                                <p className="fw-bold mb-1">Order</p>
-                                <p className="fw-bold mb-0">Shipped</p>
-                              </div>
-                            </div>
-                            <div className="d-lg-flex align-items-center">
-                              <i class="bi bi-truck fs-1 icon-spacing"></i>
-                              <div>
-                                <p className="fw-bold mb-1">Order</p>
-                                <p className="fw-bold mb-0">En Route</p>
-                              </div>
-                            </div>
-                            <div class="d-lg-flex align-items-center">
-                              <i class="bi bi-house-fill fs-1 icon-spacing"></i>
-                              <div>
-                                <p className="fw-bold mb-1">Order</p>
-                                <p className="fw-bold mb-0">Arrived</p>
                               </div>
                             </div>
                           </div>
-                          </MDBCardBody>
-                        </MDBCard>
-                      </MDBCol>
-                    </MDBRow>
-                  </MDBContainer>
+                          <div className="card-body p-4">
+                            <div className="d-flex flex-row mb-4 pb-2">
+                              <div className="flex-fill">
+                                <h5 className="bold">{getProductName(item.productId)}</h5>
+                                <p className="text-muted">{getProductName(item.productId)}</p>
+                                <h4 className="mb-3">
+                                {getPrice(item.productId)} <span className="small text-muted">via (COD)</span>
+                                </h4>
+                                <p className="text-muted">
+                                  Tracking Status on: <span className="text-body">??????</span>
+                                </p>
+                              </div>
+                              <div>
+                              <Link to={`/product/${item.productId}`} className="input-group-text p-3 justify-content-center mt-3" id="basic-addon2">
+                          <img className="" src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "40%", height: "auto", objectFit: "contain", marginLeft:'190px' }} />
+                        </Link> 
+                              </div>
+                            </div>
+                            <ul id="progressbar-1" className="mx-0 mt-0 mb-5 px-0 pt-0 pb-4">
+                              <li className="step0 active" id="step1">
+                                <span style={{ marginLeft: '22px', marginTop: '12px' }}>PLACED</span>
+                              </li>
+                              <li className="step0 active text-center" id="step2">
+                                <span>SHIPPED</span>
+                              </li>
+                              <li className="step0 text-muted text-end" id="step3">
+                                <span style={{ marginRight: '22px' }}>DELIVERED</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </section>
-              ))}
-            </>
-          );          
-    }
+             ))}
+             </>
+           );          
+     }
 //#endregion
   //#region MyListings    
   function MyListings() {
