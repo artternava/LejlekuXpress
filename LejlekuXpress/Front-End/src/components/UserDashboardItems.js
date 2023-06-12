@@ -1031,7 +1031,7 @@ function ShippingInfo() {
             console.error('Error updating payment:', error);
           }
         };
-        
+
           const openModal = (payment) => {
           setSelectedPayment(payment);
           console.log(selectedPayment)
@@ -1063,7 +1063,7 @@ function ShippingInfo() {
             </div>
             <div className="row mt-4">
               <div className="col-md-12 text-center">
-             
+              <button className="btn btn-primary me-2 ml-3" type="button" onClick={() => openModal(payment)}>Update Payment</button>
               <button className="btn btn-danger me-2" type="button" onClick={() => deletePayment(payment.id)}>Delete</button>             
                 </div>
             </div>
