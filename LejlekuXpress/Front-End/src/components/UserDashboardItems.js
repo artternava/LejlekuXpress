@@ -919,7 +919,18 @@ function ShippingInfo() {
             [name]: false,
           }));
         };
-
+        
+        const handleSelectedInputChange = (event) => {
+          const { name, value } = event.target;
+          setSelectedPayment((prevState) => ({
+            ...prevState,
+            [name]: value,
+          }));
+          setFormErrors((prevState) => ({
+            ...prevState,
+            [name]: false,
+          }));
+        };
         const toggleAddressForm = () => {
           setIisPaymentVisible(!isPaymentVisible);
         };
