@@ -25,7 +25,7 @@ function Checkout() {
     fetchPayments();
     calculateTotalPrice();
     calculateTotalItems();
-  }, [userId]);
+  }, [userId, items]);
 
   const handleAdd = async () => {
     try {
