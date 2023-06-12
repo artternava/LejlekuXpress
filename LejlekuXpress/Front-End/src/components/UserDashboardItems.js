@@ -884,6 +884,7 @@ function ShippingInfo() {
       const { userId } = useAuthToken();
         const [isPaymentVisible, setIisPaymentVisible] = useState(false);
         const [payment, setPayment] = useState([]);
+       
         const [newPayment, setNewPayment] = useState({
           UserId: '',
           FirstName: '',
@@ -911,6 +912,8 @@ function ShippingInfo() {
             [name]: false,
           }));
         };
+
+        
 
         const toggleAddressForm = () => {
           setIisPaymentVisible(!isPaymentVisible);
@@ -985,6 +988,8 @@ function ShippingInfo() {
           }
         };
 
+     
+       
 
         return (
             <div id="shippingInfo">
@@ -1001,14 +1006,16 @@ function ShippingInfo() {
                     <div className="grid-container">
                     {payment.map((payment, index) => (
             <div className="grid-item p-3 py-5" id="edit-address">
-            <div className=" mb-3">
+            <div className=" text-center">
               <h4 className="text-right">Card: **** **** **** {getLastFourDigits(payment.cardNumber)}</h4>
               <p className="text-right">CardHolder name: <b>{payment.firstName} {payment.lastName}</b></p>
 
             </div>
-            <div className="row mt-2">
-              <div className="col-md-12">
+            <div className="row mt-4">
+              <div className="col-md-12 text-center">
+              
               <button className="btn btn-danger me-2" type="button" onClick={() => deletePayment(payment.id)}>Delete</button>
+              
                 </div>
             </div>
           </div>
@@ -1019,6 +1026,9 @@ function ShippingInfo() {
             </div>
             </div>
             </div>
+
+
+
             <div
                 id="add-edit-address"
                 style={{ display: isPaymentVisible ? 'block' : 'none' }}
