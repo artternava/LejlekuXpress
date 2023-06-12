@@ -189,7 +189,7 @@ function Cart() {
 
   return (
     <>
-      <div class="d-flex mt-5">
+      <div class="d-flex mt-5" style={{minHeight: "100vh"}}>
         <div class="container py-2">
           <div class="row justify-content-center">
             <div class="col-md-8">

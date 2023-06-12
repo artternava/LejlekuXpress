@@ -1444,7 +1444,7 @@ function ShippingInfo() {
                                 {getPrice(item.productId)} <span className="small text-muted">via (COD)</span>
                                 </h4>
                                 <p className="text-muted">
-                                  Tracking Status on: <span className="text-body">??????</span>
+                                  Tracking Status on: <span className="text-body">Shipped</span>
                                 </p>
                               </div>
                               <div>
