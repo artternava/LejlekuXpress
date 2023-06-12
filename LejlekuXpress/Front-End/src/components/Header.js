@@ -40,7 +40,6 @@ const Header = () => {
       if (response.status === 200) {
         const itemsResponse = response.data;
         setItems(itemsResponse);
-        console.log(items)
         }
       } catch (error) {
         console.error(error);

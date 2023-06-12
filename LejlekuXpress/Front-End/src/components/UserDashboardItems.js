@@ -590,7 +590,7 @@ function ShippingInfo() {
                         className="form-control"
                         placeholder="First Name"
                         name="FirstName"
-                        value={selectedAddress.FirstName}
+                        value={selectedAddress.firstName}
                         onChange={handleSelectedInputChange}
                       />
                       {formErrors.FirstName && <p className="text-danger">First Name is required</p>}
@@ -605,7 +605,7 @@ function ShippingInfo() {
                         className="form-control"
                         placeholder="Last Name"
                         name="LastName"
-                        value={selectedAddress.LastName}
+                        value={selectedAddress.lastName}
                         onChange={handleSelectedInputChange}
                       />
                       {formErrors.LastName && <p className="text-danger">Last Name is required</p>}
@@ -615,12 +615,12 @@ function ShippingInfo() {
                 <div className="row mt-3">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="country" className="labels">Country</label>
+                    <label htmlFor="country" className="labels">Country</label>
                       <select
                           className={`form-control ${formErrors.countryCode ? 'is-invalid' : ''}`}
-                          id="CountryId"
-                          name="CountryId"
-                          value={newAddress.CountryId}
+                          id="countryId"
+                          name="countryId"
+                          value={selectedAddress.countryId}
                           onChange={handleSelectedInputChange}
                         >
                           <option value="">Select Country</option>
@@ -630,7 +630,7 @@ function ShippingInfo() {
                             </option>
                           ))}
                         </select>
-                      {formErrors.CountryId && <p className="text-danger">Country is required</p>}
+                      {formErrors.countryId && <p className="text-danger">Country is required</p>}
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -641,11 +641,11 @@ function ShippingInfo() {
                         id="state"
                         className="form-control"
                         placeholder="State"
-                        name="State"
-                        value={addresses.State}
+                        name="state"
+                        value={selectedAddress.state}
                         onChange={handleSelectedInputChange}
                       />
-                      {formErrors.State && <p className="text-danger">State is required</p>}
+                      {formErrors.state && <p className="text-danger">State is required</p>}
                     </div>
                   </div>
                 </div>
@@ -658,26 +658,26 @@ function ShippingInfo() {
                         id="city"
                         className="form-control"
                         placeholder="City"
-                        name="City"
-                        value={addresses.City}
+                        name="city"
+                        value={selectedAddress.city}
                         onChange={handleSelectedInputChange}
                       />
-                      {formErrors.City && <p className="text-danger">City is required</p>}
+                      {formErrors.city && <p className="text-danger">City is required</p>}
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="zipcode" className="labels">Zip Code</label>
+                      <label htmlFor="zipCode" className="labels">Zip Code</label>
                       <input
                         type="text"
-                        id="zipcode"
+                        id="zipCode"
                         className="form-control"
                         placeholder="Zip Code"
-                        name="ZipCode"
-                        value={addresses.ZipCode}
+                        name="zipCode"
+                        value={selectedAddress.zipCode}
                         onChange={handleSelectedInputChange}
                       />
-                      {formErrors.ZipCode && <p className="text-danger">Zip Code is required</p>}
+                      {formErrors.zipCode && <p className="text-danger">Zip Code is required</p>}
                     </div>
                   </div>
                 </div>
@@ -690,29 +690,44 @@ function ShippingInfo() {
                         id="address1"
                         className="form-control"
                         placeholder="Address 1"
-                        name="Address1"
-                        value={addresses.Address1}
+                        name="address1"
+                        value={selectedAddress.address1}
                         onChange={handleSelectedInputChange}
                       />
-                      {formErrors.Address1 && <p className="text-danger">Address 1 is required</p>}
+                      {formErrors.address1 && <p className="text-danger">Address 1 is required</p>}
                     </div>
                   </div>
                 </div>
-                        </div>
-                      </div>
+                <div className="row mt-3">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label htmlFor="address2" className="labels">Address 2</label>
+                      <input
+                        type="text"
+                        id="address2"
+                        className="form-control"
+                        placeholder="Address 2"
+                        name="address2"
+                        value={selectedAddress.address2}
+                        onChange={handleSelectedInputChange}
+                      />
                     </div>
                   </div>
-                  <div className="mt-5 text-center">
-                    <button className="btn btn-primary me-2" type="submit" onClick={() => updateAddress(selectedAddress.id)}>Save Listing</button>
-                    <button className="btn btn-danger" type="button" onClick={closeModal}>Cancel</button>
-                  </div>
                 </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-5 text-center">
+            <button className="btn btn-primary me-2" type="submit" onClick={() => updateAddress(selectedAddress.id)}>Save Address</button>
+            <button className="btn btn-danger" type="button" onClick={closeModal}>Cancel</button>
+          </div>
+        </div>
               
               )}
             </div>
           </div>
         </MDBModal>
-
 
 
         <div
