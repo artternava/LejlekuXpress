@@ -23,6 +23,25 @@ function Cart() {
     fetchCart();
   }, [userId,items]);
 
+  const  addToCheckout = async () => {
+    try{
+      for (const item of items) {
+        const inputElement = document.getElementById(`quantity-${item.productId}`);
+        const quantity = parseInt(inputElement.value);
+        const data = {
+          ...item,
+          quantity: quantity,
+        };
+        await axios.post('http://localhost:39450/api/CheckOut/add', data);
+      }
+      window.location.href = '/Checkout';
+    }
+    catch (error){
+        console.error('Error adding items:', error);
+    }
+  }
+  
+
   //#region Calculate Total and Shipping price
   
   const calculateTotalPrice = (items) => {
@@ -75,7 +94,7 @@ function Cart() {
     if (response.status === 200) {
       const itemsResponse = response.data;
       setItems(itemsResponse);
-      console.log(items)
+      
       }
     } catch (error) {
       console.error(error);
@@ -250,9 +269,9 @@ function Cart() {
                     <span><strong>$ {calculateTotalPrice(items)} </strong></span>
                   </li>
                 </ul>
-                <Link to="/checkout" className="btn btn-primary btn-block">
+                <button className="btn btn-primary btn-block" onClick={addToCheckout}>
                   Go to checkout
-                </Link>
+                </button>
               </div>
             </div>
           </div>
