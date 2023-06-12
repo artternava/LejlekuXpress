@@ -19,5 +19,8 @@ namespace LejlekuXpress.Models
 
         [Required]
         public int Quantity { get; set; }
+
+        [Required]
+        public DateTime EnteredOn { get; set; }
     }
 }
