@@ -919,7 +919,7 @@ function ShippingInfo() {
             [name]: false,
           }));
         };
-        
+
         const handleSelectedInputChange = (event) => {
           const { name, value } = event.target;
           setSelectedPayment((prevState) => ({
@@ -1003,8 +1003,44 @@ function ShippingInfo() {
             console.error('Error deleting address:', error);
           }
         };
-
-
+        const updatePayment = async (id) => {
+          try {
+            const { FirstName, LastName, CardNumber, ExpirationDate, CVV} = selectedPayment;
+            const errors = {
+              FirstName: FirstName && FirstName.length === 0,
+              LastName: LastName && LastName.length === 0,
+              CardNumber: CardNumber && CardNumber.length !== 16,
+              ExpirationDate: ExpirationDate && ExpirationDate.length !== 5,
+              CVV: CVV && CVV.length !== 3,
+            };
+          
+          setFormErrors(errors);
+          if (Object.values(errors).some((value) => value)) {
+            return;
+          }      
+          console.log(selectedPayment)
+      
+            const confirmUpdate = window.confirm('Are you sure you want to update this Payment?');
+            if (confirmUpdate) {
+              await axios.put(`http://localhost:39450/api/Payment/update?id=${id}`, selectedPayment);
+              fetchPayment();
+              closeModal();
+              window.location.href = '/userdashboard';
+            }
+          } catch (error) {
+            console.error('Error updating payment:', error);
+          }
+        };
+        
+          const openModal = (payment) => {
+          setSelectedPayment(payment);
+          console.log(selectedPayment)
+          setIsModalOpen(true);
+        };
+        
+        const closeModal = () => {
+          setIsModalOpen(false);
+        };
         return (
             <div id="shippingInfo">
             <div id="addressList" style={{ display: isPaymentVisible ? 'none' : 'block' }}>
