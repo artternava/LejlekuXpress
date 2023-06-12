@@ -46,6 +46,10 @@ a {
   border-color: inherit;
 }
 
+.ml-10{
+  margin-left: 25px;
+}
+
 .gap-2 {
   gap: 2px;
 }

@@ -505,7 +505,7 @@ function ShippingInfo() {
             className="d-flex justify-content-between align-items-center"
             style={{
               padding: '10px',
-              width: '90%',
+              width: '95%',
               backgroundColor: '#fff',
               margin: 'auto',
               borderRadius: '10px',
@@ -516,29 +516,35 @@ function ShippingInfo() {
               Add Address
             </button>
           </div>
-          <div className="container rounded bg-white mt-5 mb-5">
+          <div className="container rounded bg-white mt-5 mb-5 ">
             <div className="row" style={{ backgroundColor: '#bdbdbd' }}>
               <div className="col-md-12">
                 <div className="grid-container">
                   {addresses.map((address) => (
-                    <div className="grid-item p-3 py-5" id="edit-address">
+                    <div className="grid-item p-3 py-1" id="edit-address">
                       <div className="d-flex justify-content-between align-items-center mb-3 my-3 flex-wrap">
                         <div>
                         <div className="d-flex align-items-center">
                           <i className="bi bi-person-fill me-2"></i>
                           <h6 className="text-right w-100">{address.firstName} {address.lastName}</h6>
                         </div>
-                        <div className="d-flex align-items-start">
-                          <i className="bi bi-geo-alt-fill me-2"></i>
+                        <div className="d-flex align-items-start mt-2">
+                        <i class="bi bi-house-door me-2"></i>
                           <div>
-                            <p>{address.address1}</p>
-                            <p>{address.city}, {address.state}, {getCountryName(address.countryId)}</p>
-                            <p>{address.zipCode}</p>
+                            <p>{address.address1}</p>                           
                           </div>
+                        </div>
+                        <div className="d-flex align-items-start">
+                        <i className="bi bi-geo-alt-fill me-2"></i>
+                            <p>{address.city}, {address.state}, {getCountryName(address.countryId)}</p>      
+                        </div>
+                        <div className="d-flex align-items-start ">
+                          
+                           <p className="ml-10">{address.zipCode}</p>
                         </div>
                         </div>
                         <div className="w-100">
-                          <div className="row mt-2">
+                          <div className="row mt-2 text-center">
                             <div className="col-md-12">     
                               <button className="btn btn-danger me-2" type="button" onClick={() => deleteAddress(address.id)}>
                                 Delete
@@ -883,8 +889,7 @@ function ShippingInfo() {
     function PaymentDetails() {
       const { userId } = useAuthToken();
         const [isPaymentVisible, setIisPaymentVisible] = useState(false);
-        const [payment, setPayment] = useState([]);
-       
+        const [payment, setPayment] = useState([]);       
         const [newPayment, setNewPayment] = useState({
           UserId: '',
           FirstName: '',
@@ -912,8 +917,6 @@ function ShippingInfo() {
             [name]: false,
           }));
         };
-
-        
 
         const toggleAddressForm = () => {
           setIisPaymentVisible(!isPaymentVisible);
@@ -988,15 +991,13 @@ function ShippingInfo() {
           }
         };
 
-     
-       
 
         return (
             <div id="shippingInfo">
             <div id="addressList" style={{ display: isPaymentVisible ? 'none' : 'block' }}>
             <div className="container-userdashboard-tabs">
             <div className="d-flex justify-content-between align-items-center" 
-            style={{padding: "10px", width: "90%", backgroundColor: "#fff", margin: "auto", borderRadius: "10px", }}>
+            style={{padding: "10px", width: "95%", backgroundColor: "#fff", margin: "auto", borderRadius: "10px", }}>
                 <h1 style={{fontSize: "35px", fontWeight: "400", padding: "5px"}}>Payment Methods</h1>
               <button className="btn btn-primary me-2" type="button" onClick={toggleAddressForm} >Add Payment</button>
               </div>
@@ -1013,9 +1014,8 @@ function ShippingInfo() {
             </div>
             <div className="row mt-4">
               <div className="col-md-12 text-center">
-              
-              <button className="btn btn-danger me-2" type="button" onClick={() => deletePayment(payment.id)}>Delete</button>
-              
+             
+              <button className="btn btn-danger me-2" type="button" onClick={() => deletePayment(payment.id)}>Delete</button>             
                 </div>
             </div>
           </div>
@@ -1026,9 +1026,6 @@ function ShippingInfo() {
             </div>
             </div>
             </div>
-
-
-
             <div
                 id="add-edit-address"
                 style={{ display: isPaymentVisible ? 'block' : 'none' }}
