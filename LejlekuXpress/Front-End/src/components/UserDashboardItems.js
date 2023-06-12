@@ -888,6 +888,8 @@ function ShippingInfo() {
   //#region PaymentDetails
     function PaymentDetails() {
       const { userId } = useAuthToken();
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [selectedPayment, setSelectedPayment] = useState(null);
         const [isPaymentVisible, setIisPaymentVisible] = useState(false);
         const [payment, setPayment] = useState([]);       
         const [newPayment, setNewPayment] = useState({
