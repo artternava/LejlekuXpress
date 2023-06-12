@@ -1389,6 +1389,11 @@ function ShippingInfo() {
           return listing ? `${listing.quantity}` : '';
           };
 
+        const getShippingPrice = (productId) => {
+          const listing = listings && listings.find(listing => listing.id === productId);
+          return listing ? listing.shippingPrice : '';
+        };
+
           const getImageExtension = (imageData) => {
             if (!imageData) {
               return '';
@@ -1435,19 +1440,22 @@ function ShippingInfo() {
                               </div>
                             </div>
                           </div>
-                          <div className="card-body p-4" style={{ borderRadius: '16px' }}>
-                            <div className="d-flex flex-row mb-4 pb-2">
-                              <div className="flex-fill">
-                                <h5 className="bold">{getProductName(item.productId)}</h5>
+                          <div className="card-body p-4 " style={{ borderRadius: '16px' }}>
+                            <div className="d-flex flex-row mb-4 pb-2 align-items-center">
+                              <div className="flex-fill ">
+                                <h3 className="bold mb-3">{getProductName(item.productId)}</h3>
                                
-                                <h4 className="mb-3">
-                                $ {getPrice(item.productId)}
-                                </h4>
+                                <h5 className="mb-3">
+                               <span className="light">Product price:</span>  $ {getPrice(item.productId)}
+                                </h5>
+                                <h6 className="mb-3">
+                                Shipping price: $ {getShippingPrice(item.productId)}
+                                </h6>
                                 <p className="text-muted">
                                   Tracking Status on: <span className="text-body">Shipped</span>
                                 </p>
                               </div>
-                              <div>
+                              <div className="col-lg-8 justify-content-center">
                               <Link to={`/product/${item.productId}`} className="input-group-text p-3 justify-content-center mt-3" id="basic-addon2">
                           <img className="" src={`data:image/${getImageExtension(getimage(item.productId))};base64,${getimage(item.productId)}`} alt="Product" style={{ width: "40%", height: "auto", objectFit: "contain", marginLeft:'190px' }} />
                         </Link> 
