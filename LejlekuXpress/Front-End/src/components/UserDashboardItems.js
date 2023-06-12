@@ -1077,9 +1077,9 @@ function ShippingInfo() {
 
             </div>
             <div className="row mt-4">
-              <div className="col-md-12 text-center">
-              <button className="btn btn-primary me-2 ml-3" type="button" onClick={() => openModal(payment)}>Update Payment</button>
-              <button className="btn btn-danger me-2" type="button" onClick={() => deletePayment(payment.id)}>Delete</button>             
+              <div className="col-md-12 text-center">          
+              <button className="btn btn-danger me-2" type="button" onClick={() => deletePayment(payment.id)}>Delete</button>
+              <button className="btn btn-primary me-2 ml-3" type="button" onClick={() => openModal(payment)}>Update Payment</button>             
                 </div>
             </div>
           </div>
@@ -1115,8 +1115,8 @@ function ShippingInfo() {
                         id="firstName"
                         className="form-control"
                         placeholder="First Name"
-                        name="FirstName"
-                        value={selectedPayment.FirstName}
+                        name="firstName"
+                        value={selectedPayment.firstName}
                         onChange={handleSelectedInputChange}
                       />
                       {formErrors.FirstName && <p className="text-danger">First Name is required</p>}
@@ -1130,8 +1130,8 @@ function ShippingInfo() {
                         id="lastName"
                         className="form-control"
                         placeholder="Last Name"
-                        name="LastName"
-                        value={selectedPayment.LastName}
+                        name="lastName"
+                        value={selectedPayment.lastName}
                         onChange={handleSelectedInputChange}
                       />
                       {formErrors.LastName && <p className="text-danger">Last Name is required</p>}
@@ -1147,8 +1147,8 @@ function ShippingInfo() {
                       id="CardNumber" 
                       className="form-control w-100" 
                       placeholder="Card Number"
-                      name="CardNumber"
-                      value={payment.CardNumber}
+                      name="cardNumber"
+                      value={selectedPayment.cardNumber}
                       onChange={handleSelectedInputChange} 
                       maxLength={16}
                       pattern="\d{16}"
@@ -1165,8 +1165,8 @@ function ShippingInfo() {
                        id="expDate" 
                        className="form-control" 
                        placeholder="MM/YY" 
-                       name="ExpirationDate"
-                       value={payment.ExpirationDate}
+                       name="expirationDate"
+                       value={selectedPayment.expirationDate}
                        onChange={handleSelectedInputChange}
                        maxLength={5}
                        pattern="\d\d/\d\d"
@@ -1183,11 +1183,11 @@ function ShippingInfo() {
                       <label htmlFor="CVV" className="labels">CVV</label>
                       <input
                         type="text" 
-                        id="CVV" 
+                        id="cvv" 
                         className="form-control" 
                         placeholder="CVV"
-                        name="CVV"
-                        value={payment.CVV}
+                        name="cvv"
+                        value={selectedPayment.cvv}
                         onChange={handleSelectedInputChange}
                         maxLength={3}
                         pattern="\d{3}"
@@ -1204,7 +1204,7 @@ function ShippingInfo() {
                     </div>
                   </div>
                   <div className="mt-5 text-center">
-                    <button className="btn btn-primary me-2" type="submit" onClick={() => updatePayment(selectedPayment.id)}>Save Listing</button>
+                    <button className="btn btn-primary me-2" type="submit" onClick={() => updatePayment(selectedPayment.id)}>Save Payment Method</button>
                     <button className="btn btn-danger" type="button" onClick={closeModal}>Cancel</button>
                   </div>
                 </div>
@@ -1213,7 +1213,6 @@ function ShippingInfo() {
             </div>
           </div>
         </MDBModal>
-
 
 
             <div
