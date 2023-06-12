@@ -1075,6 +1075,132 @@ function ShippingInfo() {
             </div>
             </div>
             </div>
+
+            <MDBModal show={isModalOpen} onHide={closeModal}>
+          <div className="custom-modal" style={{ backgroundColor: "#fff", width: "50%", margin: "auto", padding: "20px", borderRadius: "20px", marginTop: "5%" }}>
+            <div className="custom-modal-header" style={{ display: "flex", alignItems: "center" }}>
+              <h5 className="modal-title mb-3" style={{ marginRight: "auto" }}>Payment Details</h5>
+              <button type="button" className="btn-close" onClick={closeModal}></button>
+            </div>
+            <div className="custom-modal-body">
+              {selectedPayment && (
+                
+                <div className="p-3">
+                  
+                  <div className="container rounded bg-white mb-5">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="p-3 py-5">
+                <div className="row mt-2">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="firstName" className="labels">First Name</label>
+                      <input
+                        type="text"
+                        id="firstName"
+                        className="form-control"
+                        placeholder="First Name"
+                        name="FirstName"
+                        value={selectedPayment.FirstName}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.FirstName && <p className="text-danger">First Name is required</p>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="lastName" className="labels">Last Name</label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        className="form-control"
+                        placeholder="Last Name"
+                        name="LastName"
+                        value={selectedPayment.LastName}
+                        onChange={handleSelectedInputChange}
+                      />
+                      {formErrors.LastName && <p className="text-danger">Last Name is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="CardNumber" className="labels">Card Number</label>
+                    <input 
+                      type="text" 
+                      id="CardNumber" 
+                      className="form-control w-100" 
+                      placeholder="Card Number"
+                      name="CardNumber"
+                      value={payment.CardNumber}
+                      onChange={handleSelectedInputChange} 
+                      maxLength={16}
+                      pattern="\d{16}"
+                      required
+                      />
+                    {formErrors.CardNumber && <p className="text-danger">Card Number is required</p>}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="Expiration Date" className="labels">Expiration Date</label>
+                      <input
+                       type="text" 
+                       id="expDate" 
+                       className="form-control" 
+                       placeholder="MM/YY" 
+                       name="ExpirationDate"
+                       value={payment.ExpirationDate}
+                       onChange={handleSelectedInputChange}
+                       maxLength={5}
+                       pattern="\d\d/\d\d"
+                       required
+                        
+                      />
+                      {formErrors.ExpirationDate && <p className="text-danger">Expiration Date is required</p>}
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="CVV" className="labels">CVV</label>
+                      <input
+                        type="text" 
+                        id="CVV" 
+                        className="form-control" 
+                        placeholder="CVV"
+                        name="CVV"
+                        value={payment.CVV}
+                        onChange={handleSelectedInputChange}
+                        maxLength={3}
+                        pattern="\d{3}"
+                        required
+                      />
+                       {formErrors.CVV && <p className="text-danger">CVV is required</p>}
+                    </div>
+                  </div>
+    
+                </div>
+               
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-5 text-center">
+                    <button className="btn btn-primary me-2" type="submit" onClick={() => updatePayment(selectedPayment.id)}>Save Listing</button>
+                    <button className="btn btn-danger" type="button" onClick={closeModal}>Cancel</button>
+                  </div>
+                </div>
+              
+              )}
+            </div>
+          </div>
+        </MDBModal>
+
+
+
             <div
                 id="add-edit-address"
                 style={{ display: isPaymentVisible ? 'block' : 'none' }}
