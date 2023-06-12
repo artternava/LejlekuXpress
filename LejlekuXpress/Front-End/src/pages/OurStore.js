@@ -16,6 +16,8 @@ const OurStore = () => {
   const [items, setItems] = useState(null);
   const [wishlist, setWishlist] = useState(null);
   const [addItem, setAddItem] = useState(null);
+  const [addToCart, setAddToCart] = useState(null);
+  const [cart, setCart] = useState(null);
   const { userId } = useAuthToken();
 
   useEffect(() => {
@@ -62,6 +64,37 @@ const OurStore = () => {
       console.error('Error adding items:', error);
     }
   }
+
+  async function handleAddToCart(productId) {
+    try {
+      const itemsData = {
+        UserId: parseInt(userId, 10),
+        ProductId: productId,
+      }
+      console.log(itemsData);
+      setAddToCart(itemsData)
+      await axios.post('http://localhost:39450/api/Cart/add', addToCart)
+      .then((response) => {
+        window.alert('add successful');
+      });
+      fetchCart(); 
+    } catch (error) {
+      console.error('Error adding items:', error);
+    }
+  }
+
+  async function fetchCart() {
+    try {
+      const response = await axios.get(`http://localhost:39450/api/Cart/getbyuserid?userID=${userId}`);
+      if (response.status === 200) {
+        const itemsResponse = response.data;
+        setCart(itemsResponse);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
 
   //#region getImageExtension
   const getImageExtension = (imageData) => {
