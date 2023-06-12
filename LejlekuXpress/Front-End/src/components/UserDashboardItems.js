@@ -1337,98 +1337,80 @@ function ShippingInfo() {
   //#region Orders
  
   function MyOrders() {
-  const location = useLocation();
-  const { userId } = useAuthToken();
-  const [listings, setListings] = useState([]);
-  const [items, setItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
+    const { userId } = useAuthToken();
+    const [items, setItems] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
+    const [listings, setListings] = useState(null);
 
+    useEffect(() => {   
+      fetchListings();
+      fetchOrders();
+    }, [userId,items]);
 
+    const fetchListings = async () => {
+      try {
+        const response = await axios.get('http://localhost:39450/api/Product/getall');
+        setListings(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-  
-  useEffect(() => {
-    fetchListings();
-    // calculateTotalPrice();
-    // calculateTotalItems();
-  }, [userId]);
+      async function fetchOrders() {
+        try {
+          const response = await axios.get(`http://localhost:39450/api/Orders/getbyuserid?userID=${userId}`);
+          if (response.status === 200) {
+            const itemsResponse = response.data;
+            setItems(itemsResponse);
+            console.log(items)
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
 
+        const getProductName = (productId) => {
+          const listing = listings && listings.find(listing => listing.id === productId);
+          return listing ? `${listing.name}` : '';
+          };
 
-  const fetchListings = async () => {
-    try {
-      const response = await axios.get(`http://localhost:39450/api/Product/getall`);
-      setListings(response.data);
-      console.log(items)
-    } catch (error) {
-      console.log(error);
-    }
-  };
+        const getimage = (productId) => {
+          const listing = listings && listings.find(listing => listing.id === productId);
+          return listing ? `${listing.image}` : '';
+          };
 
-  
+        const getPrice = (productId) => {
+          const listing = listings && listings.find(listing => listing.id === productId);
+          return listing ? parseFloat(listing.price) : 0;
+          };
+          
+        const getQuantity = (productId) => {
+          const listing = listings && listings.find(listing => listing.id === productId);
+          return listing ? `${listing.quantity}` : '';
+          };
 
-
-  const getProductName = (productId) => {
-    const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.name}` : '';
-  };
-  const getProductId = (productId) => {
-    const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.id}` : '';
-  };
-
-  const getimage = (productId) => {
-    const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.image}` : '';
-  };
-
-  const getPrice = (productId) => {
-    const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.price}` : '';
-  };
-
-  const getDescription = (productId) => {
-    const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.description}` : '';
-  };
-
-  const getSpecifications = (productId) => {
-    const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.specifications}` : '';
-  };
-
-  const getQuantity = (productId) => {
-    const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.quantity}` : '';
-  };
-
-  const getShippingPrice = (productId) => {
-    const listing = listings && listings.find(listing => listing.id === productId);
-    return listing ? `${listing.shippingPrice}` : '';
-  };
-
-
-  const getImageExtension = (imageData) => {
-    if (!imageData) {
-      return '';
-    }
-
-    if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
-      return 'jpeg';
-    }
-    if (
-      imageData[0] === 0x89 &&
-      imageData[1] === 0x50 &&
-      imageData[2] === 0x4E &&
-      imageData[3] === 0x47 &&
-      imageData[4] === 0x0D &&
-      imageData[5] === 0x0A &&
-      imageData[6] === 0x1A &&
-      imageData[7] === 0x0A
-    ) {
-      return 'png';
-    }
-    return 'jpeg';
-  };
+          const getImageExtension = (imageData) => {
+            if (!imageData) {
+              return '';
+            }
+          
+            if (imageData[0] === 0xFF && imageData[1] === 0xD8 && imageData[2] === 0xFF) {
+              return 'jpeg';
+            }
+            if (
+              imageData[0] === 0x89 &&
+              imageData[1] === 0x50 &&
+              imageData[2] === 0x4E &&
+              imageData[3] === 0x47 &&
+              imageData[4] === 0x0D &&
+              imageData[5] === 0x0A &&
+              imageData[6] === 0x1A &&
+              imageData[7] === 0x0A
+            ) {
+              return 'png';
+            }
+            return 'jpeg';
+            };
 
         
         return (
