@@ -159,9 +159,9 @@ if (!items) {
   
   return (
     <>
+    <section style={{ backgroundColor: "#fff", minHeight: "100vh" }} className="mt-3 mb-3">
       {items && items.map((item) => (
-       <section style={{ backgroundColor: "#fff" }} className="mt-3 mb-3">
-       <div className="container">
+       <div className="container mt-3">
          <div className="row justify-content-center">
            <div className="col-md-12 col-xl-10">
              <div className="card shadow-0 border rounded-3">
@@ -214,9 +214,10 @@ if (!items) {
            </div>
          </div>
        </div>
-     </section>
+     
      
       ))}
+      </section>
     </>
   );
 }
