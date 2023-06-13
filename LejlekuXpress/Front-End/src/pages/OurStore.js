@@ -46,6 +46,30 @@ const OurStore = () => {
       console.error(error);
     }
   }
+
+  const isLoggedInCart = (productId) => {
+    if(!userId){
+      const confirm = window.confirm('You must login if you wanna add to cart');
+      if(confirm){
+        window.location.href = '/login'
+      }
+    }
+    else{
+      handleAddToCart(productId)
+    }
+  }
+  
+  const isLoggedInWishlist = (productId) => {
+    if(!userId){
+      const confirm = window.confirm('You must login if you wanna add to wishlist');
+      if(confirm){
+        window.location.href = '/login'
+      }
+    }
+    else{
+      handleAdd(productId)
+    }
+  }
   
   async function handleAdd(productId) {
     try {
@@ -178,8 +202,8 @@ if (items === null || items.length === 0) {
                         </div>
                         <h6 className="text-success">${item.shippingPrice}</h6>
                         <div className="d-flex flex-column mt-4">
-                        <button className="btn btn-primary btn-sm" type="button" onClick={() => handleAddToCart(item.id)}>Add to Cart</button>
-                          <button className="btn btn-danger btn-sm mt-2" type="button" onClick={() => handleAdd(item.id)}>
+                        <button className="btn btn-primary btn-sm" type="button" onClick={() => isLoggedInCart(item.id)}>Add to Cart</button>
+                          <button className="btn btn-danger btn-sm mt-2" type="button" onClick={() => isLoggedInWishlist(item.id)}>
                             <i className="bi bi-heart-fill me-2"></i>Add to Wishlist
                           </button>
                         </div>
