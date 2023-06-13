@@ -25,6 +25,8 @@ function Cart() {
 
   const  addToCheckout = async () => {
     try{
+      console.log(items);
+
       for (const item of items) {
         const inputElement = document.getElementById(`quantity-${item.productId}`);
         const quantity = parseInt(inputElement.value);
@@ -113,6 +115,18 @@ function Cart() {
       } 
     } catch (error) {
       console.error('Error deleting items:', error);
+    }
+  }
+
+  const isLoggedIn = () => {
+    if(!userId){
+      const confirm = window.confirm('You must login if you wanna checkout');
+      if(confirm){
+        window.location.href = '/login'
+      }
+    }
+    else{
+      addToCheckout();
     }
   }
   //#region Get Individual Attributes for product
@@ -217,14 +231,15 @@ function Cart() {
                      <div className="d-flex align-items-center mb-3">
                        <b>Quantity:</b>
                        <div className="ml-1"> 
-                         <input
-                           className="form-control"
-                           type="number"
-                           name=""
-                           min={1}
-                           max={getQuantity(item.productId)}
-                           style={{ width: "70px", height: "30px" }}
-                         />
+                       <input
+                          className="form-control"
+                          type="number"
+                          id={`quantity-${item.productId}`} // Make sure the id is in the correct format
+                          name=""
+                          min={1}
+                          max={getQuantity(item.productId)}
+                          style={{ width: "70px", height: "30px" }}
+                        />
                        </div>
                      </div>
                      <p><b>Price: </b>${getPrice(item.productId)}</p>
@@ -269,7 +284,7 @@ function Cart() {
                     <span><strong>$ {calculateTotalPrice(items)} </strong></span>
                   </li>
                 </ul>
-                <button className="btn btn-primary btn-block" onClick={addToCheckout}>
+                <button className="btn btn-primary btn-block" onClick={isLoggedIn}>
                   Go to checkout
                 </button>
               </div>
