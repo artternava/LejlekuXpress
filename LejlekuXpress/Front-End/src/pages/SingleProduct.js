@@ -32,6 +32,41 @@ const SingleProduct = () => {
     }
   };
 
+  const isLoggedInCheckOut = (productId, quantity) => {
+    if(!userId){
+      const confirm = window.confirm('You must login if you wanna checkout');
+      if(confirm){
+        window.location.href = '/login'
+      }
+    }
+    else{
+      handleBuyNow(productId, quantity)
+    }
+  }
+  const isLoggedInCart = (productId) => {
+    if(!userId){
+      const confirm = window.confirm('You must login if you wanna add to cart');
+      if(confirm){
+        window.location.href = '/login'
+      }
+    }
+    else{
+      handleAddToCart(productId)
+    }
+  }
+
+  const isLoggedInWishlist = (productId) => {
+    if(!userId){
+      const confirm = window.confirm('You must login if you wanna add to wishlist');
+      if(confirm){
+        window.location.href = '/login'
+      }
+    }
+    else{
+      handleAddToWishlist(productId)
+    }
+  }
+
   async function handleAddToWishlist(productId) {
     try {
       const itemsData ={
@@ -171,11 +206,11 @@ if (!items) {
                     />
                     </div>
                     <div className="d-flex align-items-center gap-30 ms-5">
-                      <button className="btn btn-outline-success me-2" type="button" onClick={() => handleAddToCart(items.id)}><i className="bi bi-cart-fill me-2"></i>
+                      <button className="btn btn-outline-success me-2" type="button" onClick={() => isLoggedInCart(items.id)}><i className="bi bi-cart-fill me-2"></i>
                         Add to Cart
                       </button>
 
-                      <button className="btn btn-success me-2" type="button" onClick={() => handleBuyNow(items.id, quantity)}>Buy It Now</button>
+                      <button className="btn btn-success me-2" type="button" onClick={() => isLoggedInCheckOut(items.id, quantity)}>Buy It Now</button>
                     </div>
                   </div>
                   <div className="mt-1 mb-0 ">
@@ -183,7 +218,7 @@ if (!items) {
                     </div>
                   <div className="d-flex align-items-center gap-30">
                     <div>
-                      <button className="btn btn-outline-secondary" type="button" onClick={() => handleAddToWishlist(items.id)}><i className="bi bi-heart-fill me-2"></i>Add to Wishlist</button>
+                      <button className="btn btn-outline-secondary" type="button" onClick={() => isLoggedInWishlist(items.id)}><i className="bi bi-heart-fill me-2"></i>Add to Wishlist</button>
                     </div>
                   </div>
                 </div>
