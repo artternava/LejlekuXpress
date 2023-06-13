@@ -905,7 +905,7 @@ function ShippingInfo() {
       const { userId } = useAuthToken();
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [selectedPayment, setSelectedPayment] = useState(null);
-        const [isPaymentVisible, setIisPaymentVisible] = useState(false);
+        const [isPaymentVisible, setIsPaymentVisible] = useState(false);
         const [payment, setPayment] = useState([]);       
         const [newPayment, setNewPayment] = useState({
           UserId: '',
@@ -947,7 +947,7 @@ function ShippingInfo() {
           }));
         };
         const toggleAddressForm = () => {
-          setIisPaymentVisible(!isPaymentVisible);
+          setIsPaymentVisible(!isPaymentVisible);
         };
         
         useEffect(() => {
@@ -1719,10 +1719,10 @@ function ShippingInfo() {
               className="d-flex justify-content-between align-items-center"
               style={{
                 padding: '10px',
-                width: '90%',
+                width: '80%',
                 backgroundColor: 'white',
                 margin: 'auto',
-                marginTop:'10px',
+                //marginTop:'10px',
                 borderRadius: '10px',
               }}
             >
@@ -1734,7 +1734,7 @@ function ShippingInfo() {
             <div className="container rounded bg-white mt-5 mb-5">
               <div className="row" style={{ backgroundColor: '#bdbdbd' }}>
                 <div className="col-md-12">
-                    {listings.map((listing, index) => (
+                    {listings && listings.map((listing) => (
                       <div class="container py-3">
                         <div class="row justify-content-center ">
                           <div class="col-md-12 col-xl-10">
@@ -1777,6 +1777,7 @@ function ShippingInfo() {
                         </div>
                       </div>
                     ))}
+                    
                 </div>
               </div>
             </div>
