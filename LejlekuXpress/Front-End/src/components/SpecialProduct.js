@@ -40,6 +40,30 @@ async function fetchProduct() {
   }
 }
 
+const isLoggedInCart = (productId) => {
+  if(!userId){
+    const confirm = window.confirm('You must login if you wanna add to cart');
+    if(confirm){
+      window.location.href = '/login'
+    }
+  }
+  else{
+    handleAddCart(productId)
+  }
+}
+
+const isLoggedInWishlist = (productId) => {
+  if(!userId){
+    const confirm = window.confirm('You must login if you wanna add to wishlist');
+    if(confirm){
+      window.location.href = '/login'
+    }
+  }
+  else{
+    handleAddWishlist(productId)
+  }
+}
+
 async function handleAddCart(productId) {
   try {
     const itemsData = {
@@ -162,11 +186,11 @@ const getImageExtension = (imageData) => {
                      <div className="ms-auto text-warning">
                        
                      <button type="button" class="btn btn-danger btn-sm mb-2 me-4 " data-mdb-toggle="tooltip" title="Move to the wish list">
-                        <i class="bi bi-heart-fill" onClick={() => handleAddWishlist(item.id)}></i>
+                        <i class="bi bi-heart-fill" onClick={() => isLoggedInWishlist(item.id)}></i>
                      </button>
                      
                      <button type="button" class="btn btn-warning btn-sm mb-2 " data-mdb-toggle="tooltip" title="Move to the wish list">
-                     <i className="bi bi-cart4 " onClick={() => handleAddCart(item.id)}></i>
+                     <i className="bi bi-cart4 " onClick={() => isLoggedInCart(item.id)}></i>
                      </button>
                      </div>
                    </div>
