@@ -21,7 +21,7 @@ builder.Services.AddScoped<IWishlistService, WishlistService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICheckOutService, CheckOutService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
-
+builder.Services.AddScoped<IShabllonService, ShabllonService>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 

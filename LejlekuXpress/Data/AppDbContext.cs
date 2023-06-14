@@ -32,5 +32,7 @@ namespace LejlekuXpress.Data
         public DbSet<CheckOut> CheckOut { get; set; }
 
         public DbSet<Orders> Orders { get; set; }
+
+        public DbSet<Shabllon> Shabllon { get; set; }
     }
 }
